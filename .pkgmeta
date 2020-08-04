@@ -1,0 +1,3 @@
+package-as: TrackEverything
+
+enable-nolib-creation: no
