@@ -62,7 +62,15 @@ local OPTIONS = {
     desc = L['Mute spell use sound'],
     print = function() return L['Mute spell use sound is [%s]'], SlashCommands:GetColoredMuteState() end,
     hidden = false,
-    callback = function() Settings:ToggleMute() end,
+    callback = function() TE.db.profile.general.muteSpellUseSound = not TE.db.profile.general.muteSpellUseSound end,
+    order = 5,
+  },
+  {
+    name = 'tooltip',
+    desc = L['Enable/disable to show required profession level in tooltip'],
+    print = function() return L['Tooltip required profession level is [%s]'], SlashCommands:GetColoredToggleState(TE.db.profile.tooltip.enable) end,
+    hidden = false,
+    callback = function() TE.db.profile.tooltip.enable = not TE.db.profile.tooltip.enable end,
     order = 5,
   },
   {
@@ -151,6 +159,14 @@ end
 
 function SlashCommands:GetColoredMuteState()
   if TE.db.profile.general.muteSpellUseSound then return ENABLED_COLOR..L['enabled']..'|r' else return DISABLED_COLOR..L['disabled']..'|r' end
+end
+
+function SlashCommands:GetColoredMuteState()
+  if TE.db.profile.general.muteSpellUseSound then return ENABLED_COLOR..L['enabled']..'|r' else return DISABLED_COLOR..L['disabled']..'|r' end
+end
+
+function SlashCommands:GetColoredToggleState(dbSetting)
+  if dbSetting then return ENABLED_COLOR..L['enabled']..'|r' else return DISABLED_COLOR..L['disabled']..'|r' end 
 end
 
 

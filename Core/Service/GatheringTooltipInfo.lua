@@ -28,6 +28,7 @@ function GatheringTooltipInfo:ShowTooltip()
 end
 
 function GatheringTooltipInfo:EventHandler(...)
+  if not TE.db.profile.tooltip.enable then return end
   local event = ...
 
   if event == 'GAMETOOLTIP_SHOW' then
@@ -44,10 +45,6 @@ function GatheringTooltipInfo:EventHandler(...)
   elseif event  == 'UPDATE_MOUSEOVER_UNIT' then
     if private.IS_SHOWN then GatheringTooltipInfo:ModifyTooltip() end
   end
-end
-
-function GatheringTooltipInfo:ShowTooltip()
-
 end
 
 function GatheringTooltipInfo:GetProfessionInfo()

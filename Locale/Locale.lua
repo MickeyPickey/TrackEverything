@@ -35,6 +35,7 @@ do
       L['Change addon icon scale'] = true
       L['Check if you want to hide default minimap tracking icon'] = true
       L['Check to hide addon minimap icon'] = true
+      L['Check to show required profession level in tooltip'] = true
       L['Current tracking spell'] = true
       L['Default'] = true
       L['Disable addon'] = true
@@ -61,14 +62,18 @@ do
       L['Reset settings to defaults'] = true
       L['Reset'] = true
       L['Resources'] = true
+      L['Required profession level'] = true
+      L['Enable/disable to show required profession level in tooltip'] = true
       L['Select to include in auto tracking'] = true
       L['Select what to display inside icon'] = true
       L['Settings was reset to defaults'] = true
       L['Show this description'] = true
       L['Time in seconds between spell casts while auto tracking'] = true
+      L['Tooltip'] = true
       L['Toggle the addon'] = true
       L['Tracking spells'] = true
       L['Units'] = true
+      L['Tooltip required profession level is [%s]'] = true
 
       -- =================================================================================
       --                              Gatharing professions Data locales
@@ -477,6 +482,12 @@ do
       L['Toggle the addon'] = 'Включить/выключить аддон'
       L['Tracking spells'] = 'Способности отслеживания'
       L['Units'] = 'Юниты'
+      L['Tooltip'] = 'Всплывающая подсказка'
+      L['Check to show required profession level in tooltip'] = 'Отметьте для отображения требуемого уровня профессии во всплывающем окне'
+      L['Required profession level'] = 'Требуемый уровень профессии'
+      L['Enable/disable to show required profession level in tooltip'] = 'Включить/выключить отображение требуемого уровня профессии во всплывающем окне'
+      L['Tooltip required profession level is [%s]'] = 'Отображение требуемого уровня профессии во всплывающем окне [%s]'
+
 
       -- =================================================================================
       --                              Gatharing professions Data locales
@@ -496,7 +507,6 @@ do
       L['Lesser Bloodstone Deposit'] = 'Малое месторождение кровавого камня'
       L['Ooze Covered Silver Vein'] = 'Покрытая слизью серебряная жила'
       L['Iron Deposit'] = 'Залежи железа'
-      L['Ooze Covered Iron Deposit'] = true
       L['Indurium Mineral Vein'] = 'Индарилиевая жила'
       L['Gold Vein'] = 'Золотая жила'
       L['Ooze Covered Gold Vein'] = 'Покрытая слизью золотая жила'
@@ -511,8 +521,6 @@ do
       L['Hakkari Thorium Vein'] = 'Ториевая жила Хаккари'
       L['Small Obsidian Chunk'] = 'Маленький кусочек обсидиана'
       L['Large Obsidian Chunk'] = 'Большая обсидиановая глыба'
-      L['Arcanite Lode'] = true
-      L['Ooze Covered Arcanite Lode'] = true
       -- -- Herbalism
       L['Herbalism'] = 'Травничество'
       L['Requires Herbalism'] = 'Требуется: Травничество'

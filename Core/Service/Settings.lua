@@ -31,6 +31,7 @@ local options = {
       name = L['Auto tracking'],
       type = 'group',
       inline = true,
+      order = 1,
       args = {
         enable = {
           name = L['Enabled'],
@@ -104,6 +105,7 @@ local options = {
       name = L['Minimap'],
       type = 'group',
       inline = true,
+      order = 1,
       args = {
         hide = {
           name = L['Hide addon icon'],
@@ -129,11 +131,26 @@ local options = {
         },
       },
     },
+    tooltip = {
+      name = L['Tooltip'],
+      type = 'group',
+      inline = true,
+      order = 2,
+      args = {
+        enable = {
+          name = L['Required profession level'],
+          desc = L['Check to show required profession level in tooltip'],
+          type = 'toggle',
+          order = 0,
+        },
+      },
+    },
     reset = {
       type = 'execute',
       name = L['Reset'],
       desc = L['Reset settings to defaults'],
       func = 'ResetProfile',
+      order = 100,
     },
     test = {
       type = 'execute',
@@ -164,6 +181,9 @@ local defaults = {
       hide = true,
       hideDefaultTrackingIcon = false,
       displayType = 'DEFAULT',
+    },
+    tooltip = {
+      enable = true,
     },
   }
 }
@@ -199,10 +219,6 @@ end
 function Settings:ToggleOnMove()
   TE.db.profile.general.onmove = not TE.db.profile.general.onmove
   self:SendMessage('MODE_TOGGLED')
-end
-
-function Settings:ToggleMute()
-  TE.db.profile.general.muteSpellUseSound = not TE.db.profile.general.muteSpellUseSound
 end
 
 function Settings:ToggleDefaultTrackingIcon()
