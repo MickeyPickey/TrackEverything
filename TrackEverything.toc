@@ -41,22 +41,24 @@ External\EmbeddedLibs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 # Main addon file
 TrackEverything.lua
 
-# Core init file
-Core\Core.lua
-
 # Locale
 Locale\Locale.lua
 
 # Data
 Core\Data\Colors.lua
 Core\Data\TrackingSpells.lua
+Core\Data\Gathering.lua
 
 # Util
-Core\Util\Log.lua
 Core\Util\MyLib.lua
+Core\Util\Log.lua
+
+# Core init file
+Core\Core.lua
 
 # Services
 Core\Service\Settings.lua
 Core\Service\Icon.lua
 Core\Service\AutoTracker.lua
 Core\Service\SlashCommands.lua
+Core\Service\GatheringTooltipInfo.lua

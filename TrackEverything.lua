@@ -1,8 +1,12 @@
 local FOLDER_NAME, ADDON_TABLE = ...
-ADDON_TABLE.AddonName = 'Track Everything'
-local ADDON_NAME = ADDON_TABLE.AddonName
+local ADDON_NAME = 'Track Everything'
+ADDON_TABLE.ADDON_NAME = ADDON_NAME
 ADDON_TABLE.Addon = LibStub('AceAddon-3.0'):NewAddon(ADDON_NAME)
 local TE = ADDON_TABLE.Addon
+
+local private = {
+
+}
 
 function TE:OnInitialize()
 

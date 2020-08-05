@@ -89,3 +89,17 @@ function MyLib.splitString(source, sep)
     end
     return result
 end
+
+function MyLib.Acronym(s,ignore)
+  ignore = ignore or
+  {                                     --default list of words to ignore
+    ['a'] = true, ['an'] = true, ['and'] = true, ['in'] = true, ['for'] = true,
+    ['of'] = true, ['the'] = true, ['to'] = true, ['or'] = true,
+  }
+
+  local ans = {}
+  for w in s:gmatch '[%w\']+' do
+    if not ignore[w:lower()] then ans[#ans+1] = w:sub(1,1):upper() end
+  end
+  return table.concat(ans)
+end

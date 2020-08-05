@@ -1,8 +1,9 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
-local ADDON_NAME = ADDON_TABLE.AddonName
+local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local SlashCommands = TE.Include('Service.SlashCommands')
 local Colors = TE.Include('Data.Colors')
+local GatheringData = TE.Include('Data.Gathering')
 local Settings = TE.Include('Service.Settings')
 local AutoTracker = TE.Include('Service.AutoTracker')
 local Icon = TE.Include('Service.Icon')
@@ -175,9 +176,9 @@ function SlashCommands:GetOptionByName(name)
 end
 
 function SlashCommands:Test()
-  print(TE.minimapButton:GetSize())
-  print(TE.minimapButton)
-  for key, val in pairs(TE.minimapButton) do
-    print(key, val)
+  local herbData = GatheringData:GetDataByKey(L['Herbalism'])
+  for i, val in ipairs(herbData.ITEMS) do
+    local gameItemName = GetItemInfo(val.itemId)
+    print(val.name, val.itemId, gameItemName)
   end
 end

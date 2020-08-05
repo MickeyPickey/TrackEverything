@@ -1,7 +1,6 @@
 local FOLDER_NAME, ADDON_TABLE = ...
-local ADDON_NAME = ADDON_TABLE.AddonName
+local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local TE = ADDON_TABLE.Addon
-_G.TE = TE
 local Colors = TE.Include('Data.Colors')
 local Icon = TE.Include('Service.Icon')
 local Settings = TE.Include('Service.Settings')

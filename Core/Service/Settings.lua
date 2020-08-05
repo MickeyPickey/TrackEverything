@@ -1,5 +1,5 @@
 local FOLDER_NAME, ADDON_TABLE = ...
-local ADDON_NAME = ADDON_TABLE.AddonName
+local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local TE = ADDON_TABLE.Addon
 local Settings = TE.Include('Service.Settings')
 local AutoTracker = TE.Include('Service.AutoTracker')
