@@ -84,7 +84,7 @@ function Gathering:GetItemsByKey(key)
 end
 
 function Gathering:GetItemByName(name)
-  assert(name and type(name) == "string", format("Wrong data type, expected "string", got %s ", type(name)) )
+  assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
 
   for i, item in ipairs(private[L["Mining"]].ITEMS) do
     if item.name == name then return item end
@@ -99,7 +99,7 @@ function Gathering:GetItemByName(name)
 end
 
 function Gathering:GetItemDifficultyByName(name)
-  assert(name and type(name) == "string", format("Wrong data type, expected "string", got %s ", type(name)) )
+  assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
   local item = self:GetItemByName(name)
 
   if item then return item.difficulty end
@@ -108,7 +108,7 @@ function Gathering:GetItemDifficultyByName(name)
 end
 
 function Gathering:GetProfessionInfoByItemName(name)
-  assert(name and type(name) == "string", format("Wrong data type, expected "string", got %s ", type(name)) )
+  assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
 
   local deposits = self:GetItemsByKey(L["Mining"])
 

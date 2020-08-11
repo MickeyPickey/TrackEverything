@@ -226,7 +226,7 @@ function SlashCommands:GetChatCommands()
 end
 
 function SlashCommands:GetOptionByName(name)
-  assert(name and type(name) == "string" or name == nil, format("Wrong name type. Awaited "string", got "%s"", type(name)))
+  assert(name and type(name) == "string" or name == nil, format("Wrong name type. Awaited 'string', got '%s'", type(name)))
   if name == nil then return nil end
 
   for i, option in ipairs(SLASH_COMMAND_ARGUMENTS) do
