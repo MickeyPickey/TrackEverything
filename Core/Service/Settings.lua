@@ -1,68 +1,68 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local TE = ADDON_TABLE.Addon
-local Settings = TE.Include('Service.Settings')
-local AutoTracker = TE.Include('Service.AutoTracker')
-local Icon = TE.Include('Service.Icon')
-local TrackingSpells = TE.Include('Data.TrackingSpells')
-local MyLib = TE.Include('Util.MyLib')
-local Log = TE.Include('Util.Log')
-local L = TE.Include('Locale')
+local Settings = TE.Include("Service.Settings")
+local AutoTracker = TE.Include("Service.AutoTracker")
+local Icon = TE.Include("Service.Icon")
+local TrackingSpells = TE.Include("Data.TrackingSpells")
+local MyLib = TE.Include("Util.MyLib")
+local Log = TE.Include("Util.Log")
+local L = TE.Include("Locale")
 local private = {
   GAME_EVENTS = {
-    ['MINIMAP_UPDATE_TRACKING'] = true,
+    ["MINIMAP_UPDATE_TRACKING"] = true,
   },
 }
 
 local MINIMAP_ICON_DISPLAY_TYPES = {
-  DEFAULT = L['Default'],
-  CURRENT_SPELL = L['Current tracking spell'],
-  NEXT_SPELL = L['Next tracking spell'],
+  DEFAULT = L["Default"],
+  CURRENT_SPELL = L["Current tracking spell"],
+  NEXT_SPELL = L["Next tracking spell"],
 }
 
 local options = {
   name = ADDON_NAME,
   handler = Settings,
-  type = 'group',
-  set = 'OptSetter',
-  get = 'OptGetter',
+  type = "group",
+  set = "OptSetter",
+  get = "OptGetter",
   args = {
     general = {
-      name = L['Auto tracking'],
-      type = 'group',
+      name = L["Auto tracking"],
+      type = "group",
       inline = true,
       order = 1,
       args = {
         enable = {
-          name = L['Enabled'],
-          desc = L['Toggle the addon'],
-          type = 'toggle',
+          name = L["Enabled"],
+          desc = L["Toggle the addon"],
+          type = "toggle",
           order = 0,
         },
         onmove = {
-          name = L['Only while moving'],
-          desc = L['Enable to track only while character is moving'],
-          type = 'toggle',
+          name = L["Only while moving"],
+          desc = L["Enable to track only while character is moving"],
+          type = "toggle",
           order = 1,
         },
         muteSpellUseSound = {
-          name = L['Mute spell use sound'],
-          desc = L['Mute spell use sound while auto swithing'],
-          type = 'toggle',
+          name = L["Mute spell use sound"],
+          desc = L["Mute spell use sound while auto switching"],
+          type = "toggle",
           order = 2,
         },
         autoTracking = {
-          name = L['Tracking spells'],
-          type = 'group',
+          name = L["Tracking spells"],
+          type = "group",
           hidden = function (info) 
             local valueTable = Settings:GetPlayerTrackingSpells()
             if not valueTable then return true end
           end,
           args = {
             resources = {
-              name = L['Resources'],
-              desc = L['Select to include in auto tracking'],
-              type = 'multiselect',
+              name = L["Resources"],
+              desc = L["Select to include in auto tracking"],
+              type = "multiselect",
               values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
               hidden = function (info) 
                 local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
@@ -71,9 +71,9 @@ local options = {
               cmdHidden = true,
             },
             units = {
-              name = L['Units'],
-              desc = L['Select to include in auto tracking'],
-              type = 'multiselect',
+              name = L["Units"],
+              desc = L["Select to include in auto tracking"],
+              type = "multiselect",
               values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
               hidden = function (info)
                 local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
@@ -84,47 +84,47 @@ local options = {
           }
         },
         interval = {
-          name = L['Cast interval'],
-          desc = L['Time in seconds between spell casts while auto tracking'],
-          type = 'range',
+          name = L["Cast interval"],
+          desc = L["Time in seconds between spell casts while auto tracking"],
+          type = "range",
           min = 2,
           max = 45,
           step = 1,
-          width = 'full'
+          width = "full"
         },
         settings = {
-          type = 'execute',
-          name = L['Open settings'],
-          desc = L['Open settings'],
-          func = 'OpenOptionsFrame',
+          type = "execute",
+          name = L["Open settings"],
+          desc = L["Open settings"],
+          func = "OpenOptionsFrame",
           guiHidden = true,
         },
       },
     },
     minimap = {
-      name = L['Minimap'],
-      type = 'group',
+      name = L["Minimap"],
+      type = "group",
       inline = true,
       order = 1,
       args = {
         hide = {
-          name = L['Hide addon icon'],
-          desc = L['Check to hide addon minimap icon'],
-          type = 'toggle',
+          name = L["Hide addon icon"],
+          desc = L["Check to hide addon minimap icon"],
+          type = "toggle",
           order = 0,
         },
         hideDefaultTrackingIcon = {
-          name = L['Hide default tracking icon'],
-          desc = L['Check if you want to hide default minimap tracking icon'],
-          type = 'toggle',
+          name = L["Hide default tracking icon"],
+          desc = L["Check if you want to hide default minimap tracking icon"],
+          type = "toggle",
           order = 1,
         },
-        br1 = { type = 'description', name = ''},
+        br1 = { type = "description", name = ""},
         displayType = {
-          name = L['Icon display mode'],
-          desc = L['Select what to display inside icon'],
-          type = 'select',
-          style = 'dropdown',
+          name = L["Icon display mode"],
+          desc = L["Select what to display inside icon"],
+          type = "select",
+          style = "dropdown",
           values = MINIMAP_ICON_DISPLAY_TYPES,
           sorting = function(self) return private.GetSortingTable(self.option.values) end,
           order = 100,
@@ -132,30 +132,50 @@ local options = {
       },
     },
     tooltip = {
-      name = L['Tooltip'],
-      type = 'group',
+      name = L["Tooltip"],
+      type = "group",
       inline = true,
       order = 2,
       args = {
-        enable = {
-          name = L['Required profession level'],
-          desc = L['Check to show required profession level in tooltip'],
-          type = 'toggle',
-          order = 0,
+        requiredProfessionLevel = {
+          name = L["Show required profession level"],
+          type = "group",
+          inline = true,
+          order = 1,
+          args = {
+            enableWorld = {
+              name = L["World tooltips"],
+              desc = L["Check to show required profession level on world object tooltips"],
+              type = "toggle",
+              order = 0,
+            },
+            enableMinimap = {
+              name = L["Minimap tooltips"],
+              desc = L["Check to show required profession level on minimap tooltips"],
+              type = "toggle",
+              order = 1,
+            },
+            enableWorldMap = {
+              name = L["World Map tooltips"],
+              desc = L["Check to show required profession level on world map tooltips"],
+              type = "toggle",
+              order = 2,
+            },
+          },
         },
       },
     },
     reset = {
-      type = 'execute',
-      name = L['Reset'],
-      desc = L['Reset settings to defaults'],
-      func = 'ResetProfile',
+      type = "execute",
+      name = L["Reset"],
+      desc = L["Reset settings to defaults"],
+      func = "ResetProfile",
       order = 100,
     },
     test = {
-      type = 'execute',
-      name = L['test'],
-      func = L['test'],
+      type = "execute",
+      name = L["test"],
+      func = L["test"],
       hidden = true,
     },
   },
@@ -170,31 +190,33 @@ local defaults = {
       interval = 2,
       autoTracking = {
         resources = {
-          ['*'] = true,
+          ["*"] = true,
         },
         units = {
-          ['*'] = true,
+          ["*"] = true,
         },
       },
     },
     minimap = { 
       hide = true,
       hideDefaultTrackingIcon = false,
-      displayType = 'DEFAULT',
+      displayType = "DEFAULT",
     },
     tooltip = {
-      enable = true,
+      requiredProfessionLevel = {
+        ["*"] = true
+      },
     },
   }
 }
   
 
 function Settings:OnInitialize()
-  TE.db = LibStub('AceDB-3.0'):New(FOLDER_NAME..'CharDB', defaults)
-  LibStub('AceConfig-3.0'):RegisterOptionsTable(ADDON_NAME, options)
-  self.optionsFrame = LibStub('AceConfigDialog-3.0'):AddToBlizOptions(ADDON_NAME, ADDON_NAME)
+  TE.db = LibStub("AceDB-3.0"):New(FOLDER_NAME.."CharDB", defaults)
+  LibStub("AceConfig-3.0"):RegisterOptionsTable(ADDON_NAME, options, {"tetest",})
+  self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(ADDON_NAME, ADDON_NAME)
 
-  self:RegisterEvents(private.GAME_EVENTS, 'EventHandler')
+  self:RegisterEvents(private.GAME_EVENTS, "EventHandler")
 end
 
 function Settings:OnEnable()
@@ -203,22 +225,22 @@ end
 
 function Settings:Toggle()
   TE.db.profile.general.enable = not TE.db.profile.general.enable
-  self:SendMessage('ADDON_TOGGLED')
+  self:SendMessage("ADDON_TOGGLED")
 end
 
 function Settings:Enable()
   TE.db.profile.general.enable = true
-  self:SendMessage('ADDON_TOGGLED')
+  self:SendMessage("ADDON_TOGGLED")
 end
 
 function Settings:Disable()
   TE.db.profile.general.enable = false
-  self:SendMessage('ADDON_TOGGLED')
+  self:SendMessage("ADDON_TOGGLED")
 end
 
 function Settings:ToggleOnMove()
   TE.db.profile.general.onmove = not TE.db.profile.general.onmove
-  self:SendMessage('MODE_TOGGLED')
+  self:SendMessage("MODE_TOGGLED")
 end
 
 function Settings:ToggleDefaultTrackingIcon()
@@ -228,30 +250,30 @@ end
 function Settings:ResetProfile()
   TE.db:ResetProfile()
   self:ToggleDefaultTrackingIcon()
-  self:SendMessage('MINIMAP_ICON_DISPLAY_TYPES_CHANGE')
-  self:SendMessage('OPTIONS_RESET')
+  self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
+  self:SendMessage("OPTIONS_RESET")
 end
 
 function Settings:GetPlayerTrackingSpells(trackingType)
 
-  local spellInfo = TrackingSpells.GetDataByKey('spellInfo')
+  local spellInfo = TrackingSpells.GetDataByKey("spellInfo")
   local trackingSpellNames = nil
   local playerTrackingSpells = nil
 
   if not trackingType then
     for key, val in pairs(spellInfo) do
-      if IsSpellKnown(val['spellId']) then
+      if IsSpellKnown(val["spellId"]) then
           if trackingSpellNames == nil then trackingSpellNames = {} end
-          local spellName = GetSpellInfo(val['spellId'])
+          local spellName = GetSpellInfo(val["spellId"])
           table.insert(trackingSpellNames, spellName)
       end
     end
     if not trackingSpellNames then return end
   else
     for key, val in pairs(spellInfo) do
-      if IsSpellKnown(val['spellId']) and val['type'] == trackingType then
+      if IsSpellKnown(val["spellId"]) and val["type"] == trackingType then
           if trackingSpellNames == nil then trackingSpellNames = {} end
-          local spellName = GetSpellInfo(val['spellId'])
+          local spellName = GetSpellInfo(val["spellId"])
           table.insert(trackingSpellNames, spellName)
       end
     end
@@ -273,19 +295,19 @@ function Settings:GetPlayerTrackingSpells(trackingType)
 end
 
 function Settings:GetSpellsToTrack()
-  local resources = Settings:GetPlayerTrackingSpells('resources') or {}
-  local units = Settings:GetPlayerTrackingSpells('units') or {}
+  local resources = Settings:GetPlayerTrackingSpells("resources") or {}
+  local units = Settings:GetPlayerTrackingSpells("units") or {}
   local trackingSpells = nil
 
   for key, val in pairs(resources) do
-    if TE.db.profile['general']['autoTracking']['resources'][key] == true then
+    if TE.db.profile["general"]["autoTracking"]["resources"][key] == true then
       if not trackingSpells then trackingSpells = {} end
       table.insert(trackingSpells, key)
     end
   end
 
   for key, val in pairs(units) do
-    if TE.db.profile['general']['autoTracking']['units'][key] == true then
+    if TE.db.profile["general"]["autoTracking"]["units"][key] == true then
       if not trackingSpells then trackingSpells = {} end
       table.insert(trackingSpells, key)
     end
@@ -295,7 +317,7 @@ function Settings:GetSpellsToTrack()
 end
 
 function Settings:GetCastInterval()
-  return TE.db.profile['general']['interval']
+  return TE.db.profile["general"]["interval"]
 end
 
 function Settings:OpenOptionsFrame()
@@ -309,22 +331,22 @@ end
 function Settings:CallbackHandler(...)
   local key, subKey, val = ...
 
-  if key == 'enable' then
-    self:SendMessage('ADDON_TOGGLED')
+  if key == "enable" then
+    self:SendMessage("ADDON_TOGGLED")
     Icon:UpdateIcon()
-  elseif key == 'onmove' then
-    self:SendMessage('MODE_TOGGLED')
-  elseif key == 'interval' then
-    self:SendMessage('INTERVAL_CHANGED')
-  elseif key == 'resources' or key == 'units' then
-    self:SendMessage('TRACKING_TYPES_CHANGED')
+  elseif key == "onmove" then
+    self:SendMessage("MODE_TOGGLED")
+  elseif key == "interval" then
+    self:SendMessage("INTERVAL_CHANGED")
+  elseif key == "resources" or key == "units" then
+    self:SendMessage("TRACKING_TYPES_CHANGED")
     Icon:UpdateIcon()
-  elseif key == 'hide' then
+  elseif key == "hide" then
     Icon:Refresh()
-  elseif key == 'hideDefaultTrackingIcon' then
+  elseif key == "hideDefaultTrackingIcon" then
     self:ToggleDefaultTrackingIcon()
-  elseif key == 'displayType' then
-    self:SendMessage('MINIMAP_ICON_DISPLAY_TYPES_CHANGE')
+  elseif key == "displayType" then
+    self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
   end
 end
 
@@ -368,7 +390,7 @@ end
 -- =================================================================================
 
 function private.GetDBScopeForInfo(db, info)
-  assert(db and info and type(info) == 'table' and type(db) == 'table')
+  assert(db and info and type(info) == "table" and type(db) == "table")
 
   local scope = db
 
@@ -386,7 +408,7 @@ function private.GetSortingTable(tbl)
   local isDefault = false
 
   for key, val in pairs(tbl) do
-    if key ~= 'DEFAULT' then 
+    if key ~= "DEFAULT" then 
       table.insert(tempTable, key) 
     else 
       isDefault = true
@@ -396,7 +418,7 @@ function private.GetSortingTable(tbl)
   table.sort(tempTable)
 
   if isDefault then
-    table.insert(tempTable, 1, 'DEFAULT')
+    table.insert(tempTable, 1, "DEFAULT")
   end
 
   return tempTable
@@ -411,8 +433,8 @@ function Settings:EventHandler(...)
   -- print(event)
 
   if private.GAME_EVENTS[event] then
-    if event == 'MINIMAP_UPDATE_TRACKING' then
-      self:ScheduleTimer(function() if not GetTrackingTexture() and not UnitIsDeadOrGhost('player') then self:Disable() end end, 1) -- MINIMAP_UPDATE_TRACKING event fires before player is dead, that's why we need to wait 1 sec to get player dead info. No need to disable addon if tracking was canceled becouse of death
+    if event == "MINIMAP_UPDATE_TRACKING" then
+      self:ScheduleTimer(function() if not GetTrackingTexture() and not UnitIsDeadOrGhost("player") then self:Disable() end end, 1) -- MINIMAP_UPDATE_TRACKING event fires before player is dead, that"s why we need to wait 1 sec to get player dead info. No need to disable addon if tracking was canceled becouse of death
     end
   end
 
@@ -442,12 +464,12 @@ end
 --                                     Other
 -- =================================================================================
 
--- FIX BLIZZARD BUG ADDON OPTIONS DON'T OPENS
+-- FIX BLIZZARD BUG ADDON OPTIONS DON"T OPENS
 do
   local function get_panel_name(panel)
     local tp = type(panel)
     local cat = INTERFACEOPTIONS_ADDONCATEGORIES
-    if tp == 'string' then
+    if tp == "string" then
       for i = 1, #cat do
         local p = cat[i]
         if p.name == panel then
@@ -458,7 +480,7 @@ do
           end
         end
       end
-    elseif tp == 'table' then
+    elseif tp == "table" then
       for i = 1, #cat do
         local p = cat[i]
         if p == panel then
@@ -507,5 +529,5 @@ local function InterfaceOptionsFrame_OpenToCategory_Fix(panel)
     doNotRun = false
   end
 
-  hooksecurefunc('InterfaceOptionsFrame_OpenToCategory', InterfaceOptionsFrame_OpenToCategory_Fix)
+  hooksecurefunc("InterfaceOptionsFrame_OpenToCategory", InterfaceOptionsFrame_OpenToCategory_Fix)
 end

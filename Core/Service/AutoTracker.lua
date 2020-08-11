@@ -1,12 +1,12 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
-local Log = TE.Include('Util.Log')
-local Icon = TE.Include('Service.Icon')
-local AutoTracker = TE.Include('Service.AutoTracker')
-local Settings = TE.Include('Service.Settings')
-local TrackingSpells = TE.Include('Data.TrackingSpells')
-local MyLib = TE.Include('Util.MyLib')
-local L = TE.Include('Locale')
+local Log = TE.Include("Util.Log")
+local Icon = TE.Include("Service.Icon")
+local AutoTracker = TE.Include("Service.AutoTracker")
+local Settings = TE.Include("Service.Settings")
+local TrackingSpells = TE.Include("Data.TrackingSpells")
+local MyLib = TE.Include("Util.MyLib")
+local L = TE.Include("Locale")
 
 local private = {
   IS_MOVING = false,
@@ -14,17 +14,17 @@ local private = {
   PAUSE_DELEY = 3,
   GAME_EVENTS = {
     PAUSE_TRIGGER_EVENTS = {
-      ['PLAYER_REGEN_ENABLED'] = true,
-      ['PLAYER_REGEN_DISABLED'] = true,
-      ['PLAYER_DEAD'] = true,
-      ['PLAYER_ALIVE'] = true,
-      ['PLAYER_UNGHOST'] = true,
-      ['PLAYER_UPDATE_RESTING'] = true,
+      ["PLAYER_REGEN_ENABLED"] = true,
+      ["PLAYER_REGEN_DISABLED"] = true,
+      ["PLAYER_DEAD"] = true,
+      ["PLAYER_ALIVE"] = true,
+      ["PLAYER_UNGHOST"] = true,
+      ["PLAYER_UPDATE_RESTING"] = true,
     },
     TEMP_PAUSE_EVENTS = {
-      ['UNIT_SPELLCAST_SENT'] = true,
-      ['UNIT_SPELLCAST_STOP'] = true,
-      ['UI_ERROR_MESSAGE'] = {
+      ["UNIT_SPELLCAST_SENT"] = true,
+      ["UNIT_SPELLCAST_STOP"] = true,
+      ["UI_ERROR_MESSAGE"] = {
         [ERR_NO_ATTACK_TARGET] = true,
         [ERR_SPELL_COOLDOWN] = true,
         [ERR_ABILITY_COOLDOWN] = true,
@@ -42,15 +42,15 @@ local private = {
       },
     },
     MOVE_EVENTS = {
-      ['PLAYER_STARTED_MOVING'] = true,
-      ['PLAYER_STOPPED_MOVING'] = true,
+      ["PLAYER_STARTED_MOVING"] = true,
+      ["PLAYER_STOPPED_MOVING"] = true,
     },
   },
   USER_EVENTS = {
-    ['TRACKING_TYPES_CHANGED'] = true,
-    ['INTERVAL_CHANGED'] = true,
-    ['ADDON_TOGGLED'] = true,
-    ['MODE_TOGGLED'] = true,
+    ["TRACKING_TYPES_CHANGED"] = true,
+    ["INTERVAL_CHANGED"] = true,
+    ["ADDON_TOGGLED"] = true,
+    ["MODE_TOGGLED"] = true,
   },
 }
 
@@ -59,12 +59,12 @@ local private = {
 -- ===========================================================================
 
 function AutoTracker:OnInitialize()
-  self:RegisterUserEvents(private.USER_EVENTS, 'EventHandler')
-  self:RegisterEvents(private.GAME_EVENTS.MOVE_EVENTS, 'EventHandler')
+  self:RegisterUserEvents(private.USER_EVENTS, "EventHandler")
+  self:RegisterEvents(private.GAME_EVENTS.MOVE_EVENTS, "EventHandler")
 
   if TE.db.profile.general.enable then
-    self:RegisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, 'EventHandler')
-    self:RegisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, 'EventHandler')
+    self:RegisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, "EventHandler")
+    self:RegisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, "EventHandler")
   end
 end
 
@@ -85,17 +85,17 @@ function AutoTracker:StartTimer()
   if TE.db.profile.general.onmove then canStart = canStart and private.IS_MOVING end
 
   if canStart then
-    -- print('START TIMER')
+    -- print("START TIMER")
 
     self:CastNextSpell()
-    AutoTracker.trackingTimer = AutoTracker:ScheduleRepeatingTimer('TimersFeedback', Settings:GetCastInterval())
+    AutoTracker.trackingTimer = AutoTracker:ScheduleRepeatingTimer("TimersFeedback", Settings:GetCastInterval())
     private.IS_PAUSED = false
   end
 
 end
 
 function AutoTracker:StopTimer()
-  -- print('STOP TIMER')
+  -- print("STOP TIMER")
   if AutoTracker.trackingTimer then
     AutoTracker:CancelTimer(AutoTracker.trackingTimer)
   end
@@ -106,7 +106,7 @@ end
 function AutoTracker:UpdateTimer()
   if not private.IS_PAUSED then
     AutoTracker:CancelTimer(AutoTracker.trackingTimer)
-    AutoTracker.trackingTimer = AutoTracker:ScheduleRepeatingTimer('TimersFeedback', Settings:GetCastInterval())
+    AutoTracker.trackingTimer = AutoTracker:ScheduleRepeatingTimer("TimersFeedback", Settings:GetCastInterval())
   end
 end
 
@@ -119,7 +119,7 @@ end
 
 function AutoTracker:TimersFeedback()
 
-  -- print('TimersFeedback')
+  -- print("TimersFeedback")
   if TE.db.profile.general.onmove and not private.IS_MOVING then 
     self:StopTimer()
   end
@@ -147,7 +147,7 @@ function AutoTracker:CastNextSpell()
 end
 
 function AutoTracker:GetCurrentTrackingSpellID()
-  local spellInfo = TrackingSpells.GetDataByKey('spellInfo')
+  local spellInfo = TrackingSpells.GetDataByKey("spellInfo")
   local currentTrackingIconId = GetTrackingTexture()
   local currentTrackingSpellId = nil
 
@@ -186,7 +186,7 @@ function AutoTracker:GetNextSpellID(currentSpellId)
 end
 
 function AutoTracker:isCanCast()
-  local canCast = not (self:isNextSpellOnCooldown() or CastingInfo() or ChannelInfo() or UnitIsDeadOrGhost('player') or IsResting() or UnitAffectingCombat('player') or InCombatLockdown())
+  local canCast = not (self:isNextSpellOnCooldown() or CastingInfo() or ChannelInfo() or UnitIsDeadOrGhost("player") or IsResting() or UnitAffectingCombat("player") or InCombatLockdown())
   return canCast
 end
 
@@ -216,38 +216,38 @@ function AutoTracker:EventHandler(...)
   if private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS[event] then
     self:Toggle()
   elseif private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event] then
-    if event == 'UI_ERROR_MESSAGE' then
-      if not private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event][arg2] then return end -- return if arg2 don't match the list
-    elseif event == 'UNIT_SPELLCAST_SENT' then
-      if arg1 ~= 'player' or MyLib.IndexOf(Settings:GetSpellsToTrack(), arg4) then return end -- return if cast made not by player or player casted trackingSpell
+    if event == "UI_ERROR_MESSAGE" then
+      if not private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event][arg2] then return end -- return if arg2 don"t match the list
+    elseif event == "UNIT_SPELLCAST_SENT" then
+      if arg1 ~= "player" or MyLib.IndexOf(Settings:GetSpellsToTrack(), arg4) then return end -- return if cast made not by player or player casted trackingSpell
     end
     self:TempPause(private.PAUSE_DELEY)
   elseif private.GAME_EVENTS.MOVE_EVENTS[event] then
-    if event == 'PLAYER_STARTED_MOVING' then
+    if event == "PLAYER_STARTED_MOVING" then
       private.IS_MOVING = true
       if TE.db.profile.general.onmove then
         self:StartTimer()
         if self:isNextSpellOnCooldown() then -- try one more time if spell was on CD
           self:StopTimer()
-          self.trackingTimer = self:ScheduleTimer('StartTimer', Settings:GetCastInterval())
+          self.trackingTimer = self:ScheduleTimer("StartTimer", Settings:GetCastInterval())
         end
       end
-    elseif event == 'PLAYER_STOPPED_MOVING' then
+    elseif event == "PLAYER_STOPPED_MOVING" then
       private.IS_MOVING = false
       if TE.db.profile.general.onmove then self:StopTimer() end
     end
   elseif private.USER_EVENTS[event] then
-    if event == 'ADDON_TOGGLED' then
+    if event == "ADDON_TOGGLED" then
       if TE.db.profile.general.enable then
-        self:RegisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, 'EventHandler')
-        self:RegisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, 'EventHandler')
+        self:RegisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, "EventHandler")
+        self:RegisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, "EventHandler")
         if not TE.db.profile.general.onmove or private.IS_MOVING then self:StartTimer() end
       else
-        self:UnregisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, 'EventHandler')
-        self:UnregisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, 'EventHandler')
+        self:UnregisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, "EventHandler")
+        self:UnregisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, "EventHandler")
         self:StopTimer()
       end
-    elseif event == 'MODE_TOGGLED' then
+    elseif event == "MODE_TOGGLED" then
       if TE.db.profile.general.enable then
         if TE.db.profile.general.onmove and not private.IS_MOVING then
           self:StopTimer()
@@ -255,9 +255,9 @@ function AutoTracker:EventHandler(...)
           self:StartTimer()
         end
       end
-    elseif event == 'INTERVAL_CHANGED' then
+    elseif event == "INTERVAL_CHANGED" then
       self:UpdateTimer()
-    elseif event == 'TRACKING_TYPES_CHANGED' then
+    elseif event == "TRACKING_TYPES_CHANGED" then
       if not TE.db.profile.general.onmove or private.IS_MOVING then self:StartTimer() end
     end
   end

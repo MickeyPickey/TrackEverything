@@ -1,43 +1,43 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local TE = ADDON_TABLE.Addon
-local Colors = TE.Include('Data.Colors')
-local Icon = TE.Include('Service.Icon')
-local Settings = TE.Include('Service.Settings')
-local AutoTracker = TE.Include('Service.AutoTracker')
-local MyLib = TE.Include('Util.MyLib')
-local L = TE.Include('Locale')
+local Colors = TE.Include("Data.Colors")
+local Icon = TE.Include("Service.Icon")
+local Settings = TE.Include("Service.Settings")
+local AutoTracker = TE.Include("Service.AutoTracker")
+local MyLib = TE.Include("Util.MyLib")
+local L = TE.Include("Locale")
 
 local private = {
   embeded = false,
   ldb = nil,
   icon = nil,
   GAME_EVENTS = {
-    ['MINIMAP_UPDATE_TRACKING'] = true,
+    ["MINIMAP_UPDATE_TRACKING"] = true,
   },
   USER_EVENTS = {
-    ['MINIMAP_ICON_DISPLAY_TYPE_CHANGE'] = true,
-    ['OPTIONS_RESET'] = true,
+    ["MINIMAP_ICON_DISPLAY_TYPE_CHANGE"] = true,
+    ["OPTIONS_RESET"] = true,
   },
 }
 
 local NO_TRACK_ICON = "Interface\\AddOns\\"..FOLDER_NAME.."\\Media\\Logo64x64.blp" -- 136235
-local ENABLED_COLOR = Colors:GetColorByName('GREEN2')
-local DISABLED_COLOR = Colors:GetColorByName('RED')
-local PAUSED_COLOR = Colors:GetColorByName('GRAY')
-local COMMAND_COLOR = Colors:GetColorByName('LIGHTYELLOW')
+local ENABLED_COLOR = Colors:GetColorByName("GREEN2")
+local DISABLED_COLOR = Colors:GetColorByName("RED")
+local PAUSED_COLOR = Colors:GetColorByName("GRAY")
+local COMMAND_COLOR = Colors:GetColorByName("LIGHTYELLOW")
 
 
 function Icon:OnInitialize()
-  private.ldb = LibStub('LibDataBroker-1.1'):NewDataObject(ADDON_NAME, {
-    type = 'data source',
+  private.ldb = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
+    type = "data source",
     text = ADDON_NAME,
     icon = self:GetIconTexture(),
     OnTooltipShow = function(tooltip)
       local tooltip = private.CreateTooltip(_, tooltip)
       local cs = COMMAND_COLOR
-      local ce = '|r'
-      tooltip:AddLine(format(L['%sDrag%s to move icon'], cs, ce))
+      local ce = "|r"
+      tooltip:AddLine(format(L["%sDrag%s to move icon"], cs, ce))
       tooltip:Show()
     end,
     OnClick = function(self, button)
@@ -45,13 +45,13 @@ function Icon:OnInitialize()
     end,
   })
 
-  private.icon = LibStub('LibDBIcon-1.0')
+  private.icon = LibStub("LibDBIcon-1.0")
   private.icon:Register(ADDON_NAME, private.ldb, TE.db.profile.minimap)
 
   private.minimapButton = private.icon:GetMinimapButton(ADDON_NAME)
 
-  self:RegisterEvents(private.GAME_EVENTS, 'EventHandler')
-  self:RegisterUserEvents(private.USER_EVENTS, 'EventHandler')
+  self:RegisterEvents(private.GAME_EVENTS, "EventHandler")
+  self:RegisterUserEvents(private.USER_EVENTS, "EventHandler")
 
 end
 
@@ -66,25 +66,25 @@ function Icon:EmbedInDefaultTrackingFrame()
     if not GetTrackingTexture() then MiniMapTrackingIcon:SetTexture(NO_TRACK_ICON) end
     MiniMapTrackingFrame:Show()
 
-    MiniMapTrackingFrame:HookScript('OnHide', function()
+    MiniMapTrackingFrame:HookScript("OnHide", function()
       MiniMapTrackingIcon:SetTexture(NO_TRACK_ICON)
       if Settings:GetPlayerTrackingSpells() then 
         MiniMapTrackingFrame:Show()
       end
     end)
 
-    local ghostButton = CreateFrame('Button', ADDON_NAME, MiniMapTrackingFrame)
+    local ghostButton = CreateFrame("Button", ADDON_NAME, MiniMapTrackingFrame)
 
     ghostButton:SetAllPoints()
 
-    ghostButton:SetScript('OnMouseDown', function(self, button)
+    ghostButton:SetScript("OnMouseDown", function(self, button)
       Icon:OnClick(self, button)
     end)
-    ghostButton:SetScript('OnEnter', function(self)
+    ghostButton:SetScript("OnEnter", function(self)
       local tooltip = private.CreateTooltip(self)
       tooltip:Show()
     end)
-    ghostButton:SetScript('OnLeave', function(self) 
+    ghostButton:SetScript("OnLeave", function(self) 
       local tooltip = private.CreateTooltip(self)
       tooltip:Hide()
     end)
@@ -92,7 +92,7 @@ function Icon:EmbedInDefaultTrackingFrame()
     private.embeded = true
   end
 
-  Icon:RegisterEvent('SPELLS_CHANGED', 'EventHandler')
+  Icon:RegisterEvent("SPELLS_CHANGED", "EventHandler")
 end
 
 
@@ -119,9 +119,9 @@ function Icon:GetNextSpellIcon()
 end
 
 function Icon:GetIconTexture()
-  if TE.db.profile.minimap.displayType == 'CURRENT_SPELL' then 
+  if TE.db.profile.minimap.displayType == "CURRENT_SPELL" then 
     return GetTrackingTexture() or NO_TRACK_ICON
-  elseif TE.db.profile.minimap.displayType == 'NEXT_SPELL' then
+  elseif TE.db.profile.minimap.displayType == "NEXT_SPELL" then
     return self:GetNextSpellIcon()
   else 
     return NO_TRACK_ICON
@@ -133,13 +133,13 @@ function Icon:OnClick(self, button)
   local shift_key = IsShiftKeyDown()
   local control_key = IsControlKeyDown()
 
-  if button == 'LeftButton' then
+  if button == "LeftButton" then
     if shift_key then
       Settings:Toggle()
     else
       Icon:DropDownMenu_Open(self, -150)
     end
-  elseif button == 'RightButton' then
+  elseif button == "RightButton" then
     if shift_key then
       Settings:OpenOptionsFrame()
     else
@@ -151,7 +151,7 @@ function Icon:OnClick(self, button)
 end
 
 function Icon:DropDownMenu_Open(anchor, x, y)
-  local anchor = anchor or 'cursor'
+  local anchor = anchor or "cursor"
   local x = x or -138
   local y = y or 3
 
@@ -163,7 +163,7 @@ function Icon:DropDownMenu_Open(anchor, x, y)
       notCheckable = true,
     },
     {
-      text = 'None',
+      text = "None",
       checked = function(self)
         if not GetTrackingTexture() then return true end
         return false
@@ -174,8 +174,8 @@ function Icon:DropDownMenu_Open(anchor, x, y)
     },
   }
 
-  local resources = Settings:GetPlayerTrackingSpells('resources') or {}
-  local units = Settings:GetPlayerTrackingSpells('units') or {}
+  local resources = Settings:GetPlayerTrackingSpells("resources") or {}
+  local units = Settings:GetPlayerTrackingSpells("units") or {}
   local spells = MyLib.ConcatTwoTables(resources, units)
 
     for id, name in pairs(spells) do
@@ -192,19 +192,19 @@ function Icon:DropDownMenu_Open(anchor, x, y)
         })
     end
 
-  local menuFrame = CreateFrame('Frame', FOLDER_NAME..'Menu', UIParent, 'UIDropDownMenuTemplate')
-  EasyMenu(menuList, menuFrame, anchor, x, y, 'MENU');
+  local menuFrame = CreateFrame("Frame", FOLDER_NAME.."Menu", UIParent, "UIDropDownMenuTemplate")
+  EasyMenu(menuList, menuFrame, anchor, x, y, "MENU");
 end
 
 function Icon:GetAddonState()
   if TE.db.profile.general.enable then
     if AutoTracker:isPaused() then
-      return PAUSED_COLOR..L['paused']..'|r'
+      return PAUSED_COLOR..L["paused"].."|r"
     else 
-      return ENABLED_COLOR..L['enabled']..'|r'
+      return ENABLED_COLOR..L["enabled"].."|r"
     end
   else 
-    return DISABLED_COLOR..L['disabled']..'|r'
+    return DISABLED_COLOR..L["disabled"].."|r"
   end
 end
 
@@ -216,10 +216,10 @@ function Icon:EventHandler(...)
   local event, arg1, arg2, arg3 = ...
 
   if private.GAME_EVENTS[event] then
-    if event == 'MINIMAP_UPDATE_TRACKING' then
+    if event == "MINIMAP_UPDATE_TRACKING" then
       self:UpdateIcon()
     end
-  elseif event == 'SPELLS_CHANGED' then
+  elseif event == "SPELLS_CHANGED" then
     if not private.embeded then
       self:EmbedInDefaultTrackingFrame()
     else
@@ -230,9 +230,9 @@ function Icon:EventHandler(...)
       end
     end
   elseif private.USER_EVENTS[event] then
-    if event == 'MINIMAP_ICON_DISPLAY_TYPE_CHANGE' then
+    if event == "MINIMAP_ICON_DISPLAY_TYPE_CHANGE" then
       self:UpdateIcon()
-    elseif event == 'OPTIONS_RESET' then
+    elseif event == "OPTIONS_RESET" then
       self:Refresh()
     end
   end
@@ -267,30 +267,30 @@ function private.CreateTooltip(self, dummyTooltip)
 
   if not dummyTooltip then
 
-    tooltip = self.tooltip or CreateFrame('GameTooltip', ADDON_NAME..'tooltip', UIParent, "GameTooltipTemplate")
+    tooltip = self.tooltip or CreateFrame("GameTooltip", ADDON_NAME.."tooltip", UIParent, "GameTooltipTemplate")
     self.tooltip = tooltip
 
     function getAnchors(frame)
       local x, y = frame:GetCenter()
-      if not x or not y then return 'CENTER' end
-      local hhalf = (x > UIParent:GetWidth()*2/3) and 'RIGHT' or (x < UIParent:GetWidth()/3) and "LEFT" or ""
+      if not x or not y then return "CENTER" end
+      local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
       local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
       return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
     end
 
-    tooltip:SetOwner(self, 'ANCHOR_NONE')
+    tooltip:SetOwner(self, "ANCHOR_NONE")
     tooltip:SetPoint(getAnchors(self))
   else
     tooltip = dummyTooltip
   end
 
     local cs = COMMAND_COLOR
-    local ce = '|r'
-    tooltip:SetText(ADDON_NAME..' ['..Icon:GetAddonState()..']')
-    tooltip:AddLine(format(L['%sLeft-click%s to manualy select tracking spell'], cs, ce))
-    tooltip:AddLine(format(L['%sRight-click%s to cancel current tracking spell'], cs, ce))
-    tooltip:AddLine(format(L['%sShift+Left-click%s to enable/disable auto switching'], cs, ce))
-    tooltip:AddLine(format(L['%sShift+Right-click%s to open settings'], cs, ce))
+    local ce = "|r"
+    tooltip:SetText(ADDON_NAME.." ["..Icon:GetAddonState().."]")
+    tooltip:AddLine(format(L["%sLeft-click%s to manualy select tracking spell"], cs, ce))
+    tooltip:AddLine(format(L["%sRight-click%s to cancel current tracking spell"], cs, ce))
+    tooltip:AddLine(format(L["%sShift+Left-click%s to enable/disable auto switching"], cs, ce))
+    tooltip:AddLine(format(L["%sShift+Right-click%s to open settings"], cs, ce))
     
     return tooltip
 end
@@ -300,7 +300,7 @@ end
 --                                     Other
 -- =================================================================================
 
--- FIX BLIZZARD BUG WHEN TRACKING ICON DON'T SHOW AFTER RELOAD
+-- FIX BLIZZARD BUG WHEN TRACKING ICON DON"T SHOW AFTER RELOAD
 
 do
 
