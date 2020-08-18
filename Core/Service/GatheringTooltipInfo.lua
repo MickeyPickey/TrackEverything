@@ -18,7 +18,8 @@ local NORMAL_FONT_COLOR = NORMAL_FONT_COLOR -- Blizzard yellow default text colo
 local RED_FONT_COLOR = RED_FONT_COLOR
 local ORANGE_FONT_COLOR = ORANGE_FONT_COLOR
 local YELLOW_FONT_COLOR = YELLOW_FONT_COLOR
-local GREEN_FONT_COLOR = GREEN_FONT_COLOR
+-- local GREEN_FONT_COLOR = GREEN_FONT_COLOR
+local GREEN_FONT_COLOR = {0.25097984075546, 0.75293952226639, 0.25097984075546, 0.99999779462814}
 local GRAY_FONT_COLOR = GRAY_FONT_COLOR
 -- =====================================================================================================
 
@@ -236,7 +237,8 @@ function GatheringTooltipInfo:GetProfessionRequiredSkillColor(itemName)
   elseif currentLevel >= yellowLevel and currentLevel < greenLevel then
     return YELLOW_FONT_COLOR:GetRGBA()
   elseif currentLevel >= greenLevel and currentLevel < grayLevel then
-    return GREEN_FONT_COLOR:GetRGBA()
+    -- return GREEN_FONT_COLOR:GetRGBA()
+    return unpack(GREEN_FONT_COLOR)
   elseif currentLevel >= grayLevel then
     return GRAY_FONT_COLOR:GetRGBA()
   end
