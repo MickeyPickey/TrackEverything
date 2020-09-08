@@ -51,6 +51,11 @@ local private = {
       iconId = 136217,
       spellId = 19878,
     },
+    demons_warlock = {
+      type = "units",
+      iconId = 136172,
+      spellId = 5500,
+    },
     giants = {
       type = "units",
       iconId = 132275,
