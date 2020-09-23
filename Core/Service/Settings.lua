@@ -1,18 +1,16 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local ADDON_NAME = ADDON_TABLE.ADDON_NAME
+local ADDON_VERSION = ADDON_TABLE.ADDON_VERSION
+local ADDON_AUTHOR = ADDON_TABLE.ADDON_AUTHOR
 local TE = ADDON_TABLE.Addon
 local Settings = TE.Include("Service.Settings")
-local AutoTracker = TE.Include("Service.AutoTracker")
+local SpellSwitcher = TE.Include("Service.SpellSwitcher")
 local Icon = TE.Include("Service.Icon")
 local TrackingSpells = TE.Include("Data.TrackingSpells")
 local MyLib = TE.Include("Util.MyLib")
 local Log = TE.Include("Util.Log")
 local L = TE.Include("Locale")
-local private = {
-  GAME_EVENTS = {
-    ["MINIMAP_UPDATE_TRACKING"] = true,
-  },
-}
+local private = {}
 
 local MINIMAP_ICON_DISPLAY_TYPES = {
   DEFAULT = L["Default"],
@@ -27,77 +25,110 @@ local options = {
   set = "OptSetter",
   get = "OptGetter",
   args = {
-    general = {
+    about = {
+      name = L["Version"]..":"..ADDON_VERSION.." by "..ADDON_AUTHOR.."\n\n",
+      type = "description",
+      order = 0,
+    },
+    autoTracking = {
       name = L["Auto tracking"],
       type = "group",
       inline = true,
       order = 1,
       args = {
-        enable = {
-          name = L["Enabled"],
-          desc = L["Toggle the addon"],
-          type = "toggle",
-          order = 0,
-        },
-        onmove = {
-          name = L["Only while moving"],
-          desc = L["Enable to track only while character is moving"],
-          type = "toggle",
-          order = 1,
-        },
-        muteSpellUseSound = {
-          name = L["Mute spell use sound"],
-          desc = L["Mute spell use sound while auto switching"],
-          type = "toggle",
-          order = 2,
-        },
-        autoTracking = {
-          name = L["Tracking spells"],
+        lastTrackedOnRes = {
+          name = L["Activate last used tracking spell on resurrection"],
           type = "group",
-          hidden = function (info) 
-            local valueTable = Settings:GetPlayerTrackingSpells()
-            if not valueTable then return true end
-          end,
+          order = 1,
           args = {
-            resources = {
-              name = L["Resources"],
-              desc = L["Select to include in auto tracking"],
-              type = "multiselect",
-              values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
+            enabled = {
+              name = L["Enabled"],
+              desc = L["Enable to activate last used tracking spell on resurrection"],
+              type = "toggle",
+              order = 0,
+            },
+          },
+        },
+        spellSwitcher = {
+          name = L["Auto spell switching"],
+          type = "group",
+          inline = true,
+          order = 2,
+          args = {
+            enabled = {
+              name = L["Enabled"],
+              desc = L["Toggle auto spell switching"],
+              type = "toggle",
+              order = 0,
+            },
+            onmove = {
+              name = L["Only while moving"],
+              desc = L["Enable to switch only while character is moving"],
+              type = "toggle",
+              order = 1,
+            },
+            trackingSpells = {
+              name = L["Tracking spells"],
+              type = "group",
               hidden = function (info) 
-                local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
+                local valueTable = Settings:GetPlayerTrackingSpells()
                 if not valueTable then return true end
               end,
-              cmdHidden = true,
+              args = {
+                resources = {
+                  name = L["Resources"],
+                  desc = L["Select to include in auto switching"],
+                  type = "multiselect",
+                  values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
+                  hidden = function (info) 
+                    local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
+                    if not valueTable then return true end
+                  end,
+                  cmdHidden = true,
+                },
+                units = {
+                  name = L["Units"],
+                  desc = L["Select to include in auto switching"],
+                  type = "multiselect",
+                  values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
+                  hidden = function (info)
+                    local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
+                    if not valueTable then return true end
+                  end,
+                  cmdHidden = true,
+                },
+              }
             },
-            units = {
-              name = L["Units"],
-              desc = L["Select to include in auto tracking"],
-              type = "multiselect",
-              values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
-              hidden = function (info)
-                local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
-                if not valueTable then return true end
-              end,
-              cmdHidden = true,
+            interval = {
+              name = L["Cast interval"],
+              desc = L["Time in seconds between spell casts while auto switching"],
+              type = "range",
+              min = 2,
+              max = 45,
+              step = 1,
+              width = "full"
             },
-          }
+            settings = {
+              type = "execute",
+              name = L["Open settings"],
+              desc = L["Open settings"],
+              func = "OpenOptionsFrame",
+              guiHidden = true,
+            },
+          },
         },
-        interval = {
-          name = L["Cast interval"],
-          desc = L["Time in seconds between spell casts while auto tracking"],
-          type = "range",
-          min = 2,
-          max = 45,
-          step = 1,
-          width = "full"
-        },
-        settings = {
-          type = "execute",
-          name = L["Open settings"],
-          desc = L["Open settings"],
-          func = "OpenOptionsFrame",
-          guiHidden = true,
+        general = {
+          name = L["General"],
+          type = "group",
+          order = 3,
+          args = {
+            muteSpellUseSound = {
+              name = L["Mute spell use sound"],
+              desc = L["Mute spell use sound while auto tracking"],
+              type = "toggle",
+              order = 1,
+            },
+          },
         },
       },
     },
@@ -175,7 +206,7 @@ local options = {
     test = {
       type = "execute",
       name = L["test"],
-      func = L["test"],
+      func = "test",
       hidden = true,
     },
   },
@@ -183,18 +214,27 @@ local options = {
 
 local defaults = {
   profile  = {
-    general = {
-      enable = true,
-      onmove = true,
-      muteSpellUseSound = true,
-      interval = 2,
-      autoTracking = {
-        resources = {
-          ["*"] = true,
+    autoTracking = {
+      lastTrackedOnRes = {
+        enabled = true,
+        spellId = nil,
+      },
+      spellSwitcher = {
+        enabled = true,
+        onmove = true,
+        
+        interval = 2,
+        trackingSpells = {
+          resources = {
+            ["*"] = true,
+          },
+          units = {
+            ["*"] = true,
+          },
         },
-        units = {
-          ["*"] = true,
-        },
+      },
+      general = {
+        muteSpellUseSound = true,
       },
     },
     minimap = { 
@@ -215,36 +255,14 @@ function Settings:OnInitialize()
   TE.db = LibStub("AceDB-3.0"):New(FOLDER_NAME.."CharDB", defaults)
   LibStub("AceConfig-3.0"):RegisterOptionsTable(ADDON_NAME, options, {"tetest",})
   self.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(ADDON_NAME, ADDON_NAME)
-
-  self:RegisterEvents(private.GAME_EVENTS, "EventHandler")
 end
 
 function Settings:OnEnable()
   self:ToggleDefaultTrackingIcon()
 end
 
-function Settings:Toggle()
-  TE.db.profile.general.enable = not TE.db.profile.general.enable
-  self:SendMessage("ADDON_TOGGLED")
-end
-
-function Settings:Enable()
-  TE.db.profile.general.enable = true
-  self:SendMessage("ADDON_TOGGLED")
-end
-
-function Settings:Disable()
-  TE.db.profile.general.enable = false
-  self:SendMessage("ADDON_TOGGLED")
-end
-
-function Settings:ToggleOnMove()
-  TE.db.profile.general.onmove = not TE.db.profile.general.onmove
-  self:SendMessage("MODE_TOGGLED")
-end
-
 function Settings:ToggleDefaultTrackingIcon()
-  if TE.db.profile.minimap.hideDefaultTrackingIcon then MiniMapTrackingFrame:SetScale(0.001) else MiniMapTrackingFrame:SetScale(1) end
+  if TE.db.profile.minimap.hideDefaultTrackingIcon then MiniMapTrackingFrame:Hide() else MiniMapTrackingFrame:Show() end
 end
 
 function Settings:ResetProfile()
@@ -256,7 +274,7 @@ end
 
 function Settings:GetPlayerTrackingSpells(trackingType)
 
-  local spellInfo = TrackingSpells.GetDataByKey("spellInfo")
+  local spellInfo = TrackingSpells:GetDataByKey("spellInfo")
   local trackingSpellNames = nil
   local playerTrackingSpells = nil
 
@@ -300,14 +318,14 @@ function Settings:GetSpellsToTrack()
   local trackingSpells = nil
 
   for key, val in pairs(resources) do
-    if TE.db.profile["general"]["autoTracking"]["resources"][key] == true then
+    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[key] == true then
       if not trackingSpells then trackingSpells = {} end
       table.insert(trackingSpells, key)
     end
   end
 
   for key, val in pairs(units) do
-    if TE.db.profile["general"]["autoTracking"]["units"][key] == true then
+    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[key] == true then
       if not trackingSpells then trackingSpells = {} end
       table.insert(trackingSpells, key)
     end
@@ -317,7 +335,7 @@ function Settings:GetSpellsToTrack()
 end
 
 function Settings:GetCastInterval()
-  return TE.db.profile["general"]["interval"]
+  return TE.db.profile.autoTracking.spellSwitcher.interval
 end
 
 function Settings:OpenOptionsFrame()
@@ -325,28 +343,37 @@ function Settings:OpenOptionsFrame()
 end
 
 function Settings:test()
-
+  print("FolderName:", FOLDER_NAME)
+  print(GetAddOnMetadata(FOLDER_NAME, "Version"))
 end
 
 function Settings:CallbackHandler(...)
-  local key, subKey, val = ...
+  local scope, key, subKey, val, scopeString = ...
 
-  if key == "enable" then
-    self:SendMessage("ADDON_TOGGLED")
-    Icon:UpdateIcon()
-  elseif key == "onmove" then
-    self:SendMessage("MODE_TOGGLED")
-  elseif key == "interval" then
-    self:SendMessage("INTERVAL_CHANGED")
-  elseif key == "resources" or key == "units" then
-    self:SendMessage("TRACKING_TYPES_CHANGED")
-    Icon:UpdateIcon()
-  elseif key == "hide" then
-    Icon:Refresh()
-  elseif key == "hideDefaultTrackingIcon" then
-    self:ToggleDefaultTrackingIcon()
-  elseif key == "displayType" then
-    self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
+  if scope == TE.db.profile.autoTracking.lastTrackedOnRes then
+    if key == "enabled" then
+      self:SendMessage("LAST_TRACKED_ON_RES_TOGGLED")
+    end
+  elseif scope == TE.db.profile.autoTracking.spellSwitcher then
+    if key == "enabled" then
+      self:SendMessage("SPELL_SWITCHER_TOGGLED")
+    elseif key == "onmove" then
+      self:SendMessage("SPELL_SWITCHER_MODE_TOGGLED")
+    elseif key == "interval" then
+      self:SendMessage("SPELL_SWITCHER_INTERVAL_CHANGED")
+    end
+  elseif scope == TE.db.profile.autoTracking.spellSwitcher.trackingSpells then
+    if key == "resources" or key == "units" then
+      self:SendMessage("SPELL_SWITCHER_TRACKING_TYPES_CHANGED")
+    end
+  elseif scope == TE.db.profile.minimap then
+    if key == "hide" then
+      self:SendMessage("MINIMAP_ICON_HIDE")
+    elseif key == "hideDefaultTrackingIcon" then
+      self:ToggleDefaultTrackingIcon()
+    elseif key == "displayType" then
+      self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
+    end
   end
 end
 
@@ -368,7 +395,8 @@ end
 
 function Settings:OptSetter(...)
   local info, arg2, arg3 = ...
-  local infoScope = private.GetDBScopeForInfo(TE.db.profile, info)
+  local scope = private.GetDBScopeForInfo(TE.db.profile, info)
+
   local key = info[#info]
   local subKey = nil
   local val = arg2
@@ -376,13 +404,17 @@ function Settings:OptSetter(...)
   if arg3 ~= nil then
     local subKey = arg2
     val = arg3
-    infoScope[key][subKey] = val
+    scope[key][subKey] = val
   else
-    infoScope[key] = val
+    scope[key] = val
   end
 
-  self:CallbackHandler(key, subKey, val)
+  local scopeString = 'TE.db.profile'
+  for i=1, #info do
+    scopeString = scopeString.."."..info[i]
+  end
 
+  self:CallbackHandler(scope, key, subKey, val, scopeString)
 end
 
 -- =================================================================================
@@ -431,13 +463,6 @@ end
 function Settings:EventHandler(...)
   local event, arg1, arg2, arg3 = ...
   -- print(event)
-
-  if private.GAME_EVENTS[event] then
-    if event == "MINIMAP_UPDATE_TRACKING" then
-      self:ScheduleTimer(function() if not GetTrackingTexture() and not UnitIsDeadOrGhost("player") then self:Disable() end end, 1) -- MINIMAP_UPDATE_TRACKING event fires before player is dead, that"s why we need to wait 1 sec to get player dead info. No need to disable addon if tracking was canceled becouse of death
-    end
-  end
-
 end
 
 function Settings:RegisterEvents(eventTable, func)

@@ -2,6 +2,9 @@ local FOLDER_NAME, ADDON_TABLE = ...
 local ADDON_NAME = "Track Everything"
 ADDON_TABLE.ADDON_NAME = ADDON_NAME
 ADDON_TABLE.Addon = LibStub("AceAddon-3.0"):NewAddon(ADDON_NAME)
+ADDON_TABLE.ADDON_VERSION = GetAddOnMetadata(FOLDER_NAME, "Version")
+ADDON_TABLE.ADDON_AUTHOR = GetAddOnMetadata(FOLDER_NAME, "Author")
+ADDON_TABLE.ADDON_AUTHOR_GAME_INFO = GetAddOnMetadata(FOLDER_NAME, "X-Author-Game-Info")
 local TE = ADDON_TABLE.Addon
 
 local private = {

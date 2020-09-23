@@ -4,7 +4,7 @@ local TE = ADDON_TABLE.Addon
 local Colors = TE.Include("Data.Colors")
 local Icon = TE.Include("Service.Icon")
 local Settings = TE.Include("Service.Settings")
-local AutoTracker = TE.Include("Service.AutoTracker")
+local SpellSwitcher = TE.Include("Service.SpellSwitcher")
 local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
 
@@ -16,7 +16,10 @@ local private = {
     ["MINIMAP_UPDATE_TRACKING"] = true,
   },
   USER_EVENTS = {
+    ["SPELL_SWITCHER_TOGGLED"] = true,
+    ["SPELL_SWITCHER_TRACKING_TYPES_CHANGED"] = true,
     ["MINIMAP_ICON_DISPLAY_TYPE_CHANGE"] = true,
+    ["MINIMAP_ICON_HIDE"] = true,
     ["OPTIONS_RESET"] = true,
   },
 }
@@ -56,6 +59,19 @@ function Icon:OnInitialize()
 end
 
 function Icon:OnEnable()
+  MiniMapTrackingFrame:HookScript("OnHide", function()
+    if not TE.db.profile.minimap.hideDefaultTrackingIcon and Settings:GetPlayerTrackingSpells() then
+      MiniMapTrackingIcon:SetTexture(NO_TRACK_ICON)
+      MiniMapTrackingFrame:Show()
+    end
+  end)
+
+  MiniMapTrackingFrame:HookScript("OnShow", function()
+    if TE.db.profile.minimap.hideDefaultTrackingIcon then
+      MiniMapTrackingFrame:Hide()
+    end
+  end)
+
   self:EmbedInDefaultTrackingFrame()
 end
 
@@ -64,16 +80,8 @@ function Icon:EmbedInDefaultTrackingFrame()
   if Settings:GetPlayerTrackingSpells() then
 
     if not GetTrackingTexture() then MiniMapTrackingIcon:SetTexture(NO_TRACK_ICON) end
-    MiniMapTrackingFrame:Show()
 
-    MiniMapTrackingFrame:HookScript("OnHide", function()
-      MiniMapTrackingIcon:SetTexture(NO_TRACK_ICON)
-      if Settings:GetPlayerTrackingSpells() then 
-        MiniMapTrackingFrame:Show()
-      end
-    end)
-
-    local ghostButton = CreateFrame("Button", ADDON_NAME, MiniMapTrackingFrame)
+    local ghostButton = CreateFrame("Button", ADDON_NAME.." Minimap ghostButton", MiniMapTrackingFrame)
 
     ghostButton:SetAllPoints()
 
@@ -110,7 +118,7 @@ function Icon:CancelTrackingBuff(self)
 end
 
 function Icon:GetNextSpellIcon()
-  local nextSpellID = AutoTracker:GetNextSpellID()
+  local nextSpellID = SpellSwitcher:GetNextSpellID()
   local icon = GetSpellTexture(nextSpellID)
   
   if not icon then return NO_TRACK_ICON end
@@ -135,9 +143,16 @@ function Icon:OnClick(self, button)
 
   if button == "LeftButton" then
     if shift_key then
-      Settings:Toggle()
+      TE.db.profile.autoTracking.spellSwitcher.enabled = not TE.db.profile.autoTracking.spellSwitcher.enabled
+      self:SendMessage("SPELL_SWITCHER_TOGGLED")
     else
-      Icon:DropDownMenu_Open(self, -150)
+      local dropdownList = _G["DropDownList"..1]
+      local dropdown = dropdownList.dropdown
+      if dropdown:GetName() == FOLDER_NAME.."_dropdownMenu" and dropdown:GetParent() == self and dropdownList:IsShown() then
+        dropdownList:Hide()
+      else
+        Icon:DropDownMenu_Open(self, -150)
+      end
     end
   elseif button == "RightButton" then
     if shift_key then
@@ -192,13 +207,24 @@ function Icon:DropDownMenu_Open(anchor, x, y)
         })
     end
 
-  local menuFrame = CreateFrame("Frame", FOLDER_NAME.."Menu", UIParent, "UIDropDownMenuTemplate")
-  EasyMenu(menuList, menuFrame, anchor, x, y, "MENU");
+  local menuFrame = private.GetDropdownMenu(FOLDER_NAME.."_dropdownMenu", anchor)
+  EasyMenu(menuList, menuFrame, anchor, x, y, "MENU")
+
+  return menuFrame
+end
+
+function Icon:DropDownMenu_Refresh()
+    local dropdownList = _G["DropDownList"..1]
+    local dropdown = dropdownList.dropdown
+    if dropdown:GetName() == FOLDER_NAME.."_dropdownMenu" and dropdownList:IsShown() then
+      dropdownList:Hide()
+      Icon:DropDownMenu_Open(dropdown:GetParent(), -150)
+    end
 end
 
 function Icon:GetAddonState()
-  if TE.db.profile.general.enable then
-    if AutoTracker:isPaused() then
+  if TE.db.profile.autoTracking.spellSwitcher.enabled then
+    if SpellSwitcher:isPaused() then
       return PAUSED_COLOR..L["paused"].."|r"
     else 
       return ENABLED_COLOR..L["enabled"].."|r"
@@ -214,11 +240,13 @@ end
 
 function Icon:EventHandler(...)
   local event, arg1, arg2, arg3 = ...
+  -- print(event)
 
-  if private.GAME_EVENTS[event] then
-    if event == "MINIMAP_UPDATE_TRACKING" then
-      self:UpdateIcon()
-    end
+  if event == "MINIMAP_UPDATE_TRACKING" or event == "SPELL_SWITCHER_TOGGLED" or event == "MINIMAP_ICON_DISPLAY_TYPE_CHANGE" or event == "SPELL_SWITCHER_TRACKING_TYPES_CHANGED" then
+    self:UpdateIcon()
+    self:DropDownMenu_Refresh()
+  elseif event == "OPTIONS_RESET" or event == "MINIMAP_ICON_HIDE" then
+    self:Refresh()
   elseif event == "SPELLS_CHANGED" then
     if not private.embeded then
       self:EmbedInDefaultTrackingFrame()
@@ -229,14 +257,7 @@ function Icon:EventHandler(...)
         MiniMapTrackingFrame:Hide()
       end
     end
-  elseif private.USER_EVENTS[event] then
-    if event == "MINIMAP_ICON_DISPLAY_TYPE_CHANGE" then
-      self:UpdateIcon()
-    elseif event == "OPTIONS_RESET" then
-      self:Refresh()
-    end
   end
-  
 end
 
 function Icon:RegisterEvents(eventTable, func)
@@ -295,18 +316,26 @@ function private.CreateTooltip(self, dummyTooltip)
     return tooltip
 end
 
+function private.GetDropdownMenu(name, parent)
+  local kids = { parent:GetChildren() }
+  for _, child in ipairs(kids) do
+    if child:GetName() == name then 
+      return child
+    end
+  end
+
+  return CreateFrame("Frame", name, parent, "UIDropDownMenuTemplate")
+end
 
 -- =================================================================================
 --                                     Other
 -- =================================================================================
 
--- FIX BLIZZARD BUG WHEN TRACKING ICON DON"T SHOW AFTER RELOAD
+-- FIX BLIZZARD BUG WHEN TRACKING ICON DON"T SHOWN AFTER RELOAD
 
 do
-
   if GetTrackingTexture() then
     MiniMapTrackingIcon:SetTexture(GetTrackingTexture())
     MiniMapTrackingFrame:Show()
   end
-
 end

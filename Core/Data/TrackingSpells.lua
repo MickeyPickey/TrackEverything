@@ -74,6 +74,23 @@ local private = {
   },
 }
 
-function TrackingSpells.GetDataByKey(key)
+function TrackingSpells:GetDataByKey(key)
   return private[key]
+end
+
+function TrackingSpells:GetCurrentTrackingSpellID()
+  local spellInfo = private.spellInfo
+  local currentTrackingIconId = GetTrackingTexture()
+  local currentTrackingSpellId = nil
+
+  if currentTrackingIconId then
+    for key, val in pairs(spellInfo) do
+      if spellInfo[key].iconId == currentTrackingIconId then
+        currentTrackingSpellId = spellInfo[key].spellId
+        return currentTrackingSpellId
+      end 
+    end
+  end
+
+  return currentTrackingSpellId
 end

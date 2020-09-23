@@ -1,12 +1,11 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local ADDON_NAME = ADDON_TABLE.ADDON_NAME
+local ADDON_AUTHOR_GAME_INFO = ADDON_TABLE.ADDON_AUTHOR_GAME_INFO
 local SlashCommands = TE.Include("Service.SlashCommands")
 local Colors = TE.Include("Data.Colors")
 local GatheringData = TE.Include("Data.Gathering")
 local Settings = TE.Include("Service.Settings")
-local AutoTracker = TE.Include("Service.AutoTracker")
-local Icon = TE.Include("Service.Icon")
 local Log = TE.Include("Util.Log")
 local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
@@ -26,75 +25,98 @@ local COMMANDS = {
 
 local SLASH_COMMAND_ARGUMENTS = {
   {
-    name = "toggle",
-    desc = L["Enable/disable addon"],
-    print = function() return L["addon is [%s]"], SlashCommands:GetColoredAddonState() end,
+    name = "lasttracked toggle",
+    desc = L["Enable/disable last used tracking spell activation on resurrection"],
+    print = function() return L["Last used tracking spell activation is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.lastTrackedOnRes.enabled) end,
     hidden = false,
-    callback = function() Settings:Toggle() end,
+    callback = function()
+      TE.db.profile.autoTracking.lastTrackedOnRes.enabled = not TE.db.profile.autoTracking.lastTrackedOnRes.enabled
+      SlashCommands:SendMessage("LAST_TRACKED_ON_RES_TOGGLED")
+    end,
     order = 1,
   },
   {
-    name = "enable",
-    desc = L["Enable addon"],
-    print = function() return L["addon is [%s]"], SlashCommands:GetColoredAddonState() end,
+    name = "switcher toggle",
+    desc = L["Enable/disable auto spell switching"],
+    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled) end,
     hidden = false,
-    callback = function() Settings:Enable() end,
+    callback = function()
+      TE.db.profile.autoTracking.spellSwitcher.enabled = not TE.db.profile.autoTracking.spellSwitcher.enabled
+      SlashCommands:SendMessage("SPELL_SWITCHER_TOGGLED")
+    end,
+    order = 1,
+  },
+  {
+    name = "switcher enable",
+    desc = L["Enable auto spell switching"],
+    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled) end,
+    hidden = true,
+    callback = function()
+      TE.db.profile.autoTracking.spellSwitcher.enabled = true
+      SlashCommands:SendMessage("SPELL_SWITCHER_TOGGLED")
+    end,
     order = 2,
   },
   {
-    name = "disable",
-    desc = L["Disable addon"],
-    print = function() return L["addon is [%s]"], SlashCommands:GetColoredAddonState() end,
-    hidden = false,
-    callback = function() Settings:Disable() end,
+    name = "switcher disable",
+    desc = L["Disable auto spell switching"],
+    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled) end,
+    hidden = true,
+    callback = function()
+      TE.db.profile.autoTracking.spellSwitcher.enabled = false
+      SlashCommands:SendMessage("SPELL_SWITCHER_TOGGLED")
+    end,
     order = 3,
   },
   {
-    name = "onmove",
-    desc = L["Enable/disable only while moving mode"],
-    print = function() return L["Only while moving is [%s]"], SlashCommands:GetColoredOnMoveState() end,
+    name = "switcher onmove",
+    desc = L["Enable/disable spell switching only while moving mode"],
+    print = function() return L["Spell switching only while moving is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.onmove) end,
     hidden = false,
-    callback = function() Settings:ToggleOnMove() end,
+    callback = function()
+      TE.db.profile.autoTracking.spellSwitcher.onmove = not TE.db.profile.autoTracking.spellSwitcher.onmove
+      SlashCommands:SendMessage("SPELL_SWITCHER_MODE_TOGGLED")
+    end,
     order = 4,
   },
   {
     name = "mute",
     desc = L["Mute spell use sound"],
-    print = function() return L["Mute spell use sound is [%s]"], SlashCommands:GetColoredMuteState() end,
+    print = function() return L["Mute spell use sound is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.general.muteSpellUseSound) end,
     hidden = false,
-    callback = function() TE.db.profile.general.muteSpellUseSound = not TE.db.profile.general.muteSpellUseSound end,
+    callback = function() TE.db.profile.autoTracking.general.muteSpellUseSound = not TE.db.profile.autoTracking.general.muteSpellUseSound end,
     order = 5,
   },
   {
     name = "tooltip world",
     desc = L["Enable/disable required profession level on World tooltips"],
-    print = function() return L["Required profession level on World tooltips is [%s]"], SlashCommands:GetColoredToggleState(TE.db.profile.tooltip.requiredProfessionLevel.enableWorld) end,
+    print = function() return L["Required profession level on World tooltips is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.tooltip.requiredProfessionLevel.enableWorld) end,
     hidden = false,
     callback = function() TE.db.profile.tooltip.requiredProfessionLevel.enableWorld = not TE.db.profile.tooltip.requiredProfessionLevel.enableWorld end,
-    order = 5,
+    order = 6,
   },
   {
     name = "tooltip minimap",
     desc = L["Enable/disable required profession level on Minimap tooltips"],
-    print = function() return L["Required profession level on Minimap tooltips is [%s]"], SlashCommands:GetColoredToggleState(TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap) end,
+    print = function() return L["Required profession level on Minimap tooltips is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap) end,
     hidden = false,
     callback = function() TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap = not TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap end,
-    order = 5,
+    order = 6,
   },
   {
     name = "tooltip worldmap",
     desc = L["Enable/disable required profession level on World Map tooltips"],
-    print = function() return L["Required profession level on World Map tooltips sis [%s]"], SlashCommands:GetColoredToggleState(TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap) end,
+    print = function() return L["Required profession level on World Map tooltips sis [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap) end,
     hidden = false,
     callback = function() TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap = not TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap end,
-    order = 5,
+    order = 6,
   },
   {
     name = "settings",
     desc = L["Open settings"],
     callback = function() Settings:OpenOptionsFrame() end,
     hidden = false,
-    order = 6,
+    order = 7,
   },
   {
     name = "help",
@@ -106,10 +128,18 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "reset",
     desc = L["Reset settings to defaults"],
-    print = L["Settings was reset to defaults"],
+    print = function() return L["Settings was reset to defaults"] end,
     hidden = false,
     callback = function() Settings:ResetProfile() end,
     order = 98,
+  },
+  {
+    name = "author",
+    desc = L["Print information about Author"],
+    print = function() return ADDON_AUTHOR_GAME_INFO end,
+    hidden = false,
+    callback = function() Settings:ResetProfile() end,
+    order = 99,
   },
   { 
     name = "colors",
@@ -143,7 +173,7 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "test",
     hidden = true,
-    callback = function() SlashCommands:Test() end,
+    callback = function() Settings:test() end,
     order = 100,
   },
 }
@@ -153,7 +183,7 @@ function SlashCommands:OnInitialize()
 end
 
 function SlashCommands:OnEnable()
-  Log:Printf(L[" %s. Type %s to see all chat commands. Have a nice game! :)"], self:GetColoredAddonState(),  self:GetChatCommands())
+  Log:Printf(L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice game! :)"], self:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled), self:GetColoredSettingState(TE.db.profile.autoTracking.lastTrackedOnRes.enabled), self:GetChatCommands())
 end
 
 function SlashCommands:ChatCommand(input)
@@ -194,27 +224,9 @@ function SlashCommands:RegisterChatCommands(commandTable)
   end
 end
 
-function SlashCommands:GetColoredAddonState()
-  if TE.db.profile.general.enable then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end
-end
-
-function SlashCommands:GetColoredOnMoveState()
-  if TE.db.profile.general.onmove then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end
-end
-
-function SlashCommands:GetColoredMuteState()
-  if TE.db.profile.general.muteSpellUseSound then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end
-end
-
-function SlashCommands:GetColoredMuteState()
-  if TE.db.profile.general.muteSpellUseSound then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end
-end
-
-function SlashCommands:GetColoredToggleState(dbSetting)
+function SlashCommands:GetColoredSettingState(dbSetting)
   if dbSetting then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end 
 end
-
-
 
 function SlashCommands:GetChatCommands()
   local strTable = {}

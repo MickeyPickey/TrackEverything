@@ -17,6 +17,7 @@
 
 ## X-Curse-Project-ID: 399326
 ## X-WoWI-ID: 25637
+## X-Author-Game-Info: EU Gehennas (Mickeya), EU Firemaw (Miron, Bulbash). E-mail: sm.ownmail@gmail.com, Discord: MickeyPickey#9852, Battle.net: BULBASAUR#2352
 
 # External libs
 External\EmbeddedLibs\LibStub\LibStub.lua
@@ -59,6 +60,7 @@ Core\Core.lua
 # Services
 Core\Service\Settings.lua
 Core\Service\Icon.lua
-Core\Service\AutoTracker.lua
+Core\Service\AutoTracking\LastTrackedOnRes.lua
+Core\Service\AutoTracking\SpellSwitcher.lua
 Core\Service\SlashCommands.lua
 Core\Service\GatheringTooltipInfo.lua
