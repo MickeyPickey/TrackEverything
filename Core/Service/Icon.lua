@@ -144,7 +144,7 @@ function Icon:OnClick(self, button)
   if button == "LeftButton" then
     if shift_key then
       TE.db.profile.autoTracking.spellSwitcher.enabled = not TE.db.profile.autoTracking.spellSwitcher.enabled
-      self:SendMessage("SPELL_SWITCHER_TOGGLED")
+      Icon:SendMessage("SPELL_SWITCHER_TOGGLED")
     else
       local dropdownList = _G["DropDownList"..1]
       local dropdown = dropdownList.dropdown
