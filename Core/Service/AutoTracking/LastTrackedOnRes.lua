@@ -64,12 +64,14 @@ function LastTrackedOnRes:OnDisable()
 end
 
 function LastTrackedOnRes:StartTimer()
-  LastTrackedOnRes.castSpellTimer = LastTrackedOnRes:ScheduleRepeatingTimer("DoCast", private.CAST_INTERVAL)
-  self:SendMessage("LAST_TRACKED_TIMER_START")
+    -- print("START TIMER")
+    LastTrackedOnRes.castSpellTimer = LastTrackedOnRes:ScheduleRepeatingTimer("DoCast", private.CAST_INTERVAL)
+    self:SendMessage("LAST_TRACKED_TIMER_START")
 end
 
 function LastTrackedOnRes:StopTimer()
   if LastTrackedOnRes.castSpellTimer then
+    -- print("STOP TIMER")
     LastTrackedOnRes:CancelTimer(LastTrackedOnRes.castSpellTimer)
     self:SendMessage("LAST_TRACKED_TIMER_STOP")
   end
@@ -77,13 +79,14 @@ end
 
 function LastTrackedOnRes:TempPauseTimer(seconds)
   if LastTrackedOnRes.castSpellTimer then
+    -- print("TEMP PAUSE TIMER")
     self:StopTimer()
     self.castSpellTimer = self:ScheduleTimer(function() self:StartTimer() end, seconds)
   end
 end
 
 function LastTrackedOnRes:DoCast()
-  if self:CanCast() then
+  if TE.db.profile.autoTracking.lastTrackedOnRes.spellId and self:CanCast() then
     if TE.db.profile.autoTracking.general.muteSpellUseSound then
       SetCVar("Sound_EnableSFX", "0") 
       CastSpellByID(TE.db.profile.autoTracking.lastTrackedOnRes.spellId)
@@ -124,6 +127,7 @@ function LastTrackedOnRes:EventHandler(...)
   if TE.db.profile.autoTracking.lastTrackedOnRes.enabled and not TE.db.profile.autoTracking.spellSwitcher.enabled and TE.db.profile.autoTracking.lastTrackedOnRes.spellId then
     if event == "PLAYER_DEAD" then
       private.WAS_DEAD = true
+      self:StopTimer()
     elseif ( event == "PLAYER_UNGHOST" or ( event == "PLAYER_ALIVE" and not UnitIsDeadOrGhost("player") ) ) and private.WAS_DEAD then
       self:StartTimer()
     elseif private.TEMP_PAUSE_EVENTS[event] then
@@ -175,9 +179,10 @@ end
 -- =================================================================================
 
 function private.DBSetCurrentTrackingSpellId()
-  LastTrackedOnRes.checkDeathTimer = LastTrackedOnRes:ScheduleTimer(function() 
+  LastTrackedOnRes.checkDeathTimer = LastTrackedOnRes:ScheduleTimer(function()
+    -- print("CHECK IS DEAD")
     if not UnitIsDeadOrGhost("player") then
       TE.db.profile.autoTracking.lastTrackedOnRes.spellId = TrackingSpells:GetCurrentTrackingSpellID()
     end
-  end, 1)
+  end, 0.5)
 end
