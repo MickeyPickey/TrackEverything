@@ -141,6 +141,14 @@ local SLASH_COMMAND_ARGUMENTS = {
     callback = function() Settings:ResetProfile() end,
     order = 99,
   },
+  {
+    name = "debug",
+    desc = "",
+    print = function() return "Debug is [%s]", SlashCommands:GetColoredSettingState(Log:GetDubugState()) end,
+    hidden = true,
+    callback = function() Log:DebugToggle() end,
+    order = 99,
+  },
   { 
     name = "colors",
     hidden = true,

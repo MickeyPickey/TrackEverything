@@ -89,17 +89,17 @@ end
 
 function SpellSwitcher:StartTimer()
   local canStart = private.IS_PAUSED and self:CanCast()
-  -- print("canStart", canStart)
+  Log:PrintfD("canStart [%s]", tostring(canStart))
 
   if canStart then
-    -- print("START TIMER")
+    Log:PrintfD("START TIMER")
     SpellSwitcher.trackingTimer = SpellSwitcher:ScheduleRepeatingTimer("CastNextSpell", Settings:GetCastInterval())
     private.IS_PAUSED = false
   end
 end
 
 function SpellSwitcher:StopTimer()
-  -- print("STOP TIMER")
+  Log:PrintfD("STOP TIMER")
   if SpellSwitcher.trackingTimer then
     SpellSwitcher:CancelTimer(SpellSwitcher.trackingTimer)
   end
@@ -120,7 +120,7 @@ function SpellSwitcher:TempPause(seconds)
 end
 
 function SpellSwitcher:CastNextSpell()
-  -- print("CAST_NEXT_SPELL")
+  Log:PrintfD("CAST_NEXT_SPELL")
   local currentTrackingSpellID = TrackingSpells:GetCurrentTrackingSpellID()
   local nextSpellID = self:GetNextSpellID(currentTrackingSpellID)
 
@@ -181,7 +181,7 @@ function SpellSwitcher:isPaused()
 end
 
 function SpellSwitcher:test()
-  self:Print(TE.db.profile.autoTracking.spellSwitcher.enabled)
+  Log:PrintfD(tostring(TE.db.profile.autoTracking.spellSwitcher.enabled))
 end
 
 -- =================================================================================
@@ -189,7 +189,7 @@ end
 -- =================================================================================
 function SpellSwitcher:EventHandler(...)
   local event, arg1, arg2, arg3, arg4 = ...
-  -- print("SpellSwitcher", event)
+  Log:PrintfD("SpellSwitcher [%s]", event)
 
   if private.GAME_EVENTS.MOVE_EVENTS[event] then
     if event == "PLAYER_STARTED_MOVING" then

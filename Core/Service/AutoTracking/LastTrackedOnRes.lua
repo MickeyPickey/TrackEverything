@@ -3,12 +3,14 @@ local TE = ADDON_TABLE.Addon
 local LastTrackedOnRes = TE.Include("Service.LastTrackedOnRes")
 local Settings = TE.Include("Service.Settings")
 local TrackingSpells = TE.Include("Data.TrackingSpells")
+local Log = TE.Include("Util.Log")
 local MyLib = TE.Include("Util.MyLib")
 
 local private = {
   CAST_INTERVAL = 5,
   TEMP_PAUSE_DELEY = 3,
   WAS_DEAD = false,
+  IS_RUNNING = false,
   GAME_EVENTS = {
     ["PLAYER_ALIVE"] = true,
     ["PLAYER_UNGHOST"] = true,
@@ -57,6 +59,7 @@ end
 
 function LastTrackedOnRes:OnEnable()
   if not TE.db.profile.autoTracking.lastTrackedOnRes.spellId and not GetTrackingTexture() then private.DBSetCurrentTrackingSpellId() end
+  if TE.db.profile.autoTracking.lastTrackedOnRes.spellId and not GetTrackingTexture() then self:StartTimer() end
 end
 
 function LastTrackedOnRes:OnDisable()
@@ -64,25 +67,27 @@ function LastTrackedOnRes:OnDisable()
 end
 
 function LastTrackedOnRes:StartTimer()
-    -- print("START TIMER")
-    LastTrackedOnRes.castSpellTimer = LastTrackedOnRes:ScheduleRepeatingTimer("DoCast", private.CAST_INTERVAL)
+  if not private.IS_RUNNING then
+    Log:PrintfD("START TIMER")
+    self.castSpellTimer = self:ScheduleTimer("DoCast", private.CAST_INTERVAL)
+    private.IS_RUNNING = true
     self:SendMessage("LAST_TRACKED_TIMER_START")
+  end
 end
 
 function LastTrackedOnRes:StopTimer()
-  if LastTrackedOnRes.castSpellTimer then
-    -- print("STOP TIMER")
-    LastTrackedOnRes:CancelTimer(LastTrackedOnRes.castSpellTimer)
+  if private.IS_RUNNING then
+    Log:PrintfD("STOP TIMER")
+    self:CancelAllTimers()
+    private.IS_RUNNING = false
     self:SendMessage("LAST_TRACKED_TIMER_STOP")
   end
 end
 
-function LastTrackedOnRes:TempPauseTimer(seconds)
-  if LastTrackedOnRes.castSpellTimer then
-    -- print("TEMP PAUSE TIMER")
-    self:StopTimer()
-    self.castSpellTimer = self:ScheduleTimer(function() self:StartTimer() end, seconds)
-  end
+function LastTrackedOnRes:RenewTimer()
+  Log:PrintfD("RENEW TIMER")
+  self:StopTimer()
+  self:StartTimer()
 end
 
 function LastTrackedOnRes:DoCast()
@@ -94,7 +99,6 @@ function LastTrackedOnRes:DoCast()
     else
       CastSpellByID(TE.db.profile.autoTracking.lastTrackedOnRes.spellId)
     end
-    private.WAS_DEAD = false
     self:StopTimer()
   end
 end
@@ -108,7 +112,7 @@ end
 -- =================================================================================
 function LastTrackedOnRes:EventHandler(...)
   local event, arg1, arg2, arg3, arg4 = ...
-  -- print("LastTrackedOnRes:", event)
+  Log:PrintfD("EVENT: [%s]", event)
 
   if event == "MINIMAP_UPDATE_TRACKING" or event == "OPTIONS_RESET" then
     private.DBSetCurrentTrackingSpellId()
@@ -129,6 +133,7 @@ function LastTrackedOnRes:EventHandler(...)
       private.WAS_DEAD = true
       self:StopTimer()
     elseif ( event == "PLAYER_UNGHOST" or ( event == "PLAYER_ALIVE" and not UnitIsDeadOrGhost("player") ) ) and private.WAS_DEAD then
+      private.WAS_DEAD = false
       self:StartTimer()
     elseif private.TEMP_PAUSE_EVENTS[event] then
       if event == "UI_ERROR_MESSAGE" then
@@ -136,7 +141,7 @@ function LastTrackedOnRes:EventHandler(...)
       elseif event == "UNIT_SPELLCAST_SENT" then
         if arg1 ~= "player" or MyLib.IndexOf(Settings:GetSpellsToTrack(), arg4) then return end -- return if cast made not by player or player casted trackingSpell
       end
-      self:TempPauseTimer(private.TEMP_PAUSE_DELEY)
+      self:RenewTimer()
       self:RegisterEvents(private.TEMP_PAUSE_EVENTS, "EventHandler")
     end
   end
@@ -180,7 +185,7 @@ end
 
 function private.DBSetCurrentTrackingSpellId()
   LastTrackedOnRes.checkDeathTimer = LastTrackedOnRes:ScheduleTimer(function()
-    -- print("CHECK IS DEAD")
+    Log:PrintfD("CHECK IS DEAD")
     if not UnitIsDeadOrGhost("player") then
       TE.db.profile.autoTracking.lastTrackedOnRes.spellId = TrackingSpells:GetCurrentTrackingSpellID()
     end
