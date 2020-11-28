@@ -79,7 +79,16 @@ local options = {
                   name = L["Resources"],
                   desc = L["Select to include in auto switching"],
                   type = "multiselect",
-                  values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
+                  values = function(info)
+                    local spellTable = Settings:GetPlayerTrackingSpells(info[#info])
+                    local tempTable = {}
+
+                    for k,v in pairs(spellTable) do
+                      tempTable[v.spellId] = v.name
+                    end
+
+                    return tempTable or {}
+                  end,
                   hidden = function (info) 
                     local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
                     if not valueTable then return true end
@@ -90,7 +99,16 @@ local options = {
                   name = L["Units"],
                   desc = L["Select to include in auto switching"],
                   type = "multiselect",
-                  values = function(info) return Settings:GetPlayerTrackingSpells(info[#info]) or {} end,
+                  values = function(info)
+                    local spellTable = Settings:GetPlayerTrackingSpells(info[#info])
+                    local tempTable = {}
+
+                    for k,v in pairs(spellTable) do
+                      tempTable[v.spellId] = v.name
+                    end
+                    
+                    return tempTable or {}
+                  end,
                   hidden = function (info)
                     local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
                     if not valueTable then return true end
@@ -306,28 +324,35 @@ function Settings:GetPlayerTrackingSpells(trackingType)
 
   for i, val in ipairs(trackingSpellNames) do
     local name, _, _, _, _, _, spellId = GetSpellInfo(val)
-    playerTrackingSpells[spellId] = val
+    table.insert(playerTrackingSpells, {spellId = spellId, name = val} )
   end
 
   return playerTrackingSpells
 end
 
 function Settings:GetSpellsToTrack()
-  local resources = Settings:GetPlayerTrackingSpells("resources") or {}
-  local units = Settings:GetPlayerTrackingSpells("units") or {}
+  -- local resources = Settings:GetPlayerTrackingSpells("resources") or {}
+  -- local units = Settings:GetPlayerTrackingSpells("units") or {}
+  local spells = Settings:GetPlayerTrackingSpells() or {}
   local trackingSpells = nil
 
-  for key, val in pairs(resources) do
-    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[key] == true then
-      if not trackingSpells then trackingSpells = {} end
-      table.insert(trackingSpells, key)
-    end
-  end
+  -- for key, val in pairs(resources) do
+  --   if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[val.spellId] == true then
+  --     if not trackingSpells then trackingSpells = {} end
+  --     table.insert(trackingSpells, val.spellId)
+  --   end
+  -- end
 
-  for key, val in pairs(units) do
-    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[key] == true then
+  -- for key, val in pairs(units) do
+  --   if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[val.spellId] == true then
+  --     if not trackingSpells then trackingSpells = {} end
+  --     table.insert(trackingSpells, val.spellId)
+  --   end
+  -- end
+    for key, val in pairs(spells) do
+    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[val.spellId] == true or TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[val.spellId] == true then
       if not trackingSpells then trackingSpells = {} end
-      table.insert(trackingSpells, key)
+      table.insert(trackingSpells, val.spellId)
     end
   end
 

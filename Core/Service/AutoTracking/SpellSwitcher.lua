@@ -123,7 +123,6 @@ function SpellSwitcher:CastNextSpell()
   Log:PrintfD("CAST_NEXT_SPELL")
   local currentTrackingSpellID = TrackingSpells:GetCurrentTrackingSpellID()
   local nextSpellID = self:GetNextSpellID(currentTrackingSpellID)
-
   
   if not nextSpellID then -- stop timer and return, if no next spell to track
     self:StopTimer()

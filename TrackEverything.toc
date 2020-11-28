@@ -1,6 +1,6 @@
 ## Interface: 11305
 ## Title: Track Everything
-## Author: MickeyPickey
+## Author: Mickeya @Gehennas-Alliance EU
 ## Version: @project-version@
 ## SavedVariables: TrackEverythingDB
 ## SavedVariablesPerCharacter: TrackEverythingCharDB
@@ -17,7 +17,7 @@
 
 ## X-Curse-Project-ID: 399326
 ## X-WoWI-ID: 25637
-## X-Author-Game-Info: EU Gehennas (Mickeya), EU Firemaw (Miron, Bulbash). E-mail: sm.ownmail@gmail.com, Discord: MickeyPickey#9852, Battle.net: BULBASAUR#2352
+## X-Author-Game-Info: EU Gehennas (Mickeya), EU Firemaw (Miron, Bulbash). E-mail: sm.ownmail@gmail.com, Discord: Mickeya#9852, Battle.net: BULBASAUR#2352
 
 # External libs
 External\EmbeddedLibs\LibStub\LibStub.lua

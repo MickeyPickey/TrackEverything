@@ -193,16 +193,16 @@ function Icon:DropDownMenu_Open(anchor, x, y)
   local units = Settings:GetPlayerTrackingSpells("units") or {}
   local spells = MyLib.ConcatTwoTables(resources, units)
 
-    for id, name in pairs(spells) do
+    for k, v in pairs(spells) do
         table.insert(menuList, {
-          text = name,
-          icon = GetSpellTexture(id),
+          text = v.name,
+          icon = GetSpellTexture(v.spellId),
           checked = function(self)
             if self.icon == GetTrackingTexture() then return true end
             return false
           end,
           func = function(self, arg1, arg2, checked)
-            CastSpellByID(id)
+            CastSpellByID(v.spellId)
           end,
         })
     end
