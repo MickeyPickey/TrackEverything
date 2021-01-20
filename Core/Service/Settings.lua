@@ -331,30 +331,26 @@ function Settings:GetPlayerTrackingSpells(trackingType)
 end
 
 function Settings:GetSpellsToTrack()
-  -- local resources = Settings:GetPlayerTrackingSpells("resources") or {}
-  -- local units = Settings:GetPlayerTrackingSpells("units") or {}
+  local resources = Settings:GetPlayerTrackingSpells("resources") or {}
+  local units = Settings:GetPlayerTrackingSpells("units") or {}
   local spells = Settings:GetPlayerTrackingSpells() or {}
   local trackingSpells = nil
 
-  -- for key, val in pairs(resources) do
-  --   if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[val.spellId] == true then
-  --     if not trackingSpells then trackingSpells = {} end
-  --     table.insert(trackingSpells, val.spellId)
-  --   end
-  -- end
-
-  -- for key, val in pairs(units) do
-  --   if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[val.spellId] == true then
-  --     if not trackingSpells then trackingSpells = {} end
-  --     table.insert(trackingSpells, val.spellId)
-  --   end
-  -- end
-    for key, val in pairs(spells) do
-    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[val.spellId] == true or TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[val.spellId] == true then
+  for key, val in pairs(resources) do
+    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[val.spellId] == true then
       if not trackingSpells then trackingSpells = {} end
       table.insert(trackingSpells, val.spellId)
     end
   end
+
+  for key, val in pairs(units) do
+    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[val.spellId] == true then
+      if not trackingSpells then trackingSpells = {} end
+      table.insert(trackingSpells, val.spellId)
+    end
+  end
+  
+  --if trackingSpells then Log:PrintD("trackingSpells = ", #trackingSpells) else Log:PrintD("No spells to track") end
 
   return trackingSpells
 end

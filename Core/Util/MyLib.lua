@@ -3,20 +3,6 @@ local TE = ADDON_TABLE.Addon
 
 local MyLib = TE.Init("Util.MyLib")
 
-function MyLib.GetTableLength(table)
-
-  -- return if input is not a table
-  if type(table) ~= "table" then return nil end
-
-  local count = 0
-
-  for key, val in pairs(table) do
-    count = count + 1
-  end
-
-  return count
-end
-
 function MyLib.GetiTableLength(table)
 
   -- return if input is not a table
@@ -39,7 +25,7 @@ function MyLib.ConcatTwoTables(tbl1, tbl2)
   return newTable
 end
 
-function MyLib.IndexOf(table, value)
+function MyLib.IndexOf(value, table)
   if not table then return nil end -- return if no table
 
   for k,v in ipairs(table) do 

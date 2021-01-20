@@ -139,7 +139,7 @@ function LastTrackedOnRes:EventHandler(...)
       if event == "UI_ERROR_MESSAGE" then
         if not private.TEMP_PAUSE_EVENTS[event][arg2] then return end -- return if arg2 don"t match the list
       elseif event == "UNIT_SPELLCAST_SENT" then
-        if arg1 ~= "player" or MyLib.IndexOf(Settings:GetSpellsToTrack(), arg4) then return end -- return if cast made not by player or player casted trackingSpell
+        if arg1 ~= "player" or MyLib.IndexOf(arg4, Settings:GetSpellsToTrack()) then return end -- return if cast made not by player or player casted trackingSpell
       end
       self:RenewTimer()
       self:RegisterEvents(private.TEMP_PAUSE_EVENTS, "EventHandler")

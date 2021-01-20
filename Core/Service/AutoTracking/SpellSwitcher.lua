@@ -21,6 +21,7 @@ local private = {
       ["PLAYER_UPDATE_RESTING"] = true,
       ["UNIT_SPELLCAST_STOP"] = true,
       ["UNIT_SPELLCAST_CHANNEL_STOP"] = true,
+      ["UPDATE_SHAPESHIFT_FORM"] = true,
     },
     TEMP_PAUSE_EVENTS = {
       ["UNIT_SPELLCAST_SENT"] = true,
@@ -140,22 +141,37 @@ end
 
 function SpellSwitcher:GetNextSpellID(currentSpellId)
   local trackingSpells = Settings:GetSpellsToTrack()
-  
-  if not trackingSpells then return nil end -- return nil if no spells to track
+  local currentSpellId, nextSpellId = currentSpellId, nil
+  local currentSpellIndex, nextSpellIndex = nil, nil
+  local spellInfo = TrackingSpells:GetDataByKey("spellInfo")
+  local _, playerClass = UnitClass("player")
 
-  if not currentSpellId then currentSpellId = TrackingSpells:GetCurrentTrackingSpellID() end
+  if trackingSpells then
+    if currentSpellId then
+      currentSpellIndex = MyLib.IndexOf(currentSpellId, trackingSpells) or 0
+      nextSpellIndex = MyLib.GetNextNumInRange(currentSpellIndex, #trackingSpells)
+    else
+      nextSpellIndex = 1 -- return first spell if nothing is being tracked yet
+    end
 
-  if not currentSpellId then return trackingSpells[1] end -- return first spell if nothing is being tracked yet
+    nextSpellId = trackingSpells[nextSpellIndex]
 
-  local currentSpellIndex = MyLib.IndexOf(trackingSpells, currentSpellId)
+    if playerClass == "DRUID" and nextSpellId == spellInfo["humanoids_druid"].spellId then
+      if GetShapeshiftForm() ~= 3 then 
+        if #trackingSpells > 1 then
+          local newSpellIndex = MyLib.GetNextNumInRange(nextSpellIndex, #trackingSpells)
+          nextSpellId = trackingSpells[newSpellIndex]
+        else
+          nextSpellId = nil
+        end
+      end
+    end
 
-  if not currentSpellIndex then currentSpellIndex = 0 end -- if no spellInfex found then start index will be 0
+    if currentSpellId == nextSpellId then nextSpellId = nil end
 
-  local trackingSpellsNum = MyLib.GetTableLength(trackingSpells)
-  local nextIndex = MyLib.GetNextNumInRange(currentSpellIndex, trackingSpellsNum)
-  local nextSpellId = trackingSpells[nextIndex]
-  
-  if nextSpellId == currentSpellId then return nil end -- if next spell == current tracking spell, then nothing to switch
+  end
+
+  Log:PrintD("currentSpellId", currentSpellId, "nextSpellId", nextSpellId)
 
   return nextSpellId
 end
@@ -210,12 +226,16 @@ function SpellSwitcher:EventHandler(...)
 
   if TE.db.profile.autoTracking.spellSwitcher.enabled then
     if private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS[event] or ( private.GAME_EVENTS.MOVE_EVENTS[event] and TE.db.profile.autoTracking.spellSwitcher.onmove ) then
-      self:Toggle()
+      if event == "UPDATE_SHAPESHIFT_FORM" then
+        self:UpdateTimer()
+      else
+        self:Toggle()
+      end
     elseif private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event] then
       if event == "UI_ERROR_MESSAGE" then
         if not private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event][arg2] then return end -- return if arg2 don"t match the list
       elseif event == "UNIT_SPELLCAST_SENT" then
-        if arg1 ~= "player" or MyLib.IndexOf(Settings:GetSpellsToTrack(), arg4) then return end -- return if cast made not by player or player casted trackingSpell
+        if arg1 ~= "player" or MyLib.IndexOf(arg4, Settings:GetSpellsToTrack()) then return end -- return if cast made not by player or player casted trackingSpell
       end
       self:TempPause(private.PAUSE_DELEY)
     elseif event == "SPELL_SWITCHER_MODE_TOGGLED" or event == "SPELL_SWITCHER_INTERVAL_CHANGED" or event == "SPELL_SWITCHER_TRACKING_TYPES_CHANGED" then

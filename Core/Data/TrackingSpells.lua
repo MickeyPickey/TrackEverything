@@ -64,7 +64,7 @@ local private = {
     humanoids = {
       type = "units",
       iconId = 135942,
-      spellId = 19883
+      spellId = 19883,
     },
     humanoids_druid = {
       type = "units",
@@ -82,13 +82,18 @@ function TrackingSpells:GetCurrentTrackingSpellID()
   local spellInfo = private.spellInfo
   local currentTrackingIconId = GetTrackingTexture()
   local currentTrackingSpellId = nil
+  local _, playerClass = UnitClass("player")
+
+  if playerClass == "DRUID" and currentTrackingIconId == spellInfo["humanoids_druid"].iconId then
+    return spellInfo["humanoids_druid"].spellId
+  end
 
   if currentTrackingIconId then
     for key, val in pairs(spellInfo) do
       if spellInfo[key].iconId == currentTrackingIconId then
         currentTrackingSpellId = spellInfo[key].spellId
         return currentTrackingSpellId
-      end 
+      end
     end
   end
 
