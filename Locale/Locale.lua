@@ -21,7 +21,7 @@ do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true, true)
 
   if L then
-    L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice game! :)"] = true
+    L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"] = true
     L[" or "] = true
     L["%sDrag%s to move icon"] = true
     L["%sLeft-click%s to manualy select tracking spell"] = true
@@ -486,7 +486,7 @@ do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "ruRU");
 
   if L then
-    L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice game! :)"] = " Переключение способностей: %s, Последний отслеживаемый при возрождении: %s. Введите %s чтобы увидеть все команды чата. Приятной игры! :)"
+    L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"] = " Переключение способностей: %s, Последний отслеживаемый при возрождении: %s. Введите %s чтобы увидеть все команды чата. Приятной игры! :)"
     L[" or "] = " или "
     L["%sDrag%s to move icon"] = "%sПотяните%s чтобы сдвинуть иконку"
     L["%sLeft-click%s to manualy select tracking spell"] = "%sЛКМ%s вручную выбрать способность для отслеживания"

@@ -191,7 +191,7 @@ function SlashCommands:OnInitialize()
 end
 
 function SlashCommands:OnEnable()
-  Log:Printf(L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice game! :)"], self:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled), self:GetColoredSettingState(TE.db.profile.autoTracking.lastTrackedOnRes.enabled), self:GetChatCommands())
+  Log:Printf(L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"], self:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled), self:GetColoredSettingState(TE.db.profile.autoTracking.lastTrackedOnRes.enabled), self:GetChatCommands())
 end
 
 function SlashCommands:ChatCommand(input)
