@@ -185,7 +185,6 @@ end
 
 function private.DBSetCurrentTrackingSpellId()
   LastTrackedOnRes.checkDeathTimer = LastTrackedOnRes:ScheduleTimer(function()
-    Log:PrintfD("CHECK IS DEAD")
     if not UnitIsDeadOrGhost("player") then
       TE.db.profile.autoTracking.lastTrackedOnRes.spellId = TrackingSpells:GetCurrentTrackingSpellID()
     end

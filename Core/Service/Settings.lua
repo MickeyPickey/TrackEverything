@@ -67,6 +67,12 @@ local options = {
               type = "toggle",
               order = 1,
             },
+            forceInCombat = {
+              name = L["Force in combat"],
+              desc = L["Continue to switch spells even if player in combat"],
+              type = "toggle",
+              order = 2,
+            },
             trackingSpells = {
               name = L["Tracking spells"],
               type = "group",
@@ -240,7 +246,7 @@ local defaults = {
       spellSwitcher = {
         enabled = true,
         onmove = true,
-        
+        forceInCombat = false,
         interval = 2,
         trackingSpells = {
           resources = {
@@ -380,6 +386,8 @@ function Settings:CallbackHandler(...)
       self:SendMessage("SPELL_SWITCHER_TOGGLED")
     elseif key == "onmove" then
       self:SendMessage("SPELL_SWITCHER_MODE_TOGGLED")
+    elseif key == "forceInCombat" then
+      self:SendMessage("SPELL_SWITCHER_FORCE_IN_COMBAT_TOGGLED")
     elseif key == "interval" then
       self:SendMessage("SPELL_SWITCHER_INTERVAL_CHANGED")
     end
