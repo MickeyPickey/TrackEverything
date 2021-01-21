@@ -54,6 +54,7 @@ do
     L["Enable/disable required profession level on World tooltips"] = true
     L["enabled"] = true
     L["Enabled"] = true
+    L["Force in combat"] = true
     L["General"] = true
     L["Hide addon icon"] = true
     L["Hide default tracking icon"] = true
@@ -81,6 +82,7 @@ do
     L["Settings was reset to defaults"] = true
     L["Show required profession level"] = true
     L["Show this description"] = true
+    L["Switch spells even if player in combat"] = true
     L["Time in seconds between spell casts while auto switching"] = true
     L["Toggle auto spell switching"] = true
     L["Tooltip"] = true
@@ -519,6 +521,7 @@ do
     L["Enable/disable required profession level on World tooltips"] = "Включить/выключить требуемый уровень професси на всплывающих подсказках Игрового мира"
     L["enabled"] = "включен"
     L["Enabled"] = "Включен"
+    L["Force in combat"] = "Работать в бою"
     L["General"] = "Общее"
     L["Hide addon icon"] = "Скрыть иконку аддона"
     L["Hide default tracking icon"] = "Скрыть стандартную иконку отслеживания"
@@ -546,6 +549,7 @@ do
     L["Settings was reset to defaults"] = "Настройки были сброшены на значения по умолчанию"
     L["Show required profession level"] = "Отобразить требуемый уровень профессии"
     L["Show this description"] = "Отобразить это описание"
+    L["Switch spells even if player in combat"] = "Переключать способности даже если игрок в режиме боя"
     L["Time in seconds between spell casts while auto switching"] = "Время в секундах между применением способности во время автоматического переключения"
     L["Toggle auto spell switching"] = "Включить/выключить автопереключение способностей"
     L["Tooltip"] = "Всплывающая подсказка"

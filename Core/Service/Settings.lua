@@ -69,7 +69,7 @@ local options = {
             },
             forceInCombat = {
               name = L["Force in combat"],
-              desc = L["Continue to switch spells even if player in combat"],
+              desc = L["Switch spells even if player in combat"],
               type = "toggle",
               order = 2,
             },
