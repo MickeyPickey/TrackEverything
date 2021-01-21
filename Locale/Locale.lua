@@ -98,7 +98,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names
     L["Mining"] = true
@@ -143,7 +143,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names
     L["Mining"] = "Minage"
@@ -188,7 +188,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names
     L["Mining"] = "Bergbau"
@@ -233,7 +233,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names  
     L["Mining"] = "Minería"
@@ -278,7 +278,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names  
     L["Mining"] = "Minería"
@@ -323,7 +323,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names  
     L["Mining"] = "Mineração."
@@ -369,7 +369,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names
     L["Mining"] = "채광"
@@ -459,7 +459,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names
     L["Mining"] = "採礦"
@@ -574,7 +574,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names
     L["Mining"] = "Горное дело"
@@ -619,7 +619,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- ================================================================================= 
     -- -- Profession names
     -- L["Mining"] = true
