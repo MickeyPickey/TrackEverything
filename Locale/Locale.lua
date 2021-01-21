@@ -19,6 +19,7 @@ local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true, true)
+  --@localization(locale="enUS", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"] = true
@@ -133,6 +134,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "frFR");
+  --@localization(locale="frFR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -177,6 +179,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "deDE");
+  --@localization(locale="deDE", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -221,6 +224,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "esES");
+  --@localization(locale="esES", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -265,6 +269,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "esMX");
+  --@localization(locale="esMX", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -309,6 +314,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "ptBR");
+  --@localization(locale="ptBR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -354,6 +360,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "koKR");
+  --@localization(locale="koKR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -398,6 +405,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "zhCN");
+  --@localization(locale="zhCN", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -406,7 +414,7 @@ do
     --  
     --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
     --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" valuse to correct translation
+    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
     -- =================================================================================
     -- -- Profession names
     L["Mining"] = "采矿"    
@@ -442,6 +450,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "zhTW");
+  --@localization(locale="zhTW", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
@@ -486,6 +495,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "ruRU");
+  --@localization(locale="ruRU", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"] = " Переключение способностей: %s, Последний отслеживаемый при возрождении: %s. Введите %s чтобы увидеть все команды чата. Приятной игры! :)"
@@ -600,6 +610,7 @@ end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "itIT");
+  --@localization(locale="itIT", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
     -- LOCALE
