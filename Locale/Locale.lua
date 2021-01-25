@@ -19,636 +19,90 @@ local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "enUS", true, true)
-  --@localization(locale="enUS", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"] = true
-    L[" or "] = true
-    L["%sDrag%s to move icon"] = true
-    L["%sLeft-click%s to manualy select tracking spell"] = true
-    L["%sRight-click%s to cancel current tracking spell"] = true
-    L["%sShift+Left-click%s to enable/disable auto switching"] = true
-    L["%sShift+Right-click%s to open settings"] = true
-    L["Spell switching is [%s]"] = true
-    L["Activate last used tracking spell on resurrection"] = true
-    L["Arguments to %s :"] = true
-    L["Auto spell switching"] = true
-    L["Auto tracking"] = true
-    L["Cast interval"] = true
-    L["Check if you want to hide default minimap tracking icon"] = true
-    L["Check to hide addon minimap icon"] = true
-    L["Check to show required profession level on minimap tooltips"] = true
-    L["Check to show required profession level on world map tooltips"] = true
-    L["Check to show required profession level on world object tooltips"] = true
-    L["Current tracking spell"] = true
-    L["Default"] = true
-    L["Disable auto spell switching"] = true
-    L["disabled"] = true
-    L["Enable auto spell switching"] = true
-    L["Enable to activate last used tracking spell on resurrection"] = true
-    L["Enable to switch only while character is moving"] = true
-    L["Enable/disable auto spell switching"] = true
-    L["Enable/disable last used tracking spell activation on resurrection"] = true
-    L["Enable/disable spell switching only while moving mode"] = true
-    L["Enable/disable required profession level on Minimap tooltips"] = true
-    L["Enable/disable required profession level on World Map tooltips"] = true
-    L["Enable/disable required profession level on World tooltips"] = true
-    L["enabled"] = true
-    L["Enabled"] = true
-    L["Force in combat"] = true
-    L["General"] = true
-    L["Hide addon icon"] = true
-    L["Hide default tracking icon"] = true
-    L["Icon display mode"] = true
-    L["Last used tracking spell activation is [%s]"] = true
-    L["Minimap tooltips"] = true
-    L["Minimap"] = true
-    L["Mute spell use sound is [%s]"] = true
-    L["Mute spell use sound while auto tracking"] = true
-    L["Mute spell use sound"] = true
-    L["Next tracking spell"] = true
-    L["Spell switching only while moving is [%s]"] = true
-    L["Only while moving"] = true
-    L["Open settings"] = true
-    L["paused"] = true
-    L["Print information about Author"] = true
-    L["Required profession level on Minimap tooltips is [%s]"] = true
-    L["Required profession level on World Map tooltips sis [%s]"] = true
-    L["Required profession level on World tooltips is [%s]"] = true
-    L["Reset settings to defaults"] = true
-    L["Reset"] = true
-    L["Resources"] = true
-    L["Select to include in auto switching"] = true
-    L["Select what to display inside icon"] = true
-    L["Settings was reset to defaults"] = true
-    L["Show required profession level"] = true
-    L["Show this description"] = true
-    L["Switch spells even if player in combat"] = true
-    L["Time in seconds between spell casts while auto switching"] = true
-    L["Toggle auto spell switching"] = true
-    L["Tooltip"] = true
-    L["Tracking spells"] = true
-    L["Units"] = true
-    L["Version"] = true
-    L["World Map tooltips"] = true
-    L["World tooltips"] = true
-
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names
-    L["Mining"] = true
-    L["Requires Mining"] = true
-    L["Herbalism"] = true
-    L["Requires Herbalism"] = true
-    L["Skinning"] = true
-    -- -- -- Mining objects
-    L["Copper Vein"] = true
-    L["Tin Vein"] = true
-    L["Incendicite Mineral Vein"] = true
-    L["Silver Vein"] = true
-    L["Lesser Bloodstone Deposit"] = true
-    L["Ooze Covered Silver Vein"] = true
-    L["Iron Deposit"] = true
-    L["Ooze Covered Iron Deposit"] = true
-    L["Indurium Mineral Vein"] = true
-    L["Gold Vein"] = true
-    L["Ooze Covered Gold Vein"] = true
-    L["Mithril Deposit"] = true
-    L["Ooze Covered Mithril Deposit"] = true
-    L["Rich Thorium Vein"] = true
-    L["Truesilver Deposit"] = true
-    L["Dark Iron Deposit"] = true
-    L["Small Thorium Vein"] = true
-    L["Ooze Covered Thorium Vein"] = true
-    L["Ooze Covered Rich Thorium Vein"] = true
-    L["Hakkari Thorium Vein"] = true
-    L["Small Obsidian Chunk"] = true
-    L["Large Obsidian Chunk"] = true
+    --@localization(locale="enUS", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "frFR");
-  --@localization(locale="frFR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
-
+  
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names
-    L["Mining"] = "Minage"
-    L["Requires Mining"] = "Requiert minage"
-    L["Herbalism"] = "Herboristerie"
-    L["Requires Herbalism"] = "Requiert Herboristerie"
-    L["Skinning"] = "Dépeçage"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "Filon de cuivre"
-    L["Tin Vein"] = "Filon d'étain"
-    L["Incendicite Mineral Vein"] = "Filon d'incendicite"
-    L["Silver Vein"] = "Filon d'argent"
-    L["Lesser Bloodstone Deposit"] = "Gisement de pierre de sang inférieure"
-    L["Ooze Covered Silver Vein"] = "Filon d'argent couvert de limon"
-    L["Iron Deposit"] = "Gisement de fer"
-    L["Ooze Covered Iron Deposit"] = "Gisement de fer couvert de vase"
-    L["Indurium Mineral Vein"] = "Filon d'indurium"
-    L["Gold Vein"] = "Filon d'or"
-    L["Ooze Covered Gold Vein"] = "Filon d'or couvert de limon"
-    L["Mithril Deposit"] = "Gisement de mithril"
-    L["Ooze Covered Mithril Deposit"] = "Gisement de mithril couvert de vase"
-    L["Rich Thorium Vein"] = "Riche filon de thorium"
-    L["Truesilver Deposit"] = "Gisement de vrai-argent"
-    L["Dark Iron Deposit"] = "Gisement de sombrefer"
-    L["Small Thorium Vein"] = "Petit filon de thorium"
-    L["Ooze Covered Thorium Vein"] = "Filon de thorium couvert de limon"
-    L["Ooze Covered Rich Thorium Vein"] = "Riche filon de thorium couvert de limon"
-    L["Hakkari Thorium Vein"] = "Filon de thorium hakkari"
-    L["Small Obsidian Chunk"] = "Petit morceau d'obsidienne"
-    L["Large Obsidian Chunk"] = "Large Obsidian Chunk"
+    --@localization(locale="frFR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "deDE");
-  --@localization(locale="deDE", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names
-    L["Mining"] = "Bergbau"
-    L["Requires Mining"] = "Benötigt Bergbau"
-    L["Herbalism"] = "Kräuterkunde"
-    L["Requires Herbalism"] = "Benötigt Kräuterkunde"
-    L["Skinning"] = "Kürschnerei"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "Kupfervorkommen"
-    L["Tin Vein"] = "Zinnvorkommen"
-    L["Incendicite Mineral Vein"] = "Pyrophormineralvorkommen"
-    L["Silver Vein"] = "Silbervorkommen"
-    L["Lesser Bloodstone Deposit"] = "Geringe Blutsteinablagerung"
-    L["Ooze Covered Silver Vein"] = "Schlammbedecktes Silbervorkommen"
-    L["Iron Deposit"] = "Eisenvorkommen"
-    L["Ooze Covered Silver Vein"] = "Schlammbedecktes Eisenvorkommen"
-    L["Indurium Mineral Vein"] = "Induriummineralvorkommen"
-    L["Gold Vein"] = "Goldvorkommen"
-    L["Ooze Covered Gold Vein"] = "Schlammbedecktes Goldvorkommen"
-    L["Mithril Deposit"] = "Mithrilablagerung"
-    L["Ooze Covered Mithril Deposit"] = "Schlammbedeckte Mithrilablagerung"
-    L["Rich Thorium Vein"] = "Reiches Thoriumvorkommen"
-    L["Truesilver Deposit"] = "Echtsilbervorkommen"
-    L["Dark Iron Deposit"] = "Dunkeleisenablagerung"
-    L["Small Thorium Vein"] = "Kleines Thoriumvorkommen"
-    L["Ooze Covered Thorium Vein"] = "Schlammbedeckte Thoriumader"
-    L["Ooze Covered Rich Thorium Vein"] = "Schlammbedecktes reiches Thoriumvorkommen"
-    L["Hakkari Thorium Vein"] = "Hakkari Thoriumvorkommen"
-    L["Small Obsidian Chunk"] = "Kleiner Obsidiumvorkommen"
-    L["Large Obsidian Chunk"] = "Großer Obsidiumvorkommen"
+    --@localization(locale="deDE", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "esES");
-  --@localization(locale="esES", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
-
+  
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names  
-    L["Mining"] = "Minería"
-    L["Requires Mining"] = "Requiere minería"
-    L["Herbalism"] = "Botánica"
-    L["Requires Herbalism"] = "Requiere herboristería"
-    L["Skinning"] = "Desollar"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "Filón de cobre"
-    L["Tin Vein"] = "Filón de estaño"
-    L["Incendicite Mineral Vein"] = "Filón de mineral de incendicita"
-    L["Silver Vein"] = "Filón de plata"
-    L["Lesser Bloodstone Deposit"] = "Depósito de sangrita inferior"
-    L["Ooze Covered Silver Vein"] = "Filón de plata cubierto de moco"
-    L["Iron Deposit"] = "Depósito de hierro"
-    L["Ooze Covered Iron Deposit"] = "Depósito de hierro cubierto de moco"
-    L["Indurium Mineral Vein"] = "Filón de mineral de indurio"
-    L["Gold Vein"] = "Filón de oro"
-    L["Ooze Covered Gold Vein"] = "Filón de oro cubierto de moco"
-    L["Mithril Deposit"] = "Depósito de mitril"
-    L["Ooze Covered Mithril Deposit"] = "Filón de mitril cubierto de moco"
-    L["Rich Thorium Vein"] = "Filón de torio enriquecido"
-    L["Truesilver Deposit"] = "Depósito de veraplata"
-    L["Dark Iron Deposit"] = "Depósito de Hierro negro"
-    L["Small Thorium Vein"] = "Filón pequeño de torio"
-    L["Ooze Covered Thorium Vein"] = "Filón de torio cubierto de moco"
-    L["Ooze Covered Rich Thorium Vein"] = "Filón de torio enriquecido cubierto de moco"
-    L["Hakkari Thorium Vein"] = "Filón de torio de Hakkari"
-    L["Small Obsidian Chunk"] = "Pequeño fragmento de obsidiana"
-    L["Large Obsidian Chunk"] = "Trozo de obsidiana grande"
+    --@localization(locale="esES", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "esMX");
-  --@localization(locale="esMX", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names  
-    L["Mining"] = "Minería"
-    L["Requires Mining"] = "Requiere minería"
-    L["Herbalism"] = "Botánica"
-    L["Requires Herbalism"] = "Requiere herboristería"
-    L["Skinning"] = "Desollar"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "Filón de cobre"
-    L["Tin Vein"] = "Filón de estaño"
-    L["Incendicite Mineral Vein"] = "Filón de mineral de incendicita"
-    L["Silver Vein"] = "Filón de plata"
-    L["Lesser Bloodstone Deposit"] = "Depósito de sangrita inferior"
-    L["Ooze Covered Silver Vein"] = "Filón de plata cubierto de moco"
-    L["Iron Deposit"] = "Depósito de hierro"
-    L["Ooze Covered Iron Deposit"] = "Depósito de hierro cubierto de moco"
-    L["Indurium Mineral Vein"] = "Filón de mineral de indurio"
-    L["Gold Vein"] = "Filón de oro"
-    L["Ooze Covered Gold Vein"] = "Filón de oro cubierto de moco"
-    L["Mithril Deposit"] = "Depósito de mitril"
-    L["Ooze Covered Mithril Deposit"] = "Filón de mitril cubierto de moco"
-    L["Rich Thorium Vein"] = "Filón de torio enriquecido"
-    L["Truesilver Deposit"] = "Depósito de veraplata"
-    L["Dark Iron Deposit"] = "Depósito de Hierro negro"
-    L["Small Thorium Vein"] = "Filón pequeño de torio"
-    L["Ooze Covered Thorium Vein"] = "Filón de torio cubierto de moco"
-    L["Ooze Covered Rich Thorium Vein"] = "Filón de torio enriquecido cubierto de moco"
-    L["Hakkari Thorium Vein"] = "Filón de torio de Hakkari"
-    L["Small Obsidian Chunk"] = "Pequeño fragmento de obsidiana"
-    L["Large Obsidian Chunk"] = "Gran Trozo obsidiana"
+    --@localization(locale="esMX", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "ptBR");
-  --@localization(locale="ptBR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names  
-    L["Mining"] = "Mineração."
-    L["Requires Mining"] = "Requer Mineração"
-    L["Herbalism"] = "Herborismo"
-    L["Requires Herbalism"] = "Requer Herborismo"
-    L["Skinning"] = "Esfolamento"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "Veio de Cobre"
-    L["Tin Vein"] = "Veio de Estanho"
-    L["Incendicite Mineral Vein"] = "Veio de Incendicita"
-    L["Silver Vein"] = "Veio de Prata"
-    L["Lesser Bloodstone Deposit"] = "Depósito de Menor Plasma"
-    L["Ooze Covered Silver Vein"] = "Veio de Prata Coberto de Gosma"
-    L["Iron Deposit"] = "Depósito de Ferro"
-    L["Ooze Covered Iron Deposit"] = true
-    L["Indurium Mineral Vein"] = "Mineral Indurio"
-    L["Gold Vein"] = "Veio de Ouro"
-    L["Ooze Covered Gold Vein"] = "Veio de Ouro Coberto de Gosma"
-    L["Mithril Deposit"] = "Depósito de Mithril"
-    L["Ooze Covered Mithril Deposit"] = "Depósito de Mithril Coberto de Gosma"
-    L["Rich Thorium Vein"] = "Veio de Tório Abundante"
-    L["Truesilver Deposit"] = "Depósito de Veraprata"
-    L["Dark Iron Deposit"] = "Depósito de Ferro Negro"
-    L["Small Thorium Vein"] = "Veio de Tório Pequeno"
-    L["Ooze Covered Thorium Vein"] = "Veio de Tório Coberto de Gosma"
-    L["Ooze Covered Rich Thorium Vein"] = "Veio de Tório Abundante Coberto de Gosma"
-    L["Hakkari Thorium Vein"] = "Veio de Tório Hakkari"
-    L["Small Obsidian Chunk"] = "Pequeno Estilhaço de Obisidiana"
-    L["Large Obsidian Chunk"] = "Grande Estilhaço de Obisidiana"
+    --@localization(locale="ptBR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "koKR");
-  --@localization(locale="koKR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names
-    L["Mining"] = "채광"
-    L["Requires Mining"] = "채광 필요"
-    L["Herbalism"] = "약초채집"
-    L["Requires Herbalism"] = "약초채집 필요"
-    L["Skinning"] = "무두질"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "구리 광맥"
-    L["Tin Vein"] = "주석 광맥"
-    L["Incendicite Mineral Vein"] = "발연 광석 광맥"
-    L["Silver Vein"] = "은 광맥"
-    L["Lesser Bloodstone Deposit"] = "저급 혈석 광맥"
-    L["Ooze Covered Silver Vein"] = "진흙으로 덮인 은 광맥"
-    L["Iron Deposit"] = "철 광맥"
-    L["Ooze Covered Iron Deposit"] = "진흙으로 덮인 철 광맥"
-    L["Indurium Mineral Vein"] = "인듀리움 광맥"
-    L["Gold Vein"] = "금 광맥"
-    L["Ooze Covered Gold Vein"] = "진흙으로 덮인 금 광맥"
-    L["Mithril Deposit"] = "미스릴 광맥"
-    L["Ooze Covered Mithril Deposit"] = "진흙으로 덮인 미스릴 광맥"
-    L["Rich Thorium Vein"] = "풍부한 토륨 광맥"
-    L["Truesilver Deposit"] = "진은 광맥"
-    L["Dark Iron Deposit"] = "검은무쇠 광맥"
-    L["Small Thorium Vein"] = "작은 토륨 광맥"
-    L["Ooze Covered Thorium Vein"] = "진흙으로 덮인 토륨 광맥"
-    L["Ooze Covered Rich Thorium Vein"] = "진흙으로 덮인 풍부한 토륨 광맥"
-    L["Hakkari Thorium Vein"] = "학카리 토륨 광맥"
-    L["Small Obsidian Chunk"] = "작은 흑요암 광맥"
-    L["Large Obsidian Chunk"] = "풍부한 흑요암 광맥"
+    --@localization(locale="koKR", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "zhCN");
-  --@localization(locale="zhCN", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names
-    L["Mining"] = "采矿"    
-    L["Requires Mining"] = "需要采矿技能"  
-    L["Herbalism"] = "采药"
-    L["Requires Herbalism"] = "需要草药学技能"
-    L["Skinning"] = "剥皮"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "铜矿"
-    L["Tin Vein"] = "锡矿"
-    L["Incendicite Mineral Vein"] = "火岩矿脉"
-    L["Silver Vein"] = "银矿"
-    L["Lesser Bloodstone Deposit"] = "次级血石矿脉"
-    L["Ooze Covered Silver Vein"] = "软泥覆盖的银矿脉"
-    L["Iron Deposit"] = "铁矿石"
-    L["Ooze Covered Iron Deposit"] = "软泥覆盖的铁矿脉"
-    L["Indurium Mineral Vein"] = "精铁矿脉"
-    L["Gold Vein"] = "金矿石"
-    L["Ooze Covered Gold Vein"] = "软泥覆盖的金矿脉"
-    L["Mithril Deposit"] = "秘银矿脉"
-    L["Ooze Covered Mithril Deposit"] = "软泥覆盖的秘银矿脉"
-    L["Rich Thorium Vein"] = "富瑟银矿"
-    L["Truesilver Deposit"] = "真银矿石"
-    L["Dark Iron Deposit"] = "黑铁矿脉"
-    L["Small Thorium Vein"] = "瑟银矿脉"
-    L["Ooze Covered Thorium Vein"] = "软泥覆盖的瑟银矿脉"
-    L["Ooze Covered Rich Thorium Vein"] = "软泥覆盖的富瑟银矿脉"
-    L["Hakkari Thorium Vein"] = "哈卡莱瑟银矿脉"
-    L["Small Obsidian Chunk"] = "小型黑曜石碎块"
-    L["Large Obsidian Chunk"] = "大型黑曜石碎块"
+    --@localization(locale="zhCN", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "zhTW");
-  --@localization(locale="zhTW", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names
-    L["Mining"] = "採礦"
-    L["Requires Mining"] = "需要草药学技能"
-    L["Herbalism"] = "草藥學"
-    L["Requires Herbalism"] = "需要草藥學"
-    L["Skinning"] = "剝皮"
-    -- -- -- Mining objects
-    L["Copper Vein"] = "銅礦脈"
-    L["Tin Vein"] = "錫礦脈"
-    L["Incendicite Mineral Vein"] = "火岩礦脈"
-    L["Silver Vein"] = "銀礦脈"
-    L["Lesser Bloodstone Deposit"] = "次級血石礦床"
-    L["Ooze Covered Silver Vein"] = "軟泥覆蓋的銀礦脈"
-    L["Iron Deposit"] = "鐵礦床"
-    L["Ooze Covered Iron Deposit"] = "軟泥覆蓋的鐵礦床"
-    L["Indurium Mineral Vein"] = "精鐵礦脈"
-    L["Gold Vein"] = "金礦脈"
-    L["Ooze Covered Gold Vein"] = "軟泥覆蓋的金礦脈"
-    L["Mithril Deposit"] = "秘銀礦床"
-    L["Ooze Covered Mithril Deposit"] = "軟泥覆蓋的秘銀礦床"
-    L["Rich Thorium Vein"] = "富瑟銀礦脈"
-    L["Truesilver Deposit"] = "真銀礦床"
-    L["Dark Iron Deposit"] = "黑鐵礦床"
-    L["Small Thorium Vein"] = "瑟銀礦脈"
-    L["Ooze Covered Thorium Vein"] = "軟泥覆蓋的瑟銀礦脈"
-    L["Ooze Covered Rich Thorium Vein"] = "軟泥覆蓋的富瑟銀礦脈"
-    L["Hakkari Thorium Vein"] = "哈卡萊瑟銀礦脈"
-    L["Small Obsidian Chunk"] = "小黑曜石塊"
-    L["Large Obsidian Chunk"] = "大黑曜石塊"
+    --@localization(locale="zhTW", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "ruRU");
-  --@localization(locale="ruRU", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
 
   if L then
-    L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"] = " Переключение способностей: %s, Последний отслеживаемый при возрождении: %s. Введите %s чтобы увидеть все команды чата. Приятной игры! :)"
-    L[" or "] = " или "
-    L["%sDrag%s to move icon"] = "%sПотяните%s чтобы сдвинуть иконку"
-    L["%sLeft-click%s to manualy select tracking spell"] = "%sЛКМ%s вручную выбрать способность для отслеживания"
-    L["%sRight-click%s to cancel current tracking spell"] = "%sПКМ%s отменить текущую способность"
-    L["%sShift+Left-click%s to enable/disable auto switching"] = "%sШифт+ЛКМ%s включить/выключить автоматическое переключение"
-    L["%sShift+Right-click%s to open settings"] = "%sШифт+ПКМ%s открыть настройки"
-    L["Spell switching is [%s]"] = "Переключение способностей [%s]"
-    L["Activate last used tracking spell on resurrection"] = "Активировать последнюю использованную способность отслеживания при возрождении"
-    L["Arguments to %s :"] = "Аргументы к %s :"
-    L["Auto spell switching"] = "Автопереключение способностей"
-    L["Auto tracking"] = "Автоматическое отслеживание"
-    L["Cast interval"] = "Интервал применения способности"
-    L["Check if you want to hide default minimap tracking icon"] = "Отметьте если хотите скрыть стандартную иконку отслеживания на миникарте"
-    L["Check to hide addon minimap icon"] = "Отметьте чтобы скрыть иконку аддона на миникарте"
-    L["Check to show required profession level on minimap tooltips"] = "Отметьте для отображения требуемого уровня профессии на всплывающих подсказках миникарты"
-    L["Check to show required profession level on world map tooltips"] = "Отметьте для отображения требуемого уровня профессии на всплывающих подсказках карты"
-    L["Check to show required profession level on world object tooltips"] = "Отметьте для отображения требуемого уровня профессии на всплывающих подсказках объектов игрового мира"
-    L["Current tracking spell"] = "Текущая способность отслеживания"
-    L["Default"] = "По умолчанию"
-    L["Disable auto spell switching"] = "Отключить автопереключение способностей"
-    L["disabled"] = "выключен"
-    L["Enable auto spell switching"] = "Включить автопереключение способностей"
-    L["Enable to activate last used tracking spell on resurrection"] = "Включите для активации последней способности отслеживания при возрождении"
-    L["Enable to switch only while character is moving"] = "Включите чтобы переключать только когда персонаж движется"
-    L["Enable/disable auto spell switching"] = "Включить/выключить автопереключение способностей"
-    L["Enable/disable last used tracking spell activation on resurrection"] = "Включить/выключить активацию последней использованной способности отслеживания при возрождении"
-    L["Enable/disable spell switching only while moving mode"] = "Включить/выключить переключение способностей только в движении"
-    L["Enable/disable required profession level on Minimap tooltips"] = "Включить/выключить требуемый уровень професси на всплывающих подсказках Миникарты"
-    L["Enable/disable required profession level on World Map tooltips"] = "Включить/выключить требуемый уровень професси на всплывающих подсказках Карты"
-    L["Enable/disable required profession level on World tooltips"] = "Включить/выключить требуемый уровень професси на всплывающих подсказках Игрового мира"
-    L["enabled"] = "включен"
-    L["Enabled"] = "Включен"
-    L["Force in combat"] = "Работать в бою"
-    L["General"] = "Общее"
-    L["Hide addon icon"] = "Скрыть иконку аддона"
-    L["Hide default tracking icon"] = "Скрыть стандартную иконку отслеживания"
-    L["Icon display mode"] = "Режим отображения иконки"
-    L["Last used tracking spell activation is [%s]"] = "Активация последней использованной способности отслеживания [%s]"
-    L["Minimap tooltips"] = "Всплывающие подсказки миникарты"
-    L["Minimap"] = "Миникарта"
-    L["Mute spell use sound is [%s]"] = "Заглушить звук использования заклинания [%s]"
-    L["Mute spell use sound while auto tracking"] = "Заглушить звук использования заклинания во время авто отслеживания"
-    L["Mute spell use sound"] = "Заглушить звук использования заклинания"
-    L["Next tracking spell"] = "Следующая способность отслеживания"
-    L["Spell switching only while moving is [%s]"] = "Автопереключение способностей только в движении [%s]"
-    L["Only while moving"] = "Только в движении"
-    L["Open settings"] = "Открыть настройки"
-    L["paused"] = "пауза"
-    L["Print information about Author"] = "Об авторе"
-    L["Required profession level on Minimap tooltips is [%s]"] = "Требуемый уровень профессии на всплывающих подсказках Миникарты [%s]"
-    L["Required profession level on World Map tooltips sis [%s]"] = "Требуемый уровень профессии на всплывающих подсказках Карты [%s]"
-    L["Required profession level on World tooltips is [%s]"] = "Требуемый уровень профессии на всплывающих подсказках Игрового мира [%s]"
-    L["Reset settings to defaults"] = "Сбросить настройки на значения по умолчанию"
-    L["Reset"] = "Сбросить"
-    L["Resources"] = "Ресурсы"
-    L["Select to include in auto switching"] = "Выберите чтобы включить в автоматическое переключение"
-    L["Select what to display inside icon"] = "Выберите что отображать внутри иконки"
-    L["Settings was reset to defaults"] = "Настройки были сброшены на значения по умолчанию"
-    L["Show required profession level"] = "Отобразить требуемый уровень профессии"
-    L["Show this description"] = "Отобразить это описание"
-    L["Switch spells even if player in combat"] = "Переключать способности даже если игрок в режиме боя"
-    L["Time in seconds between spell casts while auto switching"] = "Время в секундах между применением способности во время автоматического переключения"
-    L["Toggle auto spell switching"] = "Включить/выключить автопереключение способностей"
-    L["Tooltip"] = "Всплывающая подсказка"
-    L["Tracking spells"] = "Способности отслеживания"
-    L["Units"] = "Юниты"
-    L["Version"] = "Версия"
-    L["World Map tooltips"] = "Всплывающие подсказки Игрового мира"
-    L["World tooltips"] = "Всплывающие подсказки Карты"
-
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- =================================================================================
-    -- -- Profession names
-    L["Mining"] = "Горное дело"
-    L["Requires Mining"] = "Требуется знание горного дела"
-    L["Herbalism"] = "Травничество"
-    L["Requires Herbalism"] = "Требуется знание травничества"
-    L["Skinning"] = "Снятие шкур"
-    
-    -- -- -- Mining objects
-    L["Copper Vein"] = "Медная жила"
-    L["Tin Vein"] = "Оловянная жила"
-    L["Incendicite Mineral Vein"] = "Ароматитовая жила"
-    L["Silver Vein"] = "Серебряная жила"
-    L["Lesser Bloodstone Deposit"] = "Малое месторождение кровавого камня"
-    L["Ooze Covered Silver Vein"] = "Покрытая слизью серебряная жила"
-    L["Iron Deposit"] = "Залежи железа"
-    L["Indurium Mineral Vein"] = "Индарилиевая жила"
-    L["Gold Vein"] = "Золотая жила"
-    L["Ooze Covered Gold Vein"] = "Покрытая слизью золотая жила"
-    L["Mithril Deposit"] = "Мифриловые залежи"
-    L["Ooze Covered Mithril Deposit"] = "Покрытые слизью мифриловые залежи"
-    L["Rich Thorium Vein"] = "Богатая ториевая жила"
-    L["Truesilver Deposit"] = "Залежи истинного серебра"
-    L["Dark Iron Deposit"] = "Залежи черного железа"
-    L["Small Thorium Vein"] = "Малая ториевая жила"
-    L["Ooze Covered Thorium Vein"] = "Покрытая слизью ториевая жила"
-    L["Ooze Covered Rich Thorium Vein"] = "Покрытая слизью богатая ториевая жила"
-    L["Hakkari Thorium Vein"] = "Ториевая жила Хаккари"
-    L["Small Obsidian Chunk"] = "Маленький кусочек обсидиана"
-    L["Large Obsidian Chunk"] = "Большая обсидиановая глыба"
+    --@localization(locale="ruRU", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
 
 do
   local L = LibStub("AceLocale-3.0"):NewLocale(ADDON_NAME, "itIT");
-  --@localization(locale="itIT", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
+
 
   if L then
-    -- LOCALE
-    -- =================================================================================
-    --                              Gatharing professions Data locales
-    --  
-    --  !!! THIS LOCALIZATION VALUES ARE IMPORTANT TO WORK GatheringTooltipInfo service.
-    --  WITHOUT LOCALIZATION ON NON-enUS LANGUAGES, GatheringTooltipInfo for Deposits 
-    --  and Skinning will not work. NEED TO REPLACE "true" values to correct translation
-    -- ================================================================================= 
-    -- -- Profession names
-    -- L["Mining"] = true
-    L["Requires Mining"] = "Richiede Estrazione"
-    -- L["Herbalism"] = true
-    L["Requires Herbalism"] = "Richiede Erbalismo"
-    -- L["Skinning"] = true
-    -- -- -- Mining objects 
-    L["Copper Vein"] = "Vena di Rame"
-    L["Tin Vein"] = "Vena di Stagno"
-    L["Incendicite Mineral Vein"] = "Vena di Incendicite"
-    L["Silver Vein"] = "Vena d'Argento"
-    -- L["Lesser Bloodstone Deposit"] = true
-    -- L["Ooze Covered Silver Vein"] = true
-    L["Iron Deposit"] = "Deposito di Ferro"
-    -- L["Ooze Covered Iron Deposit"] = true
-    -- L["Indurium Mineral Vein"] = true
-    L["Gold Vein"] = "Vena d'Oro"
-    -- L["Ooze Covered Gold Vein"] = true
-    L["Mithril Deposit"] = "Deposito di Mithril"
-    -- L["Ooze Covered Mithril Deposit"] = true
-    L["Rich Thorium Vein"] = "Vena Ricca di Torio"
-    L["Truesilver Deposit"] = "Deposito di Verargento"
-    L["Dark Iron Deposit"] = "Deposito di Ferroscuro"
-    L["Small Thorium Vein"] = "Vena Piccola di Torio"
-    -- L["Ooze Covered Thorium Vein"] = true
-    -- L["Ooze Covered Rich Thorium Vein"] = true
-    -- L["Hakkari Thorium Vein"] = true
-    L["Small Obsidian Chunk"] = "Frammento Piccolo d'Ossidiana"
-    L["Large Obsidian Chunk"] = "Frammento Grande d'Ossidiana"
+    --@localization(locale="itIT", format="lua_additive_table", same-key-is-true=true, handle-subnamespaces="concat")@
   end
 end
