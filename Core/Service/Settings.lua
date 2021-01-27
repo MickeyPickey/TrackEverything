@@ -212,7 +212,7 @@ local options = {
             },
             enableWorldMap = {
               name = L["World Map tooltips"],
-              desc = L["Check to show required profession level on world map tooltips"],
+              desc = L["Check to show required profession level on world map tooltips. Requires GatherMate2 addon."],
               type = "toggle",
               order = 2,
             },

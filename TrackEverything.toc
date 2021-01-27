@@ -4,6 +4,7 @@
 ## Version: @project-version@
 ## SavedVariables: TrackEverythingDB
 ## SavedVariablesPerCharacter: TrackEverythingCharDB
+## OptionalDeps: GatherMate2
 ## Notes: Addon to simplify the usability of tracking abilities with auto-switching function and more.
 # Notes-frFR: 
 # Notes-deDE: 
