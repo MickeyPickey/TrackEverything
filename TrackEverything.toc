@@ -1,4 +1,4 @@
-## Interface: 11306
+## Interface: 11307
 ## Title: Track Everything
 ## Author: Mickeya @Gehennas-Alliance EU
 ## Version: @project-version@
@@ -18,7 +18,7 @@
 
 ## X-Curse-Project-ID: 399326
 ## X-WoWI-ID: 25637
-## X-Author-Game-Info: EU Gehennas (Mickeya), EU Firemaw (Miron, Bulbash). E-mail: sm.ownmail@gmail.com, Discord: Mickeya#9852, Battle.net: BULBASAUR#2352
+## X-Author-Game-Info: EU Gehennas (Mickeya). E-mail: sm.ownmail@gmail.com, Discord: Mickeya#9852, Battle.net: BULBASAUR#2352
 
 # External libs
 External\EmbeddedLibs\LibStub\LibStub.lua
