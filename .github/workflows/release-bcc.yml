@@ -1,9 +1,11 @@
-name: Release AddOn
+name: Release BCC AddOn
 
 on:
   push:
+    branches:
+      - bcc
     tags:
-      - '**'
+      - '**-bcc**'
 
 env:
   CF_API_KEY: ${{ secrets.CF_API_KEY }}
@@ -16,6 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - uses: nebularg/actions-luacheck@v1
+        with:
+          args: "--no-color -q"
+          annotate: warning
+          
       - uses: BigWigsMods/packager@master
         with:
-          args: release.sh -g 1.13.6
+          args: -g bcc

@@ -6,7 +6,6 @@ local TE = ADDON_TABLE.Addon
 local Settings = TE.Include("Service.Settings")
 local SpellSwitcher = TE.Include("Service.SpellSwitcher")
 local Icon = TE.Include("Service.Icon")
-local TrackingSpells = TE.Include("Data.TrackingSpells")
 local MyLib = TE.Include("Util.MyLib")
 local Log = TE.Include("Util.Log")
 local L = TE.Include("Locale")
@@ -14,7 +13,7 @@ local private = {}
 
 local MINIMAP_ICON_DISPLAY_TYPES = {
   DEFAULT = L["Default"],
-  CURRENT_SPELL = L["Current tracking spell"],
+  CURRENT_SPELL = L["Current tracking"],
   NEXT_SPELL = L["Next tracking spell"],
 }
 
@@ -36,19 +35,6 @@ local options = {
       inline = true,
       order = 1,
       args = {
-        lastTrackedOnRes = {
-          name = L["Activate last used tracking spell on resurrection"],
-          type = "group",
-          order = 1,
-          args = {
-            enabled = {
-              name = L["Enabled"],
-              desc = L["Enable to activate last used tracking spell on resurrection"],
-              type = "toggle",
-              order = 0,
-            },
-          },
-        },
         spellSwitcher = {
           name = L["Auto spell switching"],
           type = "group",
@@ -81,42 +67,22 @@ local options = {
                 if not valueTable then return true end
               end,
               args = {
-                resources = {
-                  name = L["Resources"],
+                spells = {
+                  name = L["Spells"],
                   desc = L["Select to include in auto switching"],
                   type = "multiselect",
                   values = function(info)
-                    local spellTable = Settings:GetPlayerTrackingSpells(info[#info])
+                    local spellTable = Settings:GetPlayerTrackingSpells()
                     local tempTable = {}
 
-                    for k,v in pairs(spellTable) do
-                      tempTable[v.spellId] = v.name
+                    for i = 1 , #spellTable do
+                      table.insert(tempTable, spellTable[i].name)
                     end
 
                     return tempTable or {}
                   end,
                   hidden = function (info) 
-                    local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
-                    if not valueTable then return true end
-                  end,
-                  cmdHidden = true,
-                },
-                units = {
-                  name = L["Units"],
-                  desc = L["Select to include in auto switching"],
-                  type = "multiselect",
-                  values = function(info)
-                    local spellTable = Settings:GetPlayerTrackingSpells(info[#info])
-                    local tempTable = {}
-
-                    for k,v in pairs(spellTable) do
-                      tempTable[v.spellId] = v.name
-                    end
-                    
-                    return tempTable or {}
-                  end,
-                  hidden = function (info)
-                    local valueTable = Settings:GetPlayerTrackingSpells(info[#info])
+                    local valueTable = Settings:GetPlayerTrackingSpells()
                     if not valueTable then return true end
                   end,
                   cmdHidden = true,
@@ -239,21 +205,14 @@ local options = {
 local defaults = {
   profile  = {
     autoTracking = {
-      lastTrackedOnRes = {
-        enabled = true,
-        spellId = nil,
-      },
       spellSwitcher = {
         enabled = true,
         onmove = true,
         forceInCombat = false,
         interval = 2,
         trackingSpells = {
-          resources = {
-            ["*"] = true,
-          },
-          units = {
-            ["*"] = true,
+          spells = {
+            --["*"] = true,
           },
         },
       },
@@ -264,7 +223,7 @@ local defaults = {
     minimap = { 
       hide = true,
       hideDefaultTrackingIcon = false,
-      displayType = "DEFAULT",
+      displayType = "CURRENT_SPELL",
     },
     tooltip = {
       requiredProfessionLevel = {
@@ -286,77 +245,46 @@ function Settings:OnEnable()
 end
 
 function Settings:ToggleDefaultTrackingIcon()
-  if TE.db.profile.minimap.hideDefaultTrackingIcon then MiniMapTrackingFrame:Hide() else MiniMapTrackingFrame:Show() end
+  if TE.db.profile.minimap.hideDefaultTrackingIcon then MiniMapTracking:Hide() else MiniMapTracking:Show() end
 end
 
 function Settings:ResetProfile()
   TE.db:ResetProfile()
   self:ToggleDefaultTrackingIcon()
-  self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
+  self:SendMessage("MINIMAP_ICON_DISPLAY_TYPE_CHANGE")
   self:SendMessage("OPTIONS_RESET")
 end
 
 function Settings:GetPlayerTrackingSpells(trackingType)
+  local playerTrackingSpells = {}
 
-  local spellInfo = TrackingSpells:GetDataByKey("spellInfo")
-  local trackingSpellNames = nil
-  local playerTrackingSpells = nil
-
-  if not trackingType then
-    for key, val in pairs(spellInfo) do
-      if IsSpellKnown(val["spellId"]) then
-          if trackingSpellNames == nil then trackingSpellNames = {} end
-          local spellName = GetSpellInfo(val["spellId"])
-          table.insert(trackingSpellNames, spellName)
-      end
-    end
-    if not trackingSpellNames then return end
-  else
-    for key, val in pairs(spellInfo) do
-      if IsSpellKnown(val["spellId"]) and val["type"] == trackingType then
-          if trackingSpellNames == nil then trackingSpellNames = {} end
-          local spellName = GetSpellInfo(val["spellId"])
-          table.insert(trackingSpellNames, spellName)
-      end
+  for i = 1, GetNumTrackingTypes() do 
+    local name, texture, active, category, _, spellId = GetTrackingInfo(i);
+    if category == "spell" then
+      table.insert(playerTrackingSpells, {spellId = spellId, name = name} )
     end
   end
 
   -- if no names found return nil
-  if not trackingSpellNames then return nil end
-
-  playerTrackingSpells = {}
-
-  table.sort(trackingSpellNames)
-
-  for i, val in ipairs(trackingSpellNames) do
-    local name, _, _, _, _, _, spellId = GetSpellInfo(val)
-    table.insert(playerTrackingSpells, {spellId = spellId, name = val} )
-  end
+  if #playerTrackingSpells < 1 then return nil end
 
   return playerTrackingSpells
 end
 
 function Settings:GetSpellsToTrack()
-  local resources = Settings:GetPlayerTrackingSpells("resources") or {}
-  local units = Settings:GetPlayerTrackingSpells("units") or {}
-  local spells = Settings:GetPlayerTrackingSpells() or {}
-  local trackingSpells = nil
+  local spells = self:GetPlayerTrackingSpells() or {}
+  local trackingSpells = {}
 
-  for key, val in pairs(resources) do
-    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.resources[val.spellId] == true then
-      if not trackingSpells then trackingSpells = {} end
-      table.insert(trackingSpells, val.spellId)
-    end
-  end
-
-  for key, val in pairs(units) do
-    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.units[val.spellId] == true then
-      if not trackingSpells then trackingSpells = {} end
-      table.insert(trackingSpells, val.spellId)
+  for i = 1, #spells do
+    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.spells[i] == true then
+      table.insert(trackingSpells, spells[i].spellId)
     end
   end
   
-  --if trackingSpells then Log:PrintD("trackingSpells = ", #trackingSpells) else Log:PrintD("No spells to track") end
+  -- if no spells to track
+  if #trackingSpells < 1 then return nil end
+
+  Log:PrintD("trackingSpells = ", #trackingSpells)
 
   return trackingSpells
 end
@@ -377,11 +305,7 @@ end
 function Settings:CallbackHandler(...)
   local scope, key, subKey, val, scopeString = ...
 
-  if scope == TE.db.profile.autoTracking.lastTrackedOnRes then
-    if key == "enabled" then
-      self:SendMessage("LAST_TRACKED_ON_RES_TOGGLED")
-    end
-  elseif scope == TE.db.profile.autoTracking.spellSwitcher then
+  if scope == TE.db.profile.autoTracking.spellSwitcher then
     if key == "enabled" then
       self:SendMessage("SPELL_SWITCHER_TOGGLED")
     elseif key == "onmove" then
@@ -392,7 +316,7 @@ function Settings:CallbackHandler(...)
       self:SendMessage("SPELL_SWITCHER_INTERVAL_CHANGED")
     end
   elseif scope == TE.db.profile.autoTracking.spellSwitcher.trackingSpells then
-    if key == "resources" or key == "units" then
+    if key == "spells" then
       self:SendMessage("SPELL_SWITCHER_TRACKING_TYPES_CHANGED")
     end
   elseif scope == TE.db.profile.minimap then
@@ -401,7 +325,7 @@ function Settings:CallbackHandler(...)
     elseif key == "hideDefaultTrackingIcon" then
       self:ToggleDefaultTrackingIcon()
     elseif key == "displayType" then
-      self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
+      self:SendMessage("MINIMAP_ICON_DISPLAY_TYPE_CHANGE")
     end
   end
 end

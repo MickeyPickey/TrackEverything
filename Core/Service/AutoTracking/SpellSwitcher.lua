@@ -3,7 +3,6 @@ local TE = ADDON_TABLE.Addon
 local Log = TE.Include("Util.Log")
 local SpellSwitcher = TE.Include("Service.SpellSwitcher")
 local Settings = TE.Include("Service.Settings")
-local TrackingSpells = TE.Include("Data.TrackingSpells")
 local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
 
@@ -127,7 +126,7 @@ end
 
 function SpellSwitcher:CastNextSpell()
   Log:PrintfD("CAST_NEXT_SPELL")
-  local currentTrackingSpellID = TrackingSpells:GetCurrentTrackingSpellID()
+  local currentTrackingSpellID = self:GetCurrentTrackingSpellID()
   local nextSpellID = self:GetNextSpellID(currentTrackingSpellID)
   
   if not nextSpellID then -- stop timer and return, if no next spell to track
@@ -144,11 +143,19 @@ function SpellSwitcher:CastNextSpell()
   end
 end
 
+function SpellSwitcher:GetCurrentTrackingSpellID()
+
+  for i = 1, GetNumTrackingTypes() do
+    local name, texture, active, category, _, spellId = GetTrackingInfo(i);
+    if category == "spell" and active == true then return spellId end 
+  end
+
+end
+
 function SpellSwitcher:GetNextSpellID(currentSpellId)
   local trackingSpells = Settings:GetSpellsToTrack()
   local currentSpellId, nextSpellId = currentSpellId, nil
   local currentSpellIndex, nextSpellIndex = nil, nil
-  local spellInfo = TrackingSpells:GetDataByKey("spellInfo")
 
   if trackingSpells then
     if currentSpellId then
@@ -160,7 +167,7 @@ function SpellSwitcher:GetNextSpellID(currentSpellId)
 
     nextSpellId = trackingSpells[nextSpellIndex]
 
-    if PLAYER_CLASS == "DRUID" and nextSpellId == spellInfo["humanoids_druid"].spellId then
+    if PLAYER_CLASS == "DRUID" and nextSpellId == 5225 then
       if GetShapeshiftForm() ~= 3 then 
         if #trackingSpells > 1 then
           local newSpellIndex = MyLib.GetNextNumInRange(nextSpellIndex, #trackingSpells)
@@ -192,7 +199,7 @@ function SpellSwitcher:CanCast()
 end
 
 function SpellSwitcher:isNextSpellOnCooldown()
-  local currentTrackingSpellID = TrackingSpells:GetCurrentTrackingSpellID()
+  local currentTrackingSpellID = self:GetCurrentTrackingSpellID()
   local nextSpellID = self:GetNextSpellID(currentTrackingSpellID)
 
   if not nextSpellID or GetSpellCooldown(nextSpellID) ~= 0 then return true else return false end

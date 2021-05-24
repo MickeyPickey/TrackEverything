@@ -1,4 +1,5 @@
-## Interface: 11307
+## Interface-Classic: 11307
+## Interface-BCC: 20501
 ## Title: Track Everything
 ## Author: Mickeya @Gehennas-Alliance EU
 ## Version: @project-version@
@@ -48,7 +49,6 @@ Locale\Locale.lua
 
 # Data
 Core\Data\Colors.lua
-Core\Data\TrackingSpells.lua
 Core\Data\Gathering.lua
 
 # Util

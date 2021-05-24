@@ -25,17 +25,6 @@ local COMMANDS = {
 
 local SLASH_COMMAND_ARGUMENTS = {
   {
-    name = "lasttracked toggle",
-    desc = L["Enable/disable last used tracking spell activation on resurrection"],
-    print = function() return L["Last used tracking spell activation is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.lastTrackedOnRes.enabled) end,
-    hidden = false,
-    callback = function()
-      TE.db.profile.autoTracking.lastTrackedOnRes.enabled = not TE.db.profile.autoTracking.lastTrackedOnRes.enabled
-      SlashCommands:SendMessage("LAST_TRACKED_ON_RES_TOGGLED")
-    end,
-    order = 1,
-  },
-  {
     name = "switcher toggle",
     desc = L["Enable/disable auto spell switching"],
     print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled) end,
@@ -191,7 +180,7 @@ function SlashCommands:OnInitialize()
 end
 
 function SlashCommands:OnEnable()
-  Log:Printf(L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"], self:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled), self:GetColoredSettingState(TE.db.profile.autoTracking.lastTrackedOnRes.enabled), self:GetChatCommands())
+  Log:Printf(L[" Spell switching: %s, Type %s to see all chat commands. Have a nice day! :)"], self:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled), self:GetChatCommands())
 end
 
 function SlashCommands:ChatCommand(input)
