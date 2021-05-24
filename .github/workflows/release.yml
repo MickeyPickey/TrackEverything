@@ -1,9 +1,11 @@
-name: Release AddOn
+name: Release Classic AddOn
 
 on:
   push:
+    branches:
+      - classic
     tags:
-      - '**'
+      - '**-classic**'
 
 env:
   CF_API_KEY: ${{ secrets.CF_API_KEY }}
@@ -15,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-
+          
       - uses: BigWigsMods/packager@master
         with:
-          args: release.sh -g 1.13.6
+          args: -g classic

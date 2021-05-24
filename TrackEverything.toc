@@ -1,4 +1,5 @@
-## Interface: 11307
+## Interface-Classic: 11307
+## Interface-BCC: 20501
 ## Title: Track Everything
 ## Author: Mickeya @Gehennas-Alliance EU
 ## Version: @project-version@
@@ -26,17 +27,12 @@ External\EmbeddedLibs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 External\EmbeddedLibs\AceAddon-3.0\AceAddon-3.0.xml
 External\EmbeddedLibs\AceEvent-3.0\AceEvent-3.0.xml
 External\EmbeddedLibs\AceTimer-3.0\AceTimer-3.0.xml
-#External\EmbeddedLibs\AceBucket-3.0\AceBucket-3.0.xml
 External\EmbeddedLibs\AceHook-3.0\AceHook-3.0.xml
 External\EmbeddedLibs\AceDB-3.0\AceDB-3.0.xml
-#External\EmbeddedLibs\AceDBOptions-3.0\AceDBOptions-3.0.xml
 External\EmbeddedLibs\AceLocale-3.0\AceLocale-3.0.xml
 External\EmbeddedLibs\AceConsole-3.0\AceConsole-3.0.xml
 External\EmbeddedLibs\AceGUI-3.0\AceGUI-3.0.xml
 External\EmbeddedLibs\AceConfig-3.0\AceConfig-3.0.xml
-#External\EmbeddedLibs\AceComm-3.0\AceComm-3.0.xml
-#External\EmbeddedLibs\AceTab-3.0\AceTab-3.0.xml
-#External\EmbeddedLibs\AceSerializer-3.0\AceSerializer-3.0.xml
 External\EmbeddedLibs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 External\EmbeddedLibs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 

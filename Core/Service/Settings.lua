@@ -292,7 +292,7 @@ end
 function Settings:ResetProfile()
   TE.db:ResetProfile()
   self:ToggleDefaultTrackingIcon()
-  self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
+  self:SendMessage("MINIMAP_ICON_DISPLAY_TYPE_CHANGE")
   self:SendMessage("OPTIONS_RESET")
 end
 
@@ -401,7 +401,7 @@ function Settings:CallbackHandler(...)
     elseif key == "hideDefaultTrackingIcon" then
       self:ToggleDefaultTrackingIcon()
     elseif key == "displayType" then
-      self:SendMessage("MINIMAP_ICON_DISPLAY_TYPES_CHANGE")
+      self:SendMessage("MINIMAP_ICON_DISPLAY_TYPE_CHANGE")
     end
   end
 end

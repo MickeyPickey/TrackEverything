@@ -28,6 +28,11 @@ local private = {
   TOOLTIP_DEFAULTS_CHANGED = false,
 }
 
+-- do not change tooltip if owner is blacklisted. Need to fix it in more smart way later
+private.TooltipOwnersBL = {
+  "QuestieFrame",
+}
+
 function GatheringTooltipInfo:OnInitialize()
   GameTooltip:SetScript("OnShow", function()
 
@@ -101,8 +106,15 @@ function GatheringTooltipInfo:ModifyTooltip()
 end
 
 function GatheringTooltipInfo:RedrawTooltip()
+  local owner = GameTooltip:GetOwner():GetName()
+  local excludeOwners = private.TooltipOwnersBL
+
+  -- do not change tooltip if owner is blacklisted. Need to fix it in more smart way later
+  for i, j in ipairs(excludeOwners) do
+    if owner and string.find(owner, "^" .. j) then return end
+  end
+
   private.MINIMAP_TOOLTIP_REDRAWN = false
-  -- print("RedrawTooltip")
 
   local gameTooltipRows = {}
   local newTooltipRows = {}
