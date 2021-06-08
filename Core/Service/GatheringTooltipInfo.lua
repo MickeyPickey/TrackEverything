@@ -65,11 +65,11 @@ function GatheringTooltipInfo:CanUpdateWorldTooltip()
 end
 
 function GatheringTooltipInfo:CanUpdateMinimapTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap and GameTooltip:IsShown() and MouseIsOver(Minimap) and Minimap:IsVisible() 
+  return TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap and GameTooltip:IsShown() and MouseIsOver(Minimap) and Minimap:IsVisible()
 end
 
 function GatheringTooltipInfo:CanUpdateWorldMapTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and WorldMapFrame:IsVisible() and MouseIsOver(WorldMapFrame) 
+  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and WorldMapFrame:IsVisible() and MouseIsOver(WorldMapFrame)
 end
 
 function GatheringTooltipInfo:ModifyTooltip()
@@ -100,7 +100,7 @@ function GatheringTooltipInfo:RedrawTooltip()
   local excludeOwners = private.TooltipOwnersBL
 
   -- do not change tooltip if owner is blacklisted. Need to fix it in more smart way later
-  for i, j in ipairs(excludeOwners) do
+  for _, j in ipairs(excludeOwners) do
     if owner and string.find(owner, "^" .. j) then return end
   end
 
@@ -110,20 +110,20 @@ function GatheringTooltipInfo:RedrawTooltip()
   local newTooltipRows = {}
 
   for i = 1, GameTooltip:NumLines() do
-    table.insert(gameTooltipRows, { 
-      lineNum = i, 
+    table.insert(gameTooltipRows, {
+      lineNum = i,
       text = _G["GameTooltipTextLeft"..i]:GetText()
     })
   end
 
-  for i, row in ipairs(gameTooltipRows) do
+  for _, row in ipairs(gameTooltipRows) do
     local rowWords = {}
 
     for word in row.text:gmatch("[^\n]+") do
       table.insert(rowWords, word)
     end
 
-    for i, word in ipairs(rowWords) do
+    for _, word in ipairs(rowWords) do
       table.insert(newTooltipRows, { type = "title", text = word ,})
     end
 
@@ -141,7 +141,7 @@ function GatheringTooltipInfo:RedrawTooltip()
   for i, row in ipairs(newTooltipRows) do
     GameTooltip:AddLine(row.text)
     local targetRow = _G["GameTooltipTextLeft"..i]
-    local infoRowColor = nil
+
     if row.type == "title" then
       targetRow:SetFontObject(GameTooltipHeaderText)
       targetRow:SetTextColor(NORMAL_FONT_COLOR:GetRGBA())
@@ -159,8 +159,8 @@ function GatheringTooltipInfo:RedrawTooltip()
 end
 
 function GatheringTooltipInfo:CalculateSkinningLevel(unitLevel)
-  if unitLevel <= 10 then 
-    return 1 
+  if unitLevel <= 10 then
+    return 1
   elseif unitLevel <= 20 then
     return (unitLevel-10) * 10
   elseif unitLevel > 20 then
@@ -173,7 +173,7 @@ function GatheringTooltipInfo:GetTooltipProfession(profName)
   if not profName then -- if no profName passed, checking all professions from GatheringData
     local professionLookups = GatheringData:GetLookupValues()
     for profession, lookups in pairs(professionLookups) do
-        for index, lookup in ipairs(lookups) do
+        for _, lookup in ipairs(lookups) do
           for i = 1, GameTooltip:NumLines() do
             if _G["GameTooltipTextLeft"..i]:GetText() == lookup then return profession, lookup, i end
           end
@@ -193,7 +193,7 @@ end
 function GatheringTooltipInfo:IsProfessionInTooltip()
   local professionLookups = GatheringData:GetLookupValues()
 
-  for profession, lookups in pairs(professionLookups) do
+  for _, lookups in pairs(professionLookups) do
     for index, lookup in ipairs(lookups) do
       for i = 1, GameTooltip:NumLines() do
         if _G["GameTooltipTextLeft"..i]:GetText() == lookup then return true end

@@ -5,7 +5,6 @@ local Colors = TE.Include("Data.Colors")
 local Icon = TE.Include("Service.Icon")
 local Settings = TE.Include("Service.Settings")
 local SpellSwitcher = TE.Include("Service.SpellSwitcher")
-local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
 
 local private = {
@@ -37,11 +36,11 @@ function Icon:OnInitialize()
     text = ADDON_NAME,
     icon = self:GetIconTexture(),
     OnTooltipShow = function(tooltip)
-      local tooltip = private.CreateTooltip(_, tooltip)
+      local tt = private.CreateTooltip(_, tooltip)
       local cs = COMMAND_COLOR
       local ce = "|r"
-      tooltip:AddLine(format(L["%sDrag%s to move icon"], cs, ce))
-      tooltip:Show()
+      tt:AddLine(format(L["%sDrag%s to move icon"], cs, ce))
+      tt:Show()
     end,
     OnClick = function(self, button)
       Icon:OnClick(self, button)

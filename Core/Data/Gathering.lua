@@ -153,7 +153,7 @@ function Gathering:GetProfessionInfoByItemName(itemName)
 
   local herbs = self:GetDataByKey(L["Herbalism"])
 
-  for i, unit in ipairs(herbs.UNITS) do
+  for _, unit in ipairs(herbs.UNITS) do
     if unit.name == itemName then return L["Herbalism"], unit.difficulty[1], unit.id end
   end
 
@@ -180,8 +180,8 @@ end
 function Gathering:GetLookupValues()
   local lookupValues = {}
 
-  for key, val in pairs(private) do
-    for i, val in ipairs(private[key].LOOKUP) do
+  for key, _ in pairs(private) do
+    for _, val in ipairs(private[key].LOOKUP) do
       if not lookupValues[key] then lookupValues[key] = {} end
       table.insert(lookupValues[key], val)
     end
@@ -191,15 +191,15 @@ function Gathering:GetLookupValues()
 end
 
 function Gathering:GetDataKeyByLookupValue(value)
-  for key, val in pairs(private) do
-    for i, j in ipairs(private[key].LOOKUP) do
-      if value == j then return key end
+  for key, _ in pairs(private) do
+    for _, val in ipairs(private[key].LOOKUP) do
+      if value == val then return key end
     end
   end
 end
 
 function Gathering:GetHerbsItemInfoFromServer()
-  for i, val in ipairs(private[L["Herbalism"]].ITEMS) do
+  for _, val in ipairs(private[L["Herbalism"]].ITEMS) do
     GetItemInfo(val.itemId)
   end
 end

@@ -75,8 +75,8 @@ end
 
 function SpellSwitcher:OnEnable()
   if TE.db.profile.autoTracking.spellSwitcher.enabled and not TE.db.profile.autoTracking.spellSwitcher.onmove then
-    self.trackingTimer = self:ScheduleTimer(function() 
-      self:StartTimer() 
+    self.trackingTimer = self:ScheduleTimer(function()
+      self:StartTimer()
     end, 2) -- start timer after 2 cesonds of pause. It helps to avoid GCD after reloading.
   end
 end
@@ -88,7 +88,7 @@ end
 function SpellSwitcher:Toggle()
   if private.IS_PAUSED then
     SpellSwitcher:StartTimer()
-  else 
+  else
     SpellSwitcher:StopTimer()
   end
 end
@@ -129,11 +129,11 @@ function SpellSwitcher:CastNextSpell()
   Log:PrintfD("CAST_NEXT_SPELL")
   local currentTrackingSpellID = self:GetCurrentTrackingSpellID()
   local nextSpellID = self:GetNextSpellID(currentTrackingSpellID)
-  
+
   if not nextSpellID then -- stop timer and return, if no next spell to track
     self:StopTimer()
     return
-  end 
+  end
 
   if TE.db.profile.autoTracking.general.muteSpellUseSound and GetCVar("Sound_EnableSFX") == "1" then
     SetCVar("Sound_EnableSFX", "0")
@@ -155,8 +155,9 @@ end
 
 function SpellSwitcher:GetNextSpellID(currentSpellId)
   local trackingSpells = Settings:GetSpellsToTrack()
-  local currentSpellId, nextSpellId = currentSpellId, nil
-  local currentSpellIndex, nextSpellIndex = nil, nil
+  local nextSpellId = nil
+  local currentSpellIndex = nil 
+  local nextSpellIndex = nil
 
   if trackingSpells then
     if currentSpellId then
@@ -219,7 +220,7 @@ end
 --                              Event handl functions
 -- =================================================================================
 function SpellSwitcher:EventHandler(...)
-  local event, arg1, arg2, arg3, arg4 = ...
+  local event, arg1, arg2, _, arg4 = ...
   Log:PrintfD("SpellSwitcher: [%s]", event)
 
   if private.GAME_EVENTS.MOVE_EVENTS[event] then
