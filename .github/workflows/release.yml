@@ -8,8 +8,8 @@ on:
       - '**-bcc**'
 
 env:
-  CF_API_KEY: ${{ secrets.CF_API_KEY }}
-  WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+  #CF_API_KEY: ${{ secrets.CF_API_KEY }}
+  #WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
   GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -18,11 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       
-      - name: Install and run Luacheck
-        uses: nebularg/actions-luacheck@v1
-        with:
-          args: "-q"
+      #- name: Install and run Luacheck
+      #  uses: nebularg/actions-luacheck@v1
+      #  with:
+      #    args: "-q"
 
       - uses: BigWigsMods/packager@master
         with:
-          args: -g bcc -d
+          args: -g bcc
