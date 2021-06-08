@@ -23,6 +23,7 @@
 
 # External libs
 External\EmbeddedLibs\LibStub\LibStub.lua
+External\EmbeddedLibs\LibTouristClassic-1.0\lib.xml
 External\EmbeddedLibs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 External\EmbeddedLibs\AceAddon-3.0\AceAddon-3.0.xml
 External\EmbeddedLibs\AceEvent-3.0\AceEvent-3.0.xml

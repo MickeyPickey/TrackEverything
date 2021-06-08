@@ -1,6 +1,7 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local L = TE.Include("Locale")
+local LT = LibStub("LibTouristClassic-1.0")
 
 local Gathering = TE.Init("Data.Gathering", "AceEvent-3.0")
 
@@ -79,8 +80,8 @@ local private = {
       { name = L["Mana Thistle"], itemId = 22793, difficulty = { 375, 400, 425, 475 }, },
     },
     UNITS = {
-      { name = L["Fungal Giant"], difficulty = { 315, 315, 315, 315 }, },
-      { name = L["Bog Lord"], difficulty = { 320, 320, 320, 320 }, },
+      { name = L["Fungal Giant"], id = "", difficulty = { 315, 315, 315, 315 }, },
+      { name = L["Bog Lord"], id = "", difficulty = { 320, 320, 320, 320 }, },
     },
   },
   [UNIT_SKINNABLE_LEATHER] = {
@@ -100,58 +101,69 @@ function Gathering:GetItemsByKey(key)
   return private[key].ITEMS
 end
 
--- function Gathering:GetItemByName(name)
---   assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
+function Gathering:GetProfessionRequiredSkillColor(itemName)
 
---   print(name)
+  local profName, difficulty, id = self:GetProfessionInfoByItemName(itemName)
 
---   for i, item in ipairs(private[L["Mining"]].ITEMS) do
---     if item.name == name then return item end
---   end
+  local currentSkill = self:GetPlayerProfessionSkillLevelByProfessionName(profName)
 
---   for i, item in ipairs(private[L["Herbalism"]].ITEMS) do
---     local itemName = GetItemInfo(item.itemId)
---     if itemName == name then return item end
---   end
+  -- return if no prefession learned
+  if not currentSkill then return RED_FONT_COLOR:GetRGBA() end
 
---   for i, item in ipairs(private[L["Herbalism"]].UNITS) do
---     if item.name == name then return item end
---   end
+  if profName == L["Mining"] then
+    return LT:GetMiningSkillColor(id, currentSkill)
+  elseif profName == L["Herbalism"] then
+    return LT:GetHerbSkillColor(id, currentSkill)
+  end
 
---   return nil
--- end
+  return RED_FONT_COLOR:GetRGBA()
+end
 
--- function Gathering:GetItemDifficultyByName(name)
---   assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
---   local item = self:GetItemByName(name)
+function Gathering:GetPlayerProfessionSkillLevelByProfessionName(profName)
 
---   if item then return item.difficulty end
+  if GetNumPrimaryProfessions() == 0 then return nil end -- no primary professions
 
---   return nil
--- end
+  for i = 1, GetNumSkillLines() do
+    local skillName, _, _, skillRank = GetSkillLineInfo(i)
+    if skillName == profName then return skillRank end
+  end
 
-function Gathering:GetProfessionInfoByItemName(name)
-  assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
+  return nil
+end
 
-  local deposits = self:GetItemsByKey(L["Mining"])
+function Gathering:GetProfessionInfoByItemName(itemName)
+  assert(itemName and type(itemName) == "string", format("Wrong data type, expected 'string', got %s ", type(itemName)) )
 
-  for i, deposit in ipairs(deposits) do
-    if name == deposit.name then return L["Mining"], deposit.difficulty end
+  -- ITERATE THROUGH MINES
+  for mine in LT:IterateMiningNodes() do
+    if mine.nodeName == itemName then return L["Mining"], mine.minLevel, mine.nodeObjectID end
+  end
+
+  -- ITERATE THROUGH HERBS
+  for herb in LT:IterateHerbs() do
+    if herb.name == itemName then return L["Herbalism"], herb.minLevel, herb.itemID end
   end
 
   local herbs = self:GetDataByKey(L["Herbalism"])
 
-  for i, item in ipairs(herbs.ITEMS) do
-   
-    local itemNameLocalized = GetItemInfo(item.itemId)
-    if itemNameLocalized == name then return L["Herbalism"], item.difficulty end
-  end
-
   for i, unit in ipairs(herbs.UNITS) do
-    if unit.name == name then return L["Herbalism"], unit.difficulty end
+    if unit.name == itemName then return L["Herbalism"], unit.difficulty[1], unit.id end
   end
 
   return nil
+end
+
+function Gathering:IsProfessionItemName(itemName)
+
+  for mine in LT:IterateMiningNodes() do
+    if mine.nodeName == itemName then return true end
+  end
+
+  for herb in LT:IterateHerbs() do
+    if herb.name == itemName then return true end
+  end
+
+  return false
 end
 
 function Gathering:GetData()

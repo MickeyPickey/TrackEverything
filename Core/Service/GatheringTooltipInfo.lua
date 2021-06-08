@@ -34,6 +34,7 @@ private.TooltipOwnersBL = {
 }
 
 function GatheringTooltipInfo:OnInitialize()
+
   GameTooltip:SetScript("OnShow", function()
 
     if self:CanUpdateWorldTooltip() then self:ModifyTooltip() end
@@ -98,7 +99,7 @@ function GatheringTooltipInfo:ModifyTooltip()
     local tooltipItemName = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
     local _, difficulty = GatheringData:GetProfessionInfoByItemName(tooltipItemName)
     if difficulty then
-      levelReq = difficulty[1]
+      levelReq = difficulty
     end
   end
 
@@ -141,9 +142,8 @@ function GatheringTooltipInfo:RedrawTooltip()
 
     for i, title in ipairs(newTooltipRows) do
       local titleNameUnescaped = MyLib.UnescapeStr(title.text)
-      if self:IsProfessionItemInTooltip(titleNameUnescaped) then
-        local profName, difficulty = GatheringData:GetProfessionInfoByItemName(titleNameUnescaped)
-        local levelReq = difficulty[1]
+      if GatheringData:IsProfessionItemName(titleNameUnescaped) then
+        local profName, levelReq = GatheringData:GetProfessionInfoByItemName(titleNameUnescaped)
         table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(profName, levelReq)})
       end
     end
@@ -161,7 +161,7 @@ function GatheringTooltipInfo:RedrawTooltip()
     elseif row.type == "info" then
       targetRow:SetFontObject(GameTooltipText)
       local itemName = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i-1]:GetText())
-      targetRow:SetTextColor(self:GetProfessionRequiredSkillColor(itemName))
+      targetRow:SetTextColor(GatheringData:GetProfessionRequiredSkillColor(itemName))
     end
   end
 
@@ -212,23 +212,6 @@ function GatheringTooltipInfo:IsProfessionInTooltip()
         if _G["GameTooltipTextLeft"..i]:GetText() == lookup then return true end
       end
     end
-  end
-
-  return false
-end
-
-function GatheringTooltipInfo:IsProfessionItemInTooltip(itemName)
-  local deposits = GatheringData:GetItemsByKey(L["Mining"])
-
-  for i, deposit in ipairs(deposits) do
-    if itemName == deposit.name then return true end
-  end
-
-  local herbs = GatheringData:GetItemsByKey(L["Herbalism"])
-
-  for i, herb in ipairs(herbs) do
-    local herbNameLocalized = GetItemInfo(herb.itemId)
-    if itemName == herbNameLocalized then return true end
   end
 
   return false
