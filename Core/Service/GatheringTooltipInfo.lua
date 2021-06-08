@@ -194,7 +194,7 @@ function GatheringTooltipInfo:IsProfessionInTooltip()
   local professionLookups = GatheringData:GetLookupValues()
 
   for _, lookups in pairs(professionLookups) do
-    for index, lookup in ipairs(lookups) do
+    for _, lookup in ipairs(lookups) do
       for i = 1, GameTooltip:NumLines() do
         if _G["GameTooltipTextLeft"..i]:GetText() == lookup then return true end
       end
@@ -214,7 +214,7 @@ function GatheringTooltipInfo:GetProfessionRequiredSkillColor(itemName)
 
   local orangeLevel, yellowLevel, greenLevel, grayLevel = unpack(difficulty)
 
-  if currentLevel < orangeLevel then 
+  if currentLevel < orangeLevel then
     return RED_FONT_COLOR:GetRGBA()
   elseif currentLevel >= orangeLevel and currentLevel < yellowLevel then
     return ORANGE_FONT_COLOR:GetRGBA()

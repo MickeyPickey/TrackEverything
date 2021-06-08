@@ -35,8 +35,8 @@ function Icon:OnInitialize()
     type = "data source",
     text = ADDON_NAME,
     icon = self:GetIconTexture(),
-    OnTooltipShow = function(tooltip)
-      local tt = private.CreateTooltip(_, tooltip)
+    OnTooltipShow = function(self)
+      local tt = private.CreateTooltip(self, self)
       local cs = COMMAND_COLOR
       local ce = "|r"
       tt:AddLine(format(L["%sDrag%s to move icon"], cs, ce))
