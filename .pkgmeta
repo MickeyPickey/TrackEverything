@@ -15,6 +15,6 @@ externals:
   External/EmbeddedLibs/LibDataBroker-1.1: https://github.com/tekkub/libdatabroker-1-1
   External/EmbeddedLibs/LibDBIcon-1.0: https://repos.curseforge.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
   External/EmbeddedLibs/HereBeDragons-2.0: https://repos.curseforge.com/wow/herebedragons
-  External/EmbeddedLibs/LibTouristClassic-1.0: https://repos.curseforge.com/wow/libtourist-classic/trunk
+  External/EmbeddedLibs/LibTouristClassic-1.0: https://repos.curseforge.com/wow/libtourist-classic
 
 enable-nolib-creation: no
