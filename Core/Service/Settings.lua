@@ -474,17 +474,17 @@ do
     local cat = INTERFACEOPTIONS_ADDONCATEGORIES
 
     for i = 1, #cat do
-      local panel = cat[i]
-      if not panel.parent or noncollapsedHeaders[panel.parent] then
-        if panel.name == panelName then
-          panel.collapsed = true
-          t.element = panel
+      local localPanel = cat[i]
+      if not localPanel.parent or noncollapsedHeaders[localPanel.parent] then
+        if localPanel.name == panelName then
+          localPanel.collapsed = true
+          t.element = localPanel
           InterfaceOptionsListButton_ToggleSubCategories(t)
-          noncollapsedHeaders[panel.name] = true
+          noncollapsedHeaders[localPanel.name] = true
           mypanel = shownpanels + 1
         end
-        if not panel.collapsed then
-          noncollapsedHeaders[panel.name] = true
+        if not localPanel.collapsed then
+          noncollapsedHeaders[localPanel.name] = true
         end
         shownpanels = shownpanels + 1
       end

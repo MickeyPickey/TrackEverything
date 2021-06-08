@@ -53,6 +53,8 @@ globals = {
   "GameTooltipHeaderText",
   "GameTooltipText",
   "InterfaceOptionsFrame_OpenToCategory",
+  "InterfaceOptionsListButton_ToggleSubCategories",
+  "InterfaceOptionsFrameAddOnsListScrollBar",
   "INTERFACEOPTIONS_ADDONCATEGORIES",
 
   -- DATA BELOW FETCHED FROM ATLASLOOT REPOSITORY
