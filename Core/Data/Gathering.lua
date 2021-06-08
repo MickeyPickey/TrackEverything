@@ -110,7 +110,7 @@ end
 
 function Gathering:GetProfessionRequiredSkillColor(itemName)
 
-  local profName, difficulty, id = self:GetProfessionInfoByItemName(itemName)
+  local profName, _, id = self:GetProfessionInfoByItemName(itemName)
 
   local currentSkill = self:GetPlayerProfessionSkillLevelByProfessionName(profName)
 
@@ -191,9 +191,9 @@ function Gathering:GetLookupValues()
 end
 
 function Gathering:GetDataKeyByLookupValue(value)
-  for key, val in pairs(private) do 
-    for i, val in ipairs(private[key].LOOKUP) do
-      if value == val then return key end
+  for key, val in pairs(private) do
+    for i, j in ipairs(private[key].LOOKUP) do
+      if value == j then return key end
     end
   end
 end

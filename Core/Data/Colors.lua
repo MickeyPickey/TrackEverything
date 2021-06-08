@@ -180,6 +180,6 @@ function Colors:GetStrColors()
   end
 
   local colorStr = table.concat(coloredTbl, " ")
-  
+
   return colorStr
 end

@@ -4,7 +4,6 @@ local GatheringData = TE.Include("Data.Gathering")
 local GatheringTooltipInfo = TE.Include("Service.GatheringTooltipInfo")
 local MyLib = TE.Include("Util.MyLib")
 
-local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR
 local ADDON_NAME_ACRONYM = ADDON_TABLE.ADDON_NAME_ACRONYM
 
@@ -59,15 +58,6 @@ function GatheringTooltipInfo:OnInitialize()
       self:ScheduleTimer(function() self:ModifyTooltip() end, 0,00000001) -- need to wait before new GameTooltip drawn, becouse it apears not instantly after OnTooltipCleared event
     end
   end)
-end
-
-function GatheringTooltipInfo:OnEnable()
-  -- self:ScheduleRepeatingTimer(function() 
-  --   MyLib.PrintMouseoverInfo() 
-  --   if GameTooltip:IsShown() then
-  --     print("GameTooltip parent:", GameTooltip:GetOwner():GetName())
-  --   end
-  -- end, 1)
 end
 
 function GatheringTooltipInfo:CanUpdateWorldTooltip()

@@ -75,7 +75,9 @@ end
 
 function SpellSwitcher:OnEnable()
   if TE.db.profile.autoTracking.spellSwitcher.enabled and not TE.db.profile.autoTracking.spellSwitcher.onmove then
-    self.trackingTimer = self:ScheduleTimer(function() self:StartTimer() end, 2) -- start timer after 2 cesonds of pause. It helps to avoid GCD after reloading.
+    self.trackingTimer = self:ScheduleTimer(function() 
+      self:StartTimer() 
+    end, 2) -- start timer after 2 cesonds of pause. It helps to avoid GCD after reloading.
   end
 end
 
