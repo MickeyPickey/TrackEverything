@@ -18,10 +18,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       
-      #- name: Install and run Luacheck
-      #  uses: nebularg/actions-luacheck@v1
-      #  with:
-      #    args: "-q"
+      - name: Install and run Luacheck
+        uses: nebularg/actions-luacheck@v1
+          args: "--no-color -q"
+          annotate: warning
 
       - uses: BigWigsMods/packager@master
         with:
