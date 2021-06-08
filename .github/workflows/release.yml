@@ -21,7 +21,7 @@ jobs:
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v1
         with:
-          args: "--no-color -q"
+          args: "--no-color -q --ignore 212/self"
           annotate: warning
 
       - uses: BigWigsMods/packager@master
