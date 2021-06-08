@@ -42,6 +42,8 @@ globals = {
 
   -- FrameXML frames
   "Minimap",
+  "MiniMapTracking",
+  "MiniMapTrackingIcon",
 
   -- FrameXML misc
   "GameTooltipTextLeft1",

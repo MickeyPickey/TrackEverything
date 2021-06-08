@@ -35,8 +35,8 @@ function Icon:OnInitialize()
     type = "data source",
     text = ADDON_NAME,
     icon = self:GetIconTexture(),
-    OnTooltipShow = function(self)
-      local tt = private.CreateTooltip(self, self)
+    OnTooltipShow = function(_self)
+      local tt = private.CreateTooltip(_self, _self)
       local cs = COMMAND_COLOR
       local ce = "|r"
       tt:AddLine(format(L["%sDrag%s to move icon"], cs, ce))
@@ -84,15 +84,15 @@ function Icon:EmbedInDefaultTrackingFrame()
 
     ghostButton:SetAllPoints()
 
-    ghostButton:SetScript("OnMouseDown", function(self, button)
-      Icon:OnClick(self, button)
+    ghostButton:SetScript("OnMouseDown", function(_self, button)
+      Icon:OnClick(_self, button)
     end)
-    ghostButton:SetScript("OnEnter", function(self)
-      local tooltip = private.CreateTooltip(self)
+    ghostButton:SetScript("OnEnter", function(_self)
+      local tooltip = private.CreateTooltip(_self)
       tooltip:Show()
     end)
-    ghostButton:SetScript("OnLeave", function(self) 
-      local tooltip = private.CreateTooltip(self)
+    ghostButton:SetScript("OnLeave", function(_self)
+      local tooltip = private.CreateTooltip(_self)
       tooltip:Hide()
     end)
 
@@ -117,9 +117,9 @@ function Icon:GetNextSpellIcon()
   local currentSpellId = SpellSwitcher:GetCurrentTrackingSpellID()
   local nextSpellID = SpellSwitcher:GetNextSpellID(currentSpellId)
   local icon = GetSpellTexture(nextSpellID)
-  
+
   if not icon then return NO_TRACK_ICON end
-  
+
   return icon
 end
 
@@ -131,12 +131,12 @@ function Icon:GetIconTexture()
     return currentTrackingIcon or NO_TRACK_ICON
   elseif TE.db.profile.minimap.displayType == "NEXT_SPELL" then
     return self:GetNextSpellIcon()
-  else 
+  else
     return NO_TRACK_ICON
   end
 end
 
-function Icon:OnClick(self, button)
+function Icon:OnClick(_self, button)
   local alt_key = IsAltKeyDown()
   local shift_key = IsShiftKeyDown()
   local control_key = IsControlKeyDown()
@@ -146,7 +146,7 @@ function Icon:OnClick(self, button)
       TE.db.profile.autoTracking.spellSwitcher.enabled = not TE.db.profile.autoTracking.spellSwitcher.enabled
       Icon:SendMessage("SPELL_SWITCHER_TOGGLED")
     else
-      ToggleDropDownMenu(1, nil, MiniMapTrackingDropDown, self, 0, 0)
+      ToggleDropDownMenu(1, nil, MiniMapTrackingDropDown, _self, 0, 0)
     end
   elseif button == "RightButton" then
     if shift_key then
