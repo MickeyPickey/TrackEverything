@@ -156,8 +156,8 @@ end
 function SpellSwitcher:GetNextSpellID(currentSpellId)
   local trackingSpells = Settings:GetSpellsToTrack()
   local nextSpellId = nil
-  local currentSpellIndex = nil 
-  local nextSpellIndex = nil
+  local currentSpellIndex
+  local nextSpellIndex
 
   if trackingSpells then
     if currentSpellId then
