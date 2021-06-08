@@ -1,11 +1,8 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local GatheringData = TE.Include("Data.Gathering")
-local Colors = TE.Include("Data.Colors")
 local GatheringTooltipInfo = TE.Include("Service.GatheringTooltipInfo")
-local Log = TE.Include("Util.Log")
 local MyLib = TE.Include("Util.MyLib")
-local L = TE.Include("Locale")
 
 local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR

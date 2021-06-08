@@ -169,7 +169,6 @@ function Colors:GetStrColors()
   local tbl = {}
   for colorName, color in pairs(COLORS) do
     local str = colorName
-    -- local str = color..colorName.."|r"
     table.insert(tbl, str)
   end
 

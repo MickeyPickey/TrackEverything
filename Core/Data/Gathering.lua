@@ -5,6 +5,13 @@ local LT = LibStub("LibTouristClassic-1.0")
 
 local Gathering = TE.Init("Data.Gathering", "AceEvent-3.0")
 
+-- Globals
+local format = format
+local GetNumPrimaryProfessions = GetNumPrimaryProfessions
+local GetNumSkillLines = GetNumSkillLines
+local GetSkillLineInfo = GetSkillLineInfo
+local GetItemInfo = GetItemInfo
+
 local private = {
   [L["Mining"]] = {
     LOOKUP = { L["Mining"], UNIT_SKINNABLE_ROCK},

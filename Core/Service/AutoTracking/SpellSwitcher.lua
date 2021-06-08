@@ -4,9 +4,8 @@ local Log = TE.Include("Util.Log")
 local SpellSwitcher = TE.Include("Service.SpellSwitcher")
 local Settings = TE.Include("Service.Settings")
 local MyLib = TE.Include("Util.MyLib")
-local L = TE.Include("Locale")
 
-local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown
+local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown, UnitClass,GetTrackingInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown, UnitClass, GetTrackingInfo
 
 local _, PLAYER_CLASS = UnitClass("player")
 
@@ -75,9 +74,9 @@ function SpellSwitcher:OnInitialize()
 end
 
 function SpellSwitcher:OnEnable()
-  if TE.db.profile.autoTracking.spellSwitcher.enabled and not TE.db.profile.autoTracking.spellSwitcher.onmove then 
+  if TE.db.profile.autoTracking.spellSwitcher.enabled and not TE.db.profile.autoTracking.spellSwitcher.onmove then
     self.trackingTimer = self:ScheduleTimer(function() self:StartTimer() end, 2) -- start timer after 2 cesonds of pause. It helps to avoid GCD after reloading.
-  end 
+  end
 end
 
 function SpellSwitcher:OnDisable()
@@ -146,8 +145,8 @@ end
 function SpellSwitcher:GetCurrentTrackingSpellID()
 
   for i = 1, GetNumTrackingTypes() do
-    local name, texture, active, category, _, spellId = GetTrackingInfo(i);
-    if category == "spell" and active == true then return spellId end 
+    local _, _, active, category, _, spellId = GetTrackingInfo(i);
+    if category == "spell" and active == true then return spellId end
   end
 
 end
@@ -168,7 +167,7 @@ function SpellSwitcher:GetNextSpellID(currentSpellId)
     nextSpellId = trackingSpells[nextSpellIndex]
 
     if PLAYER_CLASS == "DRUID" and nextSpellId == 5225 then
-      if GetShapeshiftForm() ~= 3 then 
+      if GetShapeshiftForm() ~= 3 then
         if #trackingSpells > 1 then
           local newSpellIndex = MyLib.GetNextNumInRange(nextSpellIndex, #trackingSpells)
           nextSpellId = trackingSpells[newSpellIndex]
