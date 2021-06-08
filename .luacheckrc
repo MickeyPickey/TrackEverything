@@ -29,6 +29,7 @@ ignore = {
 globals = {
   "_G",
   "bit",
+  "Enum",
 
   -- misc custom
   "LibStub",
@@ -51,7 +52,8 @@ globals = {
   "GameTooltipTextLeft1",
   "GameTooltipHeaderText",
   "GameTooltipText",
-
+  "InterfaceOptionsFrame_OpenToCategory",
+  "INTERFACEOPTIONS_ADDONCATEGORIES",
 
   -- DATA BELOW FETCHED FROM ATLASLOOT REPOSITORY
   -- FrameXML misc

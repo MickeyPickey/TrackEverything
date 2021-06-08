@@ -42,8 +42,8 @@ function Icon:OnInitialize()
       tt:AddLine(format(L["%sDrag%s to move icon"], cs, ce))
       tt:Show()
     end,
-    OnClick = function(self, button)
-      Icon:OnClick(self, button)
+    OnClick = function(_self, button)
+      Icon:OnClick(_self, button)
     end,
   })
 
@@ -209,23 +209,15 @@ end
 
 function private.CreateTooltip(self, dummyTooltip)
 
-  local tooltip = nil
+  local tooltip
 
   if not dummyTooltip then
 
     tooltip = self.tooltip or CreateFrame("GameTooltip", ADDON_NAME.."tooltip", UIParent, "GameTooltipTemplate")
     self.tooltip = tooltip
 
-    function getFrameAnchors(frame)
-      local x, y = frame:GetCenter()
-      if not x or not y then return "CENTER" end
-      local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
-      local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
-      return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
-    end
-
     tooltip:SetOwner(self, "ANCHOR_NONE")
-    tooltip:SetPoint(getFrameAnchors(self))
+    tooltip:SetPoint(private.GetFrameAnchors(self))
   else
     tooltip = dummyTooltip
   end
@@ -252,6 +244,13 @@ function private.GetDropdownMenu(name, parent)
   return CreateFrame("Frame", name, parent, "UIDropDownMenuTemplate")
 end
 
+function private.GetFrameAnchors(frame)
+  local x, y = frame:GetCenter()
+  if not x or not y then return "CENTER" end
+  local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
+  local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
+  return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
+end
 -- =================================================================================
 --                                     Other
 -- =================================================================================

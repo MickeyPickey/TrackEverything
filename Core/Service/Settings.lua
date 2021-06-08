@@ -4,8 +4,8 @@ local ADDON_VERSION = ADDON_TABLE.ADDON_VERSION
 local ADDON_AUTHOR = ADDON_TABLE.ADDON_AUTHOR
 local TE = ADDON_TABLE.Addon
 local Settings = TE.Include("Service.Settings")
-local MyLib = TE.Include("Util.MyLib")
 local Log = TE.Include("Util.Log")
+local L = TE.Include("Locale")
 local private = {}
 
 local MINIMAP_ICON_DISPLAY_TYPES = {
@@ -59,7 +59,7 @@ local options = {
             trackingSpells = {
               name = L["Tracking spells"],
               type = "group",
-              hidden = function() 
+              hidden = function()
                 local valueTable = Settings:GetPlayerTrackingSpells()
                 if not valueTable then return true end
               end,
@@ -78,7 +78,7 @@ local options = {
 
                     return tempTable or {}
                   end,
-                  hidden = function() 
+                  hidden = function()
                     local valueTable = Settings:GetPlayerTrackingSpells()
                     if not valueTable then return true end
                   end,
@@ -217,7 +217,7 @@ local defaults = {
         muteSpellUseSound = true,
       },
     },
-    minimap = { 
+    minimap = {
       hide = true,
       hideDefaultTrackingIcon = false,
       displayType = "CURRENT_SPELL",
@@ -229,7 +229,6 @@ local defaults = {
     },
   }
 }
-  
 
 function Settings:OnInitialize()
   TE.db = LibStub("AceDB-3.0"):New(FOLDER_NAME.."CharDB", defaults)
@@ -252,11 +251,11 @@ function Settings:ResetProfile()
   self:SendMessage("OPTIONS_RESET")
 end
 
-function Settings:GetPlayerTrackingSpells(trackingType)
+function Settings:GetPlayerTrackingSpells()
   local playerTrackingSpells = {}
 
-  for i = 1, GetNumTrackingTypes() do 
-    local name, texture, active, category, _, spellId = GetTrackingInfo(i);
+  for i = 1, GetNumTrackingTypes() do
+    local name, _, _, category, _, spellId = GetTrackingInfo(i);
     if category == "spell" then
       table.insert(playerTrackingSpells, {spellId = spellId, name = name} )
     end
@@ -277,7 +276,7 @@ function Settings:GetSpellsToTrack()
       table.insert(trackingSpells, spells[i].spellId)
     end
   end
-  
+
   -- if no spells to track
   if #trackingSpells < 1 then return nil end
 
@@ -300,7 +299,7 @@ function Settings:test()
 end
 
 function Settings:CallbackHandler(...)
-  local scope, key, subKey, val, scopeString = ...
+  local scope, key = ...
 
   if scope == TE.db.profile.autoTracking.spellSwitcher then
     if key == "enabled" then
@@ -348,9 +347,8 @@ function Settings:OptSetter(...)
   local scope = private.GetDBScopeForInfo(TE.db.profile, info)
 
   local key = info[#info]
-  local subKey = nil
   local val = arg2
-  
+
   if arg3 ~= nil then
     local subKey = arg2
     val = arg3
@@ -364,7 +362,7 @@ function Settings:OptSetter(...)
     scopeString = scopeString.."."..info[i]
   end
 
-  self:CallbackHandler(scope, key, subKey, val, scopeString)
+  self:CallbackHandler(scope, key, val, scopeString)
 end
 
 -- =================================================================================
@@ -389,10 +387,10 @@ function private.GetSortingTable(tbl)
   local tempTable = {}
   local isDefault = false
 
-  for key, val in pairs(tbl) do
-    if key ~= "DEFAULT" then 
-      table.insert(tempTable, key) 
-    else 
+  for key in pairs(tbl) do
+    if key ~= "DEFAULT" then
+      table.insert(tempTable, key)
+    else
       isDefault = true
     end
   end
@@ -409,11 +407,6 @@ end
 -- =================================================================================
 --                              Event handl functions
 -- =================================================================================
-
-function Settings:EventHandler(...)
-  local event, arg1, arg2, arg3 = ...
-  -- print(event)
-end
 
 function Settings:RegisterEvents(eventTable, func)
 
@@ -467,17 +460,19 @@ do
         end
       end
     end
-end
+  end
 
-local function InterfaceOptionsFrame_OpenToCategory_Fix(panel)
-  if doNotRun or InCombatLockdown() then return end
+  local function InterfaceOptionsFrame_OpenToCategory_Fix(panel)
+    if InCombatLockdown() then return end
     local panelName = get_panel_name(panel)
     if not panelName then return end -- if its not part of our list return early
+
     local noncollapsedHeaders = {}
     local shownpanels = 0
     local mypanel
     local t = {}
     local cat = INTERFACEOPTIONS_ADDONCATEGORIES
+
     for i = 1, #cat do
       local panel = cat[i]
       if not panel.parent or noncollapsedHeaders[panel.parent] then
@@ -494,14 +489,14 @@ local function InterfaceOptionsFrame_OpenToCategory_Fix(panel)
         shownpanels = shownpanels + 1
       end
     end
+
     local Smin, Smax = InterfaceOptionsFrameAddOnsListScrollBar:GetMinMaxValues()
+
     if shownpanels > 15 and Smin < Smax then
       local val = (Smax/(shownpanels-15))*(mypanel-2)
       InterfaceOptionsFrameAddOnsListScrollBar:SetValue(val)
     end
-    doNotRun = true
     InterfaceOptionsFrame_OpenToCategory(panel)
-    doNotRun = false
   end
 
   hooksecurefunc("InterfaceOptionsFrame_OpenToCategory", InterfaceOptionsFrame_OpenToCategory_Fix)

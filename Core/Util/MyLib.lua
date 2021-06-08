@@ -28,7 +28,7 @@ end
 function MyLib.IndexOf(value, table)
   if not table then return nil end -- return if no table
 
-  for k,v in ipairs(table) do 
+  for k,v in ipairs(table) do
     if v == value then return k end
   end
 
@@ -39,7 +39,7 @@ function MyLib.GetNextNumInRange(num, max)
 
   assert(type(num) == "number" or type(max) == "number" or num or max)
 
-  local nextNum = nil
+  local nextNum
 
   if (num >= max or num <= 0) then
     nextNum = 1
@@ -53,8 +53,8 @@ end
 function MyLib.splitStringByLength(str, max_line_length)
    local lines = {}
    local line
-   str:gsub("(%s*)(%S+)", 
-      function(spc, word) 
+   str:gsub("(%s*)(%S+)",
+      function(spc, word)
          if not line or #line + #spc + #word > max_line_length then
             table.insert(lines, line)
             line = word
@@ -73,12 +73,12 @@ function MyLib.splitString(source, sep)
         local a, b = source:find(sep)
         if not a then break end
         local candidat = source:sub(1, a - 1)
-        if candidat ~= "" then 
+        if candidat ~= "" then
             result[i] = candidat
         end i=i+1
         source = source:sub(b + 1)
     end
-    if source ~= "" then 
+    if source ~= "" then
         result[i] = source
     end
     return result

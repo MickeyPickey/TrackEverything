@@ -7,10 +7,6 @@ ADDON_TABLE.ADDON_AUTHOR = GetAddOnMetadata(FOLDER_NAME, "Author")
 ADDON_TABLE.ADDON_AUTHOR_GAME_INFO = GetAddOnMetadata(FOLDER_NAME, "X-Author-Game-Info")
 local TE = ADDON_TABLE.Addon
 
-local private = {
-
-}
-
 function TE:OnInitialize()
 
 end
@@ -23,7 +19,7 @@ function TE.Include(name)
   if name == "Locale" then
     return LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
   end
-  
+
   return TE:GetModule(name)
 end
 

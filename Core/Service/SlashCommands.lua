@@ -1,10 +1,8 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
-local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local ADDON_AUTHOR_GAME_INFO = ADDON_TABLE.ADDON_AUTHOR_GAME_INFO
 local SlashCommands = TE.Include("Service.SlashCommands")
 local Colors = TE.Include("Data.Colors")
-local GatheringData = TE.Include("Data.Gathering")
 local Settings = TE.Include("Service.Settings")
 local Log = TE.Include("Util.Log")
 local MyLib = TE.Include("Util.MyLib")
@@ -21,7 +19,7 @@ local COMMANDS = {
   ["te"] = {
     callback = "ChatCommand"
   },
-} 
+}
 
 local SLASH_COMMAND_ARGUMENTS = {
   {
@@ -138,16 +136,16 @@ local SLASH_COMMAND_ARGUMENTS = {
     callback = function() Log:DebugToggle() end,
     order = 99,
   },
-  { 
+  {
     name = "colors",
     hidden = true,
     callback = function() Log:Print(Colors:GetStrColors()) end,
     order = 99,
   },
-  { 
+  {
     name = "getTooltipInfo",
     hidden = true,
-    callback = function() 
+    callback = function()
       if GameTooltip:IsShown() then
         for i = 1, GameTooltip:NumLines() do
           local line = _G["GameTooltipTextLeft"..i]
@@ -208,7 +206,7 @@ function SlashCommands:PrintCommands()
 
   table.sort(SLASH_COMMAND_ARGUMENTS, function(a,b) return a.order < b.order end)
 
-  for i, option in ipairs(SLASH_COMMAND_ARGUMENTS) do
+  for _, option in ipairs(SLASH_COMMAND_ARGUMENTS) do
     if not option.hidden then
       Log:PrintfRaw("  %s%s|r - %s", COMMAND_COLOR, option.name, option.desc)
     end
@@ -216,18 +214,18 @@ function SlashCommands:PrintCommands()
 end
 
 function SlashCommands:RegisterChatCommands(commandTable)
-  for name, func in pairs(commandTable) do
+  for name in pairs(commandTable) do
     self:RegisterChatCommand(name, commandTable[name].callback)
   end
 end
 
 function SlashCommands:GetColoredSettingState(dbSetting)
-  if dbSetting then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end 
+  if dbSetting then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end
 end
 
 function SlashCommands:GetChatCommands()
   local strTable = {}
-  for k, v in pairs(COMMANDS) do
+  for k in pairs(COMMANDS) do
     table.insert(strTable, COMMAND_COLOR.."/"..k.."|r")
   end
 
@@ -238,7 +236,7 @@ function SlashCommands:GetOptionByName(name)
   assert(name and type(name) == "string" or name == nil, format("Wrong name type. Awaited 'string', got '%s'", type(name)))
   if name == nil then return nil end
 
-  for i, option in ipairs(SLASH_COMMAND_ARGUMENTS) do
+  for _, option in ipairs(SLASH_COMMAND_ARGUMENTS) do
     if option.name == name then return option end
   end
 
