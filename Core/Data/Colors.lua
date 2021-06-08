@@ -167,7 +167,7 @@ end
 function Colors:GetStrColors()
   local COLORS = self:GetAllColors()
   local tbl = {}
-  for colorName, color in pairs(COLORS) do
+  for colorName in pairs(COLORS) do
     local str = colorName
     table.insert(tbl, str)
   end
