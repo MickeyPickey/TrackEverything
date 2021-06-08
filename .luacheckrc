@@ -39,11 +39,13 @@ globals = {
   "GetSkillLineInfo",
   "CastingInfo",
   "ChannelInfo",
+  "CancelTrackingBuff",
 
   -- FrameXML frames
   "Minimap",
   "MiniMapTracking",
   "MiniMapTrackingIcon",
+  "MiniMapTrackingDropDown",
 
   -- FrameXML misc
   "GameTooltipTextLeft1",

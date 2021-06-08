@@ -137,9 +137,9 @@ function Icon:GetIconTexture()
 end
 
 function Icon:OnClick(_self, button)
-  local alt_key = IsAltKeyDown()
+  --local alt_key = IsAltKeyDown()
   local shift_key = IsShiftKeyDown()
-  local control_key = IsControlKeyDown()
+  --local control_key = IsControlKeyDown()
 
   if button == "LeftButton" then
     if shift_key then
@@ -163,10 +163,10 @@ function Icon:GetAddonState()
   if TE.db.profile.autoTracking.spellSwitcher.enabled then
     if SpellSwitcher:isPaused() then
       return PAUSED_COLOR..L["paused"].."|r"
-    else 
+    else
       return ENABLED_COLOR..L["enabled"].."|r"
     end
-  else 
+  else
     return DISABLED_COLOR..L["disabled"].."|r"
   end
 end
@@ -176,7 +176,7 @@ end
 -- =================================================================================
 
 function Icon:EventHandler(...)
-  local event, arg1, arg2, arg3 = ...
+  local event = ...
 
   if event == "MINIMAP_UPDATE_TRACKING" or event == "SPELL_SWITCHER_TOGGLED" or event == "MINIMAP_ICON_DISPLAY_TYPE_CHANGE" or event == "SPELL_SWITCHER_TRACKING_TYPES_CHANGED" then
     self:UpdateIcon()
@@ -216,7 +216,7 @@ function private.CreateTooltip(self, dummyTooltip)
     tooltip = self.tooltip or CreateFrame("GameTooltip", ADDON_NAME.."tooltip", UIParent, "GameTooltipTemplate")
     self.tooltip = tooltip
 
-    function getAnchors(frame)
+    function getFrameAnchors(frame)
       local x, y = frame:GetCenter()
       if not x or not y then return "CENTER" end
       local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
@@ -225,7 +225,7 @@ function private.CreateTooltip(self, dummyTooltip)
     end
 
     tooltip:SetOwner(self, "ANCHOR_NONE")
-    tooltip:SetPoint(getAnchors(self))
+    tooltip:SetPoint(getFrameAnchors(self))
   else
     tooltip = dummyTooltip
   end
@@ -237,14 +237,14 @@ function private.CreateTooltip(self, dummyTooltip)
     tooltip:AddLine(format(L["%sRight-click%s to cancel current tracking spell"], cs, ce))
     tooltip:AddLine(format(L["%sShift+Left-click%s to enable/disable auto switching"], cs, ce))
     tooltip:AddLine(format(L["%sShift+Right-click%s to open settings"], cs, ce))
-    
+
     return tooltip
 end
 
 function private.GetDropdownMenu(name, parent)
   local kids = { parent:GetChildren() }
   for _, child in ipairs(kids) do
-    if child:GetName() == name then 
+    if child:GetName() == name then
       return child
     end
   end

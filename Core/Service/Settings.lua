@@ -4,11 +4,8 @@ local ADDON_VERSION = ADDON_TABLE.ADDON_VERSION
 local ADDON_AUTHOR = ADDON_TABLE.ADDON_AUTHOR
 local TE = ADDON_TABLE.Addon
 local Settings = TE.Include("Service.Settings")
-local SpellSwitcher = TE.Include("Service.SpellSwitcher")
-local Icon = TE.Include("Service.Icon")
 local MyLib = TE.Include("Util.MyLib")
 local Log = TE.Include("Util.Log")
-local L = TE.Include("Locale")
 local private = {}
 
 local MINIMAP_ICON_DISPLAY_TYPES = {
@@ -62,7 +59,7 @@ local options = {
             trackingSpells = {
               name = L["Tracking spells"],
               type = "group",
-              hidden = function (info) 
+              hidden = function() 
                 local valueTable = Settings:GetPlayerTrackingSpells()
                 if not valueTable then return true end
               end,
@@ -71,7 +68,7 @@ local options = {
                   name = L["Spells"],
                   desc = L["Select to include in auto switching"],
                   type = "multiselect",
-                  values = function(info)
+                  values = function()
                     local spellTable = Settings:GetPlayerTrackingSpells()
                     local tempTable = {}
 
@@ -81,7 +78,7 @@ local options = {
 
                     return tempTable or {}
                   end,
-                  hidden = function (info) 
+                  hidden = function() 
                     local valueTable = Settings:GetPlayerTrackingSpells()
                     if not valueTable then return true end
                   end,
