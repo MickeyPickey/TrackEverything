@@ -1,7 +1,7 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local Log = TE.Include("Util.Log")
-local SpellSwitcher = TE.Include("Service.SpellSwitcher")
+local SpellSwitcher = TE.Include("SpellSwitcher")
 local Settings = TE.Include("Service.Settings")
 local MyLib = TE.Include("Util.MyLib")
 

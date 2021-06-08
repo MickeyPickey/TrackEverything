@@ -1,9 +1,9 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local L = TE.Include("Locale")
-local LT = LibStub("LibTouristClassic-1.0")
+local GatheringInfo = TE.Include("GatheringInfo")
 
-local Gathering = TE.Init("Data.Gathering", "AceEvent-3.0")
+local LT = LibStub("LibTouristClassic-1.0")
 
 -- Globals
 local format = format
@@ -87,8 +87,8 @@ local private = {
       { name = L["Mana Thistle"], itemId = 22793, difficulty = { 375, 400, 425, 475 }, },
     },
     UNITS = {
-      { name = L["Fungal Giant"], id = "", difficulty = { 315, 315, 315, 315 }, },
-      { name = L["Bog Lord"], id = "", difficulty = { 320, 320, 320, 320 }, },
+      { name = L["Fungal Giant"], id = "", difficulty = { 315, 340, 365, 415 }, },
+      { name = L["Bog Lord"], id = "", difficulty = { 320, 345, 370, 420 }, },
     },
   },
   [UNIT_SKINNABLE_LEATHER] = {
@@ -96,19 +96,15 @@ local private = {
   },
 }
 
-function Gathering:OnInitialize()
-  self:GetHerbsItemInfoFromServer()
-end
-
-function Gathering:GetDataByKey(key)
+function GatheringInfo:GetDataByKey(key)
   return private[key]
 end
 
-function Gathering:GetItemsByKey(key)
+function GatheringInfo:GetItemsByKey(key)
   return private[key].ITEMS
 end
 
-function Gathering:GetProfessionRequiredSkillColor(itemName)
+function GatheringInfo:GetProfessionRequiredSkillColor(itemName)
 
   local profName, _, id = self:GetProfessionInfoByItemName(itemName)
 
@@ -126,7 +122,7 @@ function Gathering:GetProfessionRequiredSkillColor(itemName)
   return RED_FONT_COLOR:GetRGBA()
 end
 
-function Gathering:GetPlayerProfessionSkillLevelByProfessionName(profName)
+function GatheringInfo:GetPlayerProfessionSkillLevelByProfessionName(profName)
 
   if GetNumPrimaryProfessions() == 0 then return nil end -- no primary professions
 
@@ -138,7 +134,7 @@ function Gathering:GetPlayerProfessionSkillLevelByProfessionName(profName)
   return nil
 end
 
-function Gathering:GetProfessionInfoByItemName(itemName)
+function GatheringInfo:GetProfessionInfoByItemName(itemName)
   assert(itemName and type(itemName) == "string", format("Wrong data type, expected 'string', got %s ", type(itemName)) )
 
   -- ITERATE THROUGH MINES
@@ -160,7 +156,7 @@ function Gathering:GetProfessionInfoByItemName(itemName)
   return nil
 end
 
-function Gathering:IsProfessionItemName(itemName)
+function GatheringInfo:IsProfessionItemName(itemName)
 
   for mine in LT:IterateMiningNodes() do
     if mine.nodeName == itemName then return true end
@@ -173,11 +169,11 @@ function Gathering:IsProfessionItemName(itemName)
   return false
 end
 
-function Gathering:GetData()
+function GatheringInfo:GetData()
   return private
 end
 
-function Gathering:GetLookupValues()
+function GatheringInfo:GetLookupValues()
   local lookupValues = {}
 
   for key, _ in pairs(private) do
@@ -190,16 +186,10 @@ function Gathering:GetLookupValues()
   return lookupValues
 end
 
-function Gathering:GetDataKeyByLookupValue(value)
+function GatheringInfo:GetDataKeyByLookupValue(value)
   for key, _ in pairs(private) do
     for _, val in ipairs(private[key].LOOKUP) do
       if value == val then return key end
     end
-  end
-end
-
-function Gathering:GetHerbsItemInfoFromServer()
-  for _, val in ipairs(private[L["Herbalism"]].ITEMS) do
-    GetItemInfo(val.itemId)
   end
 end

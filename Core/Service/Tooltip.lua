@@ -1,7 +1,7 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
-local GatheringData = TE.Include("Data.Gathering")
-local GatheringTooltipInfo = TE.Include("Service.GatheringTooltipInfo")
+local GatheringInfo = TE.Include("GatheringInfo")
+local Tooltip = TE.Include("Tooltip")
 local MyLib = TE.Include("Util.MyLib")
 
 local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR
@@ -11,12 +11,14 @@ local ADDON_NAME_ACRONYM = ADDON_TABLE.ADDON_NAME_ACRONYM
 --                                   GAME CONSTANT DEFAULT COLORS RGB
 -- =====================================================================================================
 local NORMAL_FONT_COLOR = NORMAL_FONT_COLOR -- Blizzard yellow default text color ( eg. Tooltip Title)
+
+-- *************** proly we don't need this anymore ****************
 local RED_FONT_COLOR = RED_FONT_COLOR
 local ORANGE_FONT_COLOR = ORANGE_FONT_COLOR
 local YELLOW_FONT_COLOR = YELLOW_FONT_COLOR
--- local GREEN_FONT_COLOR = GREEN_FONT_COLOR
-local GREEN_FONT_COLOR = {0.25097984075546, 0.75293952226639, 0.25097984075546, 0.99999779462814}
+local GREEN_FONT_COLOR = GREEN_FONT_COLOR
 local GRAY_FONT_COLOR = GRAY_FONT_COLOR
+-- *************** proly we don't need this anymore ****************
 -- =====================================================================================================
 
 local private = {
@@ -29,7 +31,7 @@ private.TooltipOwnersBL = {
   "QuestieFrame",
 }
 
-function GatheringTooltipInfo:OnInitialize()
+function Tooltip:OnInitialize()
 
   GameTooltip:SetScript("OnShow", function()
 
@@ -60,19 +62,19 @@ function GatheringTooltipInfo:OnInitialize()
   end)
 end
 
-function GatheringTooltipInfo:CanUpdateWorldTooltip()
+function Tooltip:CanUpdateWorldTooltip()
   return TE.db.profile.tooltip.requiredProfessionLevel.enableWorld and GameTooltip:IsShown() and MouseIsOver(WorldFrame) and GameTooltip:GetOwner():GetName() == "UIParent"
 end
 
-function GatheringTooltipInfo:CanUpdateMinimapTooltip()
+function Tooltip:CanUpdateMinimapTooltip()
   return TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap and GameTooltip:IsShown() and MouseIsOver(Minimap) and Minimap:IsVisible()
 end
 
-function GatheringTooltipInfo:CanUpdateWorldMapTooltip()
+function Tooltip:CanUpdateWorldMapTooltip()
   return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and WorldMapFrame:IsVisible() and MouseIsOver(WorldMapFrame)
 end
 
-function GatheringTooltipInfo:ModifyTooltip()
+function Tooltip:ModifyTooltip()
   if not self:IsProfessionInTooltip() then return end
 
   local profession, lookup, rowNum = self:GetTooltipProfession()
@@ -84,7 +86,7 @@ function GatheringTooltipInfo:ModifyTooltip()
     levelReq = self:CalculateSkinningLevel(unitLevel)
   else
     local tooltipItemName = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
-    local _, difficulty = GatheringData:GetProfessionInfoByItemName(tooltipItemName)
+    local _, difficulty = GatheringInfo:GetProfessionInfoByItemName(tooltipItemName)
     if difficulty then
       levelReq = difficulty
     end
@@ -95,7 +97,7 @@ function GatheringTooltipInfo:ModifyTooltip()
   GameTooltip:Show()
 end
 
-function GatheringTooltipInfo:RedrawTooltip()
+function Tooltip:RedrawTooltip()
   local owner = GameTooltip:GetOwner():GetName()
   local excludeOwners = private.TooltipOwnersBL
 
@@ -129,8 +131,8 @@ function GatheringTooltipInfo:RedrawTooltip()
 
     for i, title in ipairs(newTooltipRows) do
       local titleNameUnescaped = MyLib.UnescapeStr(title.text)
-      if GatheringData:IsProfessionItemName(titleNameUnescaped) then
-        local profName, levelReq = GatheringData:GetProfessionInfoByItemName(titleNameUnescaped)
+      if GatheringInfo:IsProfessionItemName(titleNameUnescaped) then
+        local profName, levelReq = GatheringInfo:GetProfessionInfoByItemName(titleNameUnescaped)
         table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(profName, levelReq)})
       end
     end
@@ -148,7 +150,7 @@ function GatheringTooltipInfo:RedrawTooltip()
     elseif row.type == "info" then
       targetRow:SetFontObject(GameTooltipText)
       local itemName = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i-1]:GetText())
-      targetRow:SetTextColor(GatheringData:GetProfessionRequiredSkillColor(itemName))
+      targetRow:SetTextColor(GatheringInfo:GetProfessionRequiredSkillColor(itemName))
     end
   end
 
@@ -158,7 +160,7 @@ function GatheringTooltipInfo:RedrawTooltip()
   private.TOOLTIP_DEFAULTS_CHANGED = true
 end
 
-function GatheringTooltipInfo:CalculateSkinningLevel(unitLevel)
+function Tooltip:CalculateSkinningLevel(unitLevel)
   if unitLevel <= 10 then
     return 1
   elseif unitLevel <= 20 then
@@ -168,10 +170,10 @@ function GatheringTooltipInfo:CalculateSkinningLevel(unitLevel)
   end
 end
 
-function GatheringTooltipInfo:GetTooltipProfession(profName)
+function Tooltip:GetTooltipProfession(profName)
 
-  if not profName then -- if no profName passed, checking all professions from GatheringData
-    local professionLookups = GatheringData:GetLookupValues()
+  if not profName then -- if no profName passed, checking all professions from GatheringInfo
+    local professionLookups = GatheringInfo:GetLookupValues()
     for profession, lookups in pairs(professionLookups) do
         for _, lookup in ipairs(lookups) do
           for i = 1, GameTooltip:NumLines() do
@@ -190,8 +192,8 @@ function GatheringTooltipInfo:GetTooltipProfession(profName)
   return nil
 end
 
-function GatheringTooltipInfo:IsProfessionInTooltip()
-  local professionLookups = GatheringData:GetLookupValues()
+function Tooltip:IsProfessionInTooltip()
+  local professionLookups = GatheringInfo:GetLookupValues()
 
   for _, lookups in pairs(professionLookups) do
     for _, lookup in ipairs(lookups) do
@@ -204,49 +206,11 @@ function GatheringTooltipInfo:IsProfessionInTooltip()
   return false
 end
 
-function GatheringTooltipInfo:GetProfessionRequiredSkillColor(itemName)
-
-  local profName, difficulty = GatheringData:GetProfessionInfoByItemName(itemName)
-
-  local currentLevel = self:GetPlayerProfessionSkillLevelByProfessionName(profName)
-
-  if not currentLevel then return RED_FONT_COLOR:GetRGBA() end
-
-  local orangeLevel, yellowLevel, greenLevel, grayLevel = unpack(difficulty)
-
-  if currentLevel < orangeLevel then
-    return RED_FONT_COLOR:GetRGBA()
-  elseif currentLevel >= orangeLevel and currentLevel < yellowLevel then
-    return ORANGE_FONT_COLOR:GetRGBA()
-  elseif currentLevel >= yellowLevel and currentLevel < greenLevel then
-    return YELLOW_FONT_COLOR:GetRGBA()
-  elseif currentLevel >= greenLevel and currentLevel < grayLevel then
-    -- return GREEN_FONT_COLOR:GetRGBA()
-    return unpack(GREEN_FONT_COLOR)
-  elseif currentLevel >= grayLevel then
-    return GRAY_FONT_COLOR:GetRGBA()
-  end
-
-  return RED_FONT_COLOR:GetRGBA()
-end
-
-function GatheringTooltipInfo:GetPlayerProfessionSkillLevelByProfessionName(profName)
-
-  if GetNumPrimaryProfessions() == 0 then return nil end -- no primary professions
-
-  for i = 1, GetNumSkillLines() do
-    local skillName, _, _, skillRank = GetSkillLineInfo(i)
-    if skillName == profName then return skillRank end
-  end
-
-  return nil
-end
-
-function GatheringTooltipInfo:GetTooltipStr(profName, levelReq)
+function Tooltip:GetTooltipStr(profName, levelReq)
   return "["..ADDON_NAME_COLOR..ADDON_NAME_ACRONYM.."|r".."] "..profName.." ["..levelReq.."]"
 end
 
-function GatheringTooltipInfo:ResetGameTooltipDefaults(tooltip)
+function Tooltip:ResetGameTooltipDefaults(tooltip)
   for i = 1, select("#", tooltip:GetRegions()) do
     local region = select(i, tooltip:GetRegions())
     if region and region:GetObjectType() == "FontString" then

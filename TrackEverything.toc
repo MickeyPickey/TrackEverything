@@ -46,7 +46,7 @@ Locale\Locale.lua
 
 # Data
 Core\Data\Colors.lua
-Core\Data\Gathering.lua
+Core\Data\GatheringInfo.lua
 
 # Util
 Core\Util\MyLib.lua
@@ -58,6 +58,8 @@ Core\Core.lua
 # Services
 Core\Service\Settings.lua
 Core\Service\Icon.lua
-Core\Service\AutoTracking\SpellSwitcher.lua
+Core\Service\SpellSwitcher.lua
 Core\Service\SlashCommands.lua
-Core\Service\GatheringTooltipInfo.lua
+Core\Service\GatheringInfo.lua
+Core\Service\Tooltip.lua
+
