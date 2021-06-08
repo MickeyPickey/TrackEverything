@@ -95,9 +95,11 @@ function GatheringTooltipInfo:ModifyTooltip()
     local unitLevel = UnitLevel("mouseover")
     levelReq = self:CalculateSkinningLevel(unitLevel)
   else
-    local tooltipItemName = GameTooltipTextLeft1:GetText()
+    local tooltipItemName = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
     local _, difficulty = GatheringData:GetProfessionInfoByItemName(tooltipItemName)
-    levelReq = difficulty[1]
+    if difficulty then
+      levelReq = difficulty[1]
+    end
   end
 
   _G["GameTooltipTextLeft"..rowNum]:SetText(self:GetTooltipStr(lookup, levelReq))

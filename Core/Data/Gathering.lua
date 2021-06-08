@@ -31,6 +31,10 @@ local private = {
       { name = L["Hakkari Thorium Vein"], difficulty = { 275, 290, 300, 350 }, },
       { name = L["Small Obsidian Chunk"], difficulty = { 305, 330, 355, 405 }, },
       { name = L["Large Obsidian Chunk"], difficulty = { 305, 330, 355, 405 }, },
+      { name = L["Fel Iron Deposit"], difficulty = { 300, 325, 350, 400 }, },
+      { name = L["Khorium Vein"], difficulty = { 375, 400, 425, 475 }, },
+      { name = L["Adamantite Deposit"], difficulty = { 325, 350, 375, 425 }, },
+      { name = L["Rich Adamantite Deposit"], difficulty = { 350, 375, 400, 450 }, },
     },
   },
   [L["Herbalism"]] = {
@@ -64,6 +68,19 @@ local private = {
       { name = L["Plaguebloom"], itemId = 13466, difficulty = { 285, 310, 335, 385 }, },
       { name = L["Icecap"], itemId = 13467, difficulty = { 290, 315, 340, 390 }, },
       { name = L["Black Lotus"], itemId = 13468, difficulty = { 300, 325, 350, 400 }, },
+      { name = L["Felweed"], itemId = 22785, difficulty = { 300, 325, 350, 400 }, },
+      { name = L["Dreaming Glory"], itemId = 22786, difficulty = { 315, 340, 365, 415 }, },
+      { name = L["Ragveil"], itemId = 22787, difficulty = { 325, 350, 375, 425 }, },
+      { name = L["Terocone"], itemId = 22789, difficulty = { 325, 350, 375, 425 }, },
+      { name = L["Flame Cap"], itemId = 22788, difficulty = { 335, 360, 385, 435 }, },
+      { name = L["Ancient Lichen"], itemId = 22790, difficulty = { 340, 365, 390, 440 }, },
+      { name = L["Netherbloom"], itemId = 22791, difficulty = { 350, 375, 400, 450 }, },
+      { name = L["Nightmare Vine"], itemId = 22792, difficulty = { 365, 390, 415, 465 }, },
+      { name = L["Mana Thistle"], itemId = 22793, difficulty = { 375, 400, 425, 475 }, },
+    },
+    UNITS = {
+      { name = L["Fungal Giant"], difficulty = { 315, 315, 315, 315 }, },
+      { name = L["Bog Lord"], difficulty = { 320, 320, 320, 320 }, },
     },
   },
   [UNIT_SKINNABLE_LEATHER] = {
@@ -83,29 +100,35 @@ function Gathering:GetItemsByKey(key)
   return private[key].ITEMS
 end
 
-function Gathering:GetItemByName(name)
-  assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
+-- function Gathering:GetItemByName(name)
+--   assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
 
-  for i, item in ipairs(private[L["Mining"]].ITEMS) do
-    if item.name == name then return item end
-  end
+--   print(name)
 
-  for i, item in ipairs(private[L["Herbalism"]].ITEMS) do
-    local itemName = GetItemInfo(item.itemId)
-    if itemName == name then return item end
-  end
+--   for i, item in ipairs(private[L["Mining"]].ITEMS) do
+--     if item.name == name then return item end
+--   end
 
-  return nil
-end
+--   for i, item in ipairs(private[L["Herbalism"]].ITEMS) do
+--     local itemName = GetItemInfo(item.itemId)
+--     if itemName == name then return item end
+--   end
 
-function Gathering:GetItemDifficultyByName(name)
-  assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
-  local item = self:GetItemByName(name)
+--   for i, item in ipairs(private[L["Herbalism"]].UNITS) do
+--     if item.name == name then return item end
+--   end
 
-  if item then return item.difficulty end
+--   return nil
+-- end
 
-  return nil
-end
+-- function Gathering:GetItemDifficultyByName(name)
+--   assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
+--   local item = self:GetItemByName(name)
+
+--   if item then return item.difficulty end
+
+--   return nil
+-- end
 
 function Gathering:GetProfessionInfoByItemName(name)
   assert(name and type(name) == "string", format("Wrong data type, expected 'string', got %s ", type(name)) )
@@ -116,11 +139,16 @@ function Gathering:GetProfessionInfoByItemName(name)
     if name == deposit.name then return L["Mining"], deposit.difficulty end
   end
 
-  local herbs = self:GetItemsByKey(L["Herbalism"])
+  local herbs = self:GetDataByKey(L["Herbalism"])
 
-  for i, herb in ipairs(herbs) do
-    local herbNameLocalized = GetItemInfo(herb.itemId)
-    if herbNameLocalized == name then return L["Herbalism"], herb.difficulty end
+  for i, item in ipairs(herbs.ITEMS) do
+   
+    local itemNameLocalized = GetItemInfo(item.itemId)
+    if itemNameLocalized == name then return L["Herbalism"], item.difficulty end
+  end
+
+  for i, unit in ipairs(herbs.UNITS) do
+    if unit.name == name then return L["Herbalism"], unit.difficulty end
   end
 
   return nil
