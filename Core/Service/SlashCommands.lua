@@ -4,7 +4,7 @@ local ADDON_AUTHOR_GAME_INFO = ADDON_TABLE.ADDON_AUTHOR_GAME_INFO
 local SlashCommands = TE.Include("SlashCommands")
 local Colors = TE.Include("Colors")
 local Settings = TE.Include("Settings")
-local Log = TE.Include("Util.Log")
+local Log = TE.Include("Log")
 local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
 

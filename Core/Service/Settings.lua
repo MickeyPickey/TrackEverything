@@ -4,7 +4,7 @@ local ADDON_VERSION = ADDON_TABLE.ADDON_VERSION
 local ADDON_AUTHOR = ADDON_TABLE.ADDON_AUTHOR
 local TE = ADDON_TABLE.Addon
 local Settings = TE.Include("Settings")
-local Log = TE.Include("Util.Log")
+local Log = TE.Include("Log")
 local L = TE.Include("Locale")
 local private = {}
 

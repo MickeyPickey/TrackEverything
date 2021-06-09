@@ -1,6 +1,6 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
-local Log = TE.Include("Util.Log")
+local Log = TE.Include("Log")
 local SpellSwitcher = TE.Include("SpellSwitcher")
 local Settings = TE.Include("Settings")
 local MyLib = TE.Include("Util.MyLib")

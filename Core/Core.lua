@@ -5,6 +5,7 @@ ADDON_TABLE.ADDON_NAME_ACRONYM = MyLib.Acronym(ADDON_TABLE.ADDON_NAME)
 
 -- inite core services
 TE.Init("Colors")
+TE.Init("Log")
 TE.Init("Settings", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
 TE.Init("Icon", "AceEvent-3.0")
 TE.Init("SpellSwitcher", "AceTimer-3.0", "AceConsole-3.0", "AceEvent-3.0")
