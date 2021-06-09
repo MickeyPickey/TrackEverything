@@ -244,5 +244,5 @@ function SlashCommands:GetOptionByName(name)
 end
 
 function SlashCommands:Test()
-  
+
 end

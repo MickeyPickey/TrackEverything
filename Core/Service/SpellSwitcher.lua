@@ -5,7 +5,7 @@ local SpellSwitcher = TE.Include("SpellSwitcher")
 local Settings = TE.Include("Settings")
 local MyLib = TE.Include("Util.MyLib")
 
-local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown, UnitClass,GetTrackingInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown, UnitClass, GetTrackingInfo
+local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo
 
 local _, PLAYER_CLASS = UnitClass("player")
 
