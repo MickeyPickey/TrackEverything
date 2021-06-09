@@ -5,7 +5,7 @@ on:
     branches:
       - bcc
     tags:
-      - '**beta-bcc**'
+      - '**-beta-bcc**'
 
 env:
   #CF_API_KEY: ${{ secrets.CF_API_KEY }}
