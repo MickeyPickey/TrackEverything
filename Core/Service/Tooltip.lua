@@ -3,6 +3,7 @@ local TE = ADDON_TABLE.Addon
 local GatheringInfo = TE.Include("GatheringInfo")
 local Tooltip = TE.Include("Tooltip")
 local MyLib = TE.Include("Util.MyLib")
+local L = TE.Include("Locale")
 
 local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR
 local ADDON_NAME_ACRONYM = ADDON_TABLE.ADDON_NAME_ACRONYM
@@ -80,77 +81,70 @@ function Tooltip:ModifyTooltip()
 
   local professionName, tooltipProfessinString, rowNum = self:GetTooltipProfession()
   local tooltipTitleText = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
-  local minLevel = GatheringInfo:GetProfessionInfoByItemName(tooltipTitleText, professionName)
+  local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(tooltipTitleText, professionName)
 
-  _G["GameTooltipTextLeft"..rowNum]:SetText(self:GetTooltipStr(tooltipProfessinString, minLevel))
+  _G["GameTooltipTextLeft"..rowNum]:SetText(self:GetTooltipStr(tooltipProfessinString, minSkillLevel))
 
   GameTooltip:Show()
 end
 
 function Tooltip:RedrawTooltip()
-  self:HasMatches()
+  if self:HasMatches() then
 
-  local owner = GameTooltip:GetOwner():GetName()
-  local excludeOwners = private.TooltipOwnersBL
+    private.MINIMAP_TOOLTIP_REDRAWN = false
 
-  -- do not change tooltip if owner is blacklisted. Need to fix it in more smart way later
-  for _, j in ipairs(excludeOwners) do
-    if owner and string.find(owner, "^" .. j) then return end
-  end
+    local gameTooltipRows = {}
+    local newTooltipRows = {}
 
-  private.MINIMAP_TOOLTIP_REDRAWN = false
-
-  local gameTooltipRows = {}
-  local newTooltipRows = {}
-
-  for i = 1, GameTooltip:NumLines() do
-    table.insert(gameTooltipRows, {
-      lineNum = i,
-      text = _G["GameTooltipTextLeft"..i]:GetText()
-    })
-  end
-
-  for _, row in ipairs(gameTooltipRows) do
-    local rowWords = {}
-
-    for word in row.text:gmatch("[^\n]+") do
-      table.insert(rowWords, word)
+    for i = 1, GameTooltip:NumLines() do
+      table.insert(gameTooltipRows, {
+        lineNum = i,
+        text = _G["GameTooltipTextLeft"..i]:GetText()
+      })
     end
 
-    for _, word in ipairs(rowWords) do
-      table.insert(newTooltipRows, { type = "title", text = word ,})
-    end
+    for _, row in ipairs(gameTooltipRows) do
+      local rowWords = {}
 
-    for i, title in ipairs(newTooltipRows) do
-      local titleTextUnescaped = MyLib.UnescapeStr(title.text)
-      if GatheringInfo:IsProfessionItemName(titleTextUnescaped) then
-        local professionName = GatheringInfo:GetProfessionNameByEntryName(titleTextUnescaped)
-        local minLevel = GatheringInfo:GetProfessionInfoByItemName(titleTextUnescaped, professionName)
-        table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(professionName, minLevel)})
+      for word in row.text:gmatch("[^\n]+") do
+        table.insert(rowWords, word)
+      end
+
+      for _, word in ipairs(rowWords) do
+        table.insert(newTooltipRows, { type = "title", text = word ,})
+      end
+
+      for i, title in ipairs(newTooltipRows) do
+        local titleTextUnescaped = MyLib.UnescapeStr(title.text)
+        if GatheringInfo:IsProfessionItemName(titleTextUnescaped) then
+          local professionName = GatheringInfo:GetProfessionNameByEntryName(titleTextUnescaped)
+          local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(titleTextUnescaped, professionName)
+          table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(professionName, minSkillLevel)})
+        end
       end
     end
-  end
 
-  GameTooltip:ClearLines()
+    GameTooltip:ClearLines()
 
-  for i, row in ipairs(newTooltipRows) do
-    GameTooltip:AddLine(row.text)
-    local targetRow = _G["GameTooltipTextLeft"..i]
+    for i, row in ipairs(newTooltipRows) do
+      GameTooltip:AddLine(row.text)
+      local targetRow = _G["GameTooltipTextLeft"..i]
 
-    if row.type == "title" then
-      targetRow:SetFontObject(GameTooltipHeaderText)
-      targetRow:SetTextColor(NORMAL_FONT_COLOR:GetRGBA())
-    elseif row.type == "info" then
-      targetRow:SetFontObject(GameTooltipText)
-      local itemName = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i-1]:GetText())
-      targetRow:SetTextColor(GatheringInfo:GetProfessionRequiredSkillColor(itemName))
+      if row.type == "title" then
+        targetRow:SetFontObject(GameTooltipHeaderText)
+        targetRow:SetTextColor(NORMAL_FONT_COLOR:GetRGBA())
+      elseif row.type == "info" then
+        targetRow:SetFontObject(GameTooltipText)
+        local itemName = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i-1]:GetText())
+        targetRow:SetTextColor(GatheringInfo:GetProfessionRequiredSkillColor(itemName))
+      end
     end
+
+    GameTooltip:Show()
+
+    private.MINIMAP_TOOLTIP_REDRAWN = true
+    private.TOOLTIP_DEFAULTS_CHANGED = true
   end
-
-  GameTooltip:Show()
-
-  private.MINIMAP_TOOLTIP_REDRAWN = true
-  private.TOOLTIP_DEFAULTS_CHANGED = true
 end
 
 function Tooltip:GetTooltipProfession()
@@ -175,16 +169,18 @@ end
 
 function Tooltip:HasMatches()
   for i = 1, GameTooltip:NumLines() do
-    local rawText = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i]:GetText())
-    print("Row ", i, GatheringInfo:IsProfessionItemName(rawText))
-    --if GatheringInfo:IsProfessionItemName(rawText) then return true end
+    local rowText = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i]:GetText())
+
+    for word in rowText:gmatch("[^\n]+") do
+      if GatheringInfo:IsProfessionItemName(word) then return true end
+    end
   end
 
   return false
 end
 
 function Tooltip:GetTooltipStr(professionString, levelReq)
-  return "["..ADDON_NAME_COLOR..ADDON_NAME_ACRONYM.."|r".."] "..professionString.." ["..levelReq.."]"
+  return "["..ADDON_NAME_COLOR..ADDON_NAME_ACRONYM.."|r".."] "..L[professionString].." ["..levelReq.."]"
 end
 
 function Tooltip:ResetGameTooltipDefaults(tooltip)

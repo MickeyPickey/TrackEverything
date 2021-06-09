@@ -16,81 +16,75 @@ local private = {
   Mining = {
     LOOKUP = { L["Mining"], UNIT_SKINNABLE_ROCK},
     NODES = {
-      { name = L["Copper Vein"], id = 1731, minLevel = 1, },
-      { name = L["Tin Vein"], id = 1732, minLevel = 65, },
-      { name = L["Incendicite Mineral Vein"], id = 1610, minLevel = 65, },
-      { name = L["Silver Vein"], id = 1733, minLevel = 75, },
-      { name = L["Ooze Covered Silver Vein"], id = 73940, minLevel = 75, },
-      { name = L["Lesser Bloodstone Deposit"], id = 2653, minLevel = 75, },
-      { name = L["Iron Deposit"], id = 1735, minLevel = 125, },
-      { name = L["Ooze Covered Iron Deposit"], id = 73939, minLevel = 125, },
-      { name = L["Indurium Mineral Vein"], id = 19903, minLevel = 150, },
-      { name = L["Gold Vein"], id = 1734, minLevel = 155, },
-      { name = L["Ooze Covered Gold Vein"], id = 73941, minLevel = 155, },
-      { name = L["Mithril Deposit"], id = 2040, minLevel = 175, },
-      { name = L["Ooze Covered Mithril Deposit"], id = 123310, minLevel = 175, },
-      { name = L["Truesilver Deposit"], id = 2047, minLevel = 230, },
-      { name = L["Ooze Covered Truesilver Deposit"], id = 123309, minLevel = 230, },
-      { name = L["Dark Iron Deposit"], id = 165658, minLevel = 230, },
-      { name = L["Small Thorium Vein"], id = 324, minLevel = 245, },
-      { name = L["Ooze Covered Thorium Vein"], id = 123848, minLevel = 245, },
-      { name = L["Rich Thorium Vein"], id = 175404, minLevel = 275, },
-      { name = L["Ooze Covered Rich Thorium Vein"], id = 177388, minLevel = 275, },
-      { name = L["Hakkari Thorium Vein"], id = 180215, minLevel = 275, },
-      { name = L["Small Obsidian Chunk"], id = 181068, minLevel = 305, },
-      { name = L["Large Obsidian Chunk"], id = 181069, minLevel = 305, },
-      { name = L["Fel Iron Deposit"], id = 181555, minLevel = 300, },
-      { name = L["Khorium Vein"], id = 181557, minLevel = 375, },
-      { name = L["Adamantite Deposit"], id = 181556, minLevel = 325, },
-      { name = L["Rich Adamantite Deposit"], id = 181569, minLevel = 350, },
-    },
-    UNITS = {
+      { name = L["Copper Vein"], id = 1731, minSkillLevel = 1, },
+      { name = L["Tin Vein"], id = 1732, minSkillLevel = 65, },
+      { name = L["Incendicite Mineral Vein"], id = 1610, minSkillLevel = 65, },
+      { name = L["Silver Vein"], id = 1733, minSkillLevel = 75, },
+      { name = L["Ooze Covered Silver Vein"], id = 73940, minSkillLevel = 75, },
+      { name = L["Lesser Bloodstone Deposit"], id = 2653, minSkillLevel = 75, },
+      { name = L["Iron Deposit"], id = 1735, minSkillLevel = 125, },
+      { name = L["Ooze Covered Iron Deposit"], id = 73939, minSkillLevel = 125, },
+      { name = L["Indurium Mineral Vein"], id = 19903, minSkillLevel = 150, },
+      { name = L["Gold Vein"], id = 1734, minSkillLevel = 155, },
+      { name = L["Ooze Covered Gold Vein"], id = 73941, minSkillLevel = 155, },
+      { name = L["Mithril Deposit"], id = 2040, minSkillLevel = 175, },
+      { name = L["Ooze Covered Mithril Deposit"], id = 123310, minSkillLevel = 175, },
+      { name = L["Truesilver Deposit"], id = 2047, minSkillLevel = 230, },
+      { name = L["Ooze Covered Truesilver Deposit"], id = 123309, minSkillLevel = 230, },
+      { name = L["Dark Iron Deposit"], id = 165658, minSkillLevel = 230, },
+      { name = L["Small Thorium Vein"], id = 324, minSkillLevel = 245, },
+      { name = L["Ooze Covered Thorium Vein"], id = 123848, minSkillLevel = 245, },
+      { name = L["Rich Thorium Vein"], id = 175404, minSkillLevel = 275, },
+      { name = L["Ooze Covered Rich Thorium Vein"], id = 177388, minSkillLevel = 275, },
+      { name = L["Hakkari Thorium Vein"], id = 180215, minSkillLevel = 275, },
+      { name = L["Small Obsidian Chunk"], id = 181068, minSkillLevel = 305, },
+      { name = L["Large Obsidian Chunk"], id = 181069, minSkillLevel = 305, },
+      { name = L["Fel Iron Deposit"], id = 181555, minSkillLevel = 300, },
+      { name = L["Khorium Vein"], id = 181557, minSkillLevel = 375, },
+      { name = L["Adamantite Deposit"], id = 181556, minSkillLevel = 325, },
+      { name = L["Rich Adamantite Deposit"], id = 181569, minSkillLevel = 350, },
     },
   },
   Herbalism = {
     LOOKUP = { L["Herbalism"], UNIT_SKINNABLE_HERB, },
     NODES = {
-      { name = L["Peacebloom"], id = "", itemId = 2447, minLevel = 1, },
-      { name = L["Silverleaf"], id = "", itemId = 765, minLevel = 1, },
-      { name = L["Earthroot"], id = "", itemId = 2449, minLevel = 15, },
-      { name = L["Mageroyal"], id = "", itemId = 785, minLevel = 50, },
-      { name = L["Briarthorn"], id = "", itemId = 2450, minLevel = 70, },
-      { name = L["Stranglekelp"], id = "", itemId = 3820, minLevel = 85, },
-      { name = L["Bruiseweed"], id = "", itemId = 2453, minLevel = 100, },
-      { name = L["Wild Steelbloom"], id = "", itemId = 3355, minLevel = 115, },
-      { name = L["Grave Moss"], id = "", itemId = 3369, minLevel = 120, },
-      { name = L["Kingsblood"], id = "", itemId = 3356, minLevel = 125, },
-      { name = L["Liferoot"], id = "", itemId = 3357, minLevel = 150, },
-      { name = L["Fadeleaf"], id = "", itemId = 3818, minLevel = 160, },
-      { name = L["Goldthorn"], id = "", itemId = 3821, minLevel = 170, },
-      { name = L["Khadgar's Whisker"], id = "", itemId = 3358, minLevel = 185, },
-      { name = L["Wintersbite"], id = "", itemId = 3819, minLevel = 195, },
-      { name = L["Firebloom"], id = "", itemId = 4625, minLevel = 205, },
-      { name = L["Purple Lotus"], id = "", itemId = 8831, minLevel = 210, },
-      { name = L["Arthas' Tears"], id = "", itemId = 8836, minLevel = 220, },
-      { name = L["Sungrass"], id = "", itemId = 8838, minLevel = 230, },
-      { name = L["Blindweed"], id = "", itemId = 8839, minLevel = 235, },
-      { name = L["Ghost Mushroom"], id = "", itemId = 8845, minLevel = 245, },
-      { name = L["Gromsblood"], id = "", itemId = 8846, minLevel = 250, },
-      { name = L["Golden Sansam"], id = "", itemId = 13464, minLevel = 260, },
-      { name = L["Dreamfoil"], id = "", itemId = 13463, minLevel = 270, },
-      { name = L["Mountain Silversage"], id = "", itemId = 13465, minLevel = 280, },
-      { name = L["Plaguebloom"], id = "", itemId = 13466, minLevel = 285, },
-      { name = L["Icecap"], id = "", itemId = 13467, minLevel = 290, },
-      { name = L["Black Lotus"], id = "", itemId = 13468, minLevel = 300, },
-      { name = L["Felweed"], id = "", itemId = 22785, minLevel = 300, },
-      { name = L["Dreaming Glory"], id = "", itemId = 22786, minLevel = 315, },
-      { name = L["Ragveil"], id = "", itemId = 22787, minLevel = 325, },
-      { name = L["Terocone"], id = "", itemId = 22789, minLevel = 325, },
-      { name = L["Flame Cap"], id = "", itemId = 22788, minLevel = 335, },
-      { name = L["Ancient Lichen"], id = "", itemId = 22790, minLevel = 340, },
-      { name = L["Netherbloom"], id = "", itemId = 22791, minLevel = 350, },
-      { name = L["Nightmare Vine"], id = "", itemId = 22792, minLevel = 365, },
-      { name = L["Mana Thistle"], id = "", itemId = 22793, minLevel = 375, },
-    },
-    UNITS = {
-      { name = L["Fungal Giant"], id = 19734, minLevel = 315, },
-      { name = L["Bog Lord"], id = 18127, minLevel = 320, },
+      { name = L["Peacebloom"], id = "", itemId = 2447, minSkillLevel = 1, },
+      { name = L["Silverleaf"], id = "", itemId = 765, minSkillLevel = 1, },
+      { name = L["Earthroot"], id = "", itemId = 2449, minSkillLevel = 15, },
+      { name = L["Mageroyal"], id = "", itemId = 785, minSkillLevel = 50, },
+      { name = L["Briarthorn"], id = "", itemId = 2450, minSkillLevel = 70, },
+      { name = L["Stranglekelp"], id = "", itemId = 3820, minSkillLevel = 85, },
+      { name = L["Bruiseweed"], id = "", itemId = 2453, minSkillLevel = 100, },
+      { name = L["Wild Steelbloom"], id = "", itemId = 3355, minSkillLevel = 115, },
+      { name = L["Grave Moss"], id = "", itemId = 3369, minSkillLevel = 120, },
+      { name = L["Kingsblood"], id = "", itemId = 3356, minSkillLevel = 125, },
+      { name = L["Liferoot"], id = "", itemId = 3357, minSkillLevel = 150, },
+      { name = L["Fadeleaf"], id = "", itemId = 3818, minSkillLevel = 160, },
+      { name = L["Goldthorn"], id = "", itemId = 3821, minSkillLevel = 170, },
+      { name = L["Khadgar's Whisker"], id = "", itemId = 3358, minSkillLevel = 185, },
+      { name = L["Wintersbite"], id = "", itemId = 3819, minSkillLevel = 195, },
+      { name = L["Firebloom"], id = "", itemId = 4625, minSkillLevel = 205, },
+      { name = L["Purple Lotus"], id = "", itemId = 8831, minSkillLevel = 210, },
+      { name = L["Arthas' Tears"], id = "", itemId = 8836, minSkillLevel = 220, },
+      { name = L["Sungrass"], id = "", itemId = 8838, minSkillLevel = 230, },
+      { name = L["Blindweed"], id = "", itemId = 8839, minSkillLevel = 235, },
+      { name = L["Ghost Mushroom"], id = "", itemId = 8845, minSkillLevel = 245, },
+      { name = L["Gromsblood"], id = "", itemId = 8846, minSkillLevel = 250, },
+      { name = L["Golden Sansam"], id = "", itemId = 13464, minSkillLevel = 260, },
+      { name = L["Dreamfoil"], id = "", itemId = 13463, minSkillLevel = 270, },
+      { name = L["Mountain Silversage"], id = "", itemId = 13465, minSkillLevel = 280, },
+      { name = L["Plaguebloom"], id = "", itemId = 13466, minSkillLevel = 285, },
+      { name = L["Icecap"], id = "", itemId = 13467, minSkillLevel = 290, },
+      { name = L["Black Lotus"], id = "", itemId = 13468, minSkillLevel = 300, },
+      { name = L["Felweed"], id = "", itemId = 22785, minSkillLevel = 300, },
+      { name = L["Dreaming Glory"], id = "", itemId = 22786, minSkillLevel = 315, },
+      { name = L["Ragveil"], id = "", itemId = 22787, minSkillLevel = 325, },
+      { name = L["Terocone"], id = "", itemId = 22789, minSkillLevel = 325, },
+      { name = L["Flame Cap"], id = "", itemId = 22788, minSkillLevel = 335, },
+      { name = L["Ancient Lichen"], id = "", itemId = 22790, minSkillLevel = 340, },
+      { name = L["Netherbloom"], id = "", itemId = 22791, minSkillLevel = 350, },
+      { name = L["Nightmare Vine"], id = "", itemId = 22792, minSkillLevel = 365, },
+      { name = L["Mana Thistle"], id = "", itemId = 22793, minSkillLevel = 375, },
     },
   },
   Skinning = {
@@ -113,14 +107,14 @@ end
 function GatheringInfo:GetProfessionRequiredSkillColor(itemName)
 
   local professionName = self:GetProfessionNameByEntryName(itemName)
-  local minLevel = self:GetProfessionInfoByItemName(itemName, professionName)
+  local minSkillLevel = self:GetProfessionInfoByItemName(itemName, professionName)
 
   local currentSkill = self:GetPlayerProfessionSkillLevelByProfessionName(professionName)
 
   -- return RED if no prefession learned
   if not currentSkill then return RED_FONT_COLOR:GetRGB() end
 
-  return LT:GetGatheringSkillColor(minLevel, currentSkill)
+  return LT:GetGatheringSkillColor(minSkillLevel, currentSkill)
 end
 
 function GatheringInfo:GetPlayerProfessionSkillLevelByProfessionName(professionName)
@@ -143,13 +137,8 @@ function GatheringInfo:GetProfessionInfoByItemName(itemName, professionName)
 
   if professionName == "Mining" then
     for _, node in ipairs(professionTable.NODES) do
-      if node.name == itemName then return node.minLevel, node.id end
+      if node.name == itemName then return node.minSkillLevel, node.id end
     end
-
-    for _, unit in ipairs(professionTable.UNITS) do
-      if unit.name == itemName then return unit.minLevel, unit.id end
-    end
-
     -- =================================================================================
     --[[ We use LibTouristClassic-1.0 libriary here as backup here in case we didn't get
     data from default table--]]
@@ -160,13 +149,8 @@ function GatheringInfo:GetProfessionInfoByItemName(itemName, professionName)
   elseif professionName == "Herbalism"  then
     for _, node in ipairs(professionTable.NODES) do
       local localizedName = GetItemInfo(node.itemId)
-      if localizedName == itemName then return node.minLevel, node.id end
+      if localizedName == itemName then return node.minSkillLevel, node.id end
     end
-
-    for _, unit in ipairs(professionTable.UNITS) do
-      if unit.name == itemName then return unit.minLevel, unit.id end
-    end
-
     -- =================================================================================
     --[[ We use LibTouristClassic-1.0 libriary here as backup here in case we didn't get
     data from default table--]]
@@ -174,34 +158,33 @@ function GatheringInfo:GetProfessionInfoByItemName(itemName, professionName)
     for node in LT:IterateHerbs() do
       if node.name == itemName then return node.minLevel, node.itemID end
     end
-  elseif professionName == "Skinning" then
-    local unitLevel = UnitLevel("mouseover")
-    local minLevel = self:CalculateSkinningLevel(unitLevel)
-    return minLevel, nil
   end
 
-  -- if nothing found untill this point we return nil and we will see [?] minLevel for this herb.
-  return professionName, "?", nil
+  if UnitExists("mouseover") then
+    local unitLevel = UnitLevel("mouseover")
+    local minSkillLevel = self:CalculateDifficultyByUnitLevel(unitLevel)
+    return minSkillLevel, nil
+  end
+
+  -- if nothing found untill this point we return nil and we will see [?] minSkillLevel for this herb.
+  return "?", nil
 end
 
 function GatheringInfo:GetProfessionNameByEntryName(name)
   for professionName, tbl in pairs(private) do
-    if professionName == "Herbalism" then
-      for _, node in ipairs(tbl.NODES) do
-        local localizedName = GetItemInfo(node.itemId)
-        if localizedName == name then return professionName end
+    if tbl.NODES then
+      if professionName == "Herbalism" then
+        for _, node in ipairs(tbl.NODES) do
+          local localizedName = GetItemInfo(node.itemId)
+          if localizedName == name then return professionName end
+        end
+      else
+        for _, node in ipairs(tbl.NODES) do
+          if node.name == name then return professionName end
+        end
       end
-    else
-      for _, node in ipairs(tbl.NODES) do
-        if node.name == name then return professionName end
-      end
-    end
-
-    for _, unit in ipairs(tbl.UNITS) do
-      if unit.name == name then return professionName end
     end
   end
-
 
   -- =================================================================================
   --[[ We use LibTouristClassic-1.0 libriary here as backup here in case we didn't get
@@ -225,7 +208,7 @@ function GatheringInfo:IsProfessionItemName(name)
   return false
 end
 
-function GatheringInfo:CalculateSkinningLevel(unitLevel)
+function GatheringInfo:CalculateDifficultyByUnitLevel(unitLevel)
   if unitLevel <= 10 then
     return 1
   elseif unitLevel <= 20 then
