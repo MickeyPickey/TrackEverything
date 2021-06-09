@@ -5,7 +5,7 @@ on:
     branches:
       - bcc
     tags:
-      - '**-bcc**'
+      - '**-bcc'
       - '!**-beta**'
 
 env:
