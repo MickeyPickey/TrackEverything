@@ -177,9 +177,7 @@ function Tooltip:HasMatches()
   for i = 1, GameTooltip:NumLines() do
     local rawText = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i]:GetText())
     print("Row ", i, GatheringInfo:IsProfessionItemName(rawText))
-    if GatheringInfo:IsProfessionItemName(rawText) then
-      --return true 
-    end
+    --if GatheringInfo:IsProfessionItemName(rawText) then return true end
   end
 
   return false

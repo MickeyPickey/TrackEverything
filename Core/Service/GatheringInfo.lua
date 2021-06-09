@@ -98,7 +98,7 @@ local private = {
   },
 }
 
-function Gathering:OnInitialize()
+function GatheringInfo:OnInitialize()
 
   -- As herbalism nodes and items uses the same name, we can use this to get all herb items localizations from the server, so we can ise localize node names using item id.
   for _, val in ipairs(private.Herbalism.NODES) do
@@ -187,8 +187,8 @@ end
 function GatheringInfo:GetProfessionNameByEntryName(name)
   for professionName, tbl in pairs(private) do
     if professionName == "Herbalism" then
-      local localizedName = GetItemInfo(node.itemId)
       for _, node in ipairs(tbl.NODES) do
+        local localizedName = GetItemInfo(node.itemId)
         if localizedName == name then return professionName end
       end
     else
