@@ -3,7 +3,7 @@ local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local ADDON_VERSION = ADDON_TABLE.ADDON_VERSION
 local TE = ADDON_TABLE.Addon
 local Log = TE.Init("Util.Log")
-local Colors = TE.Include("Data.Colors")
+local Colors = TE.Include("Colors")
 
 local ADDON_NAME_COLOR = Colors:GetColorByName("DARKORANGE")
 local ADDON_VERSION_COLOR = Colors:GetColorByName("TURQUOISE")

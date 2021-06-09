@@ -1,10 +1,10 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local TE = ADDON_TABLE.Addon
-local Colors = TE.Include("Data.Colors")
-local Icon = TE.Include("Service.Icon")
-local Settings = TE.Include("Service.Settings")
-local SpellSwitcher = TE.Include("Service.SpellSwitcher")
+local Colors = TE.Include("Colors")
+local Icon = TE.Include("Icon")
+local Settings = TE.Include("Settings")
+local SpellSwitcher = TE.Include("SpellSwitcher")
 local L = TE.Include("Locale")
 
 local private = {
@@ -231,17 +231,6 @@ function private.CreateTooltip(self, dummyTooltip)
     tooltip:AddLine(format(L["%sShift+Right-click%s to open settings"], cs, ce))
 
     return tooltip
-end
-
-function private.GetDropdownMenu(name, parent)
-  local kids = { parent:GetChildren() }
-  for _, child in ipairs(kids) do
-    if child:GetName() == name then
-      return child
-    end
-  end
-
-  return CreateFrame("Frame", name, parent, "UIDropDownMenuTemplate")
 end
 
 function private.GetFrameAnchors(frame)

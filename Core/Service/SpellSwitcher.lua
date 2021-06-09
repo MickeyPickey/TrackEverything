@@ -2,7 +2,7 @@ local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local Log = TE.Include("Util.Log")
 local SpellSwitcher = TE.Include("SpellSwitcher")
-local Settings = TE.Include("Service.Settings")
+local Settings = TE.Include("Settings")
 local MyLib = TE.Include("Util.MyLib")
 
 local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown, UnitClass,GetTrackingInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, GetSpellCooldown, UnitClass, GetTrackingInfo
@@ -193,27 +193,12 @@ function SpellSwitcher:CanCast()
 
   Log:PrintD("canCast = ", canCast)
   Log:PrintfD("forceInCombat = [%s], InCombatLockdown = [%s] , UnitAffectingCombat = [%s] ", tostring(TE.db.profile.autoTracking.spellSwitcher.forceInCombat), tostring(InCombatLockdown()), tostring(UnitAffectingCombat("player")))
-  -- or UnitAffectingCombat("player")
-  --if not TE.db.profile.autoTracking.spellSwitcher.forceInCombat then canCast = canCast and not InCombatLockdown() end
-  --if TE.db.profile.autoTracking.spellSwitcher.onmove then canCast = canCast and private.IS_MOVING end
 
   return canCast
 end
 
-function SpellSwitcher:isNextSpellOnCooldown()
-  local currentTrackingSpellID = self:GetCurrentTrackingSpellID()
-  local nextSpellID = self:GetNextSpellID(currentTrackingSpellID)
-
-  if not nextSpellID or GetSpellCooldown(nextSpellID) ~= 0 then return true else return false end
-end
-
-
 function SpellSwitcher:isPaused()
   return private.IS_PAUSED
-end
-
-function SpellSwitcher:test()
-  Log:PrintfD(tostring(TE.db.profile.autoTracking.spellSwitcher.enabled))
 end
 
 -- =================================================================================

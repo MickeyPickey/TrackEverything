@@ -1,6 +1,6 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
-local Colors = TE.Init("Data.Colors")
+local Colors = TE.Include("Colors")
 
 function Colors:GetColorByName(name)
     local COLORS = self:GetAllColors()

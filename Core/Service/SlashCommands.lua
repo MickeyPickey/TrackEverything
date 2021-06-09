@@ -1,9 +1,9 @@
 local FOLDER_NAME, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local ADDON_AUTHOR_GAME_INFO = ADDON_TABLE.ADDON_AUTHOR_GAME_INFO
-local SlashCommands = TE.Include("Service.SlashCommands")
-local Colors = TE.Include("Data.Colors")
-local Settings = TE.Include("Service.Settings")
+local SlashCommands = TE.Include("SlashCommands")
+local Colors = TE.Include("Colors")
+local Settings = TE.Include("Settings")
 local Log = TE.Include("Util.Log")
 local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
@@ -244,6 +244,5 @@ function SlashCommands:GetOptionByName(name)
 end
 
 function SlashCommands:Test()
-  local dataEnum = Enum.MineNodes
-  print(dataEnum)
+  
 end

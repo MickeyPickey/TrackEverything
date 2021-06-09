@@ -3,7 +3,7 @@ local ADDON_NAME = ADDON_TABLE.ADDON_NAME
 local ADDON_VERSION = ADDON_TABLE.ADDON_VERSION
 local ADDON_AUTHOR = ADDON_TABLE.ADDON_AUTHOR
 local TE = ADDON_TABLE.Addon
-local Settings = TE.Include("Service.Settings")
+local Settings = TE.Include("Settings")
 local Log = TE.Include("Util.Log")
 local L = TE.Include("Locale")
 local private = {}
@@ -434,6 +434,8 @@ end
 
 -- FIX BLIZZARD BUG ADDON OPTIONS DON"T OPENS
 do
+  local doNotRun
+
   local function get_panel_name(panel)
     local tp = type(panel)
     local cat = INTERFACEOPTIONS_ADDONCATEGORIES
@@ -463,16 +465,15 @@ do
   end
 
   local function InterfaceOptionsFrame_OpenToCategory_Fix(panel)
-    if InCombatLockdown() then return end
+    if doNotRun or InCombatLockdown() then return end
+
     local panelName = get_panel_name(panel)
     if not panelName then return end -- if its not part of our list return early
-
     local noncollapsedHeaders = {}
     local shownpanels = 0
     local mypanel
     local t = {}
     local cat = INTERFACEOPTIONS_ADDONCATEGORIES
-
     for i = 1, #cat do
       local localPanel = cat[i]
       if not localPanel.parent or noncollapsedHeaders[localPanel.parent] then
@@ -489,14 +490,14 @@ do
         shownpanels = shownpanels + 1
       end
     end
-
     local Smin, Smax = InterfaceOptionsFrameAddOnsListScrollBar:GetMinMaxValues()
-
     if shownpanels > 15 and Smin < Smax then
       local val = (Smax/(shownpanels-15))*(mypanel-2)
       InterfaceOptionsFrameAddOnsListScrollBar:SetValue(val)
     end
+    doNotRun = true
     InterfaceOptionsFrame_OpenToCategory(panel)
+    doNotRun = false
   end
 
   hooksecurefunc("InterfaceOptionsFrame_OpenToCategory", InterfaceOptionsFrame_OpenToCategory_Fix)

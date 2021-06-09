@@ -4,9 +4,10 @@ local MyLib = TE.Include("Util.MyLib")
 ADDON_TABLE.ADDON_NAME_ACRONYM = MyLib.Acronym(ADDON_TABLE.ADDON_NAME)
 
 -- inite core services
-TE.Init("Service.Settings", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
-TE.Init("Service.Icon", "AceEvent-3.0")
+TE.Init("Colors")
+TE.Init("Settings", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
+TE.Init("Icon", "AceEvent-3.0")
 TE.Init("SpellSwitcher", "AceTimer-3.0", "AceConsole-3.0", "AceEvent-3.0")
-TE.Init("Service.SlashCommands", "AceConsole-3.0", "AceEvent-3.0")
+TE.Init("SlashCommands", "AceConsole-3.0", "AceEvent-3.0")
 TE.Init("GatheringInfo", "AceEvent-3.0")
 TE.Init("Tooltip", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
