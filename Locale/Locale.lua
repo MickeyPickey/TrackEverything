@@ -15,7 +15,7 @@
 --[[
 RegExp string to extract locals from GatherMate2:
 
-(L\["Herbalism"\].*|L\["Mining"\].*|L\["Copper Vein"\].*|L\["Tin Vein"\].*|L\["Incendicite Mineral Vein"\].*|L\["Silver Vein"\].*|L\["Ooze Covered Silver Vein"\].*|L\["Lesser Bloodstone Deposit"\].*|L\["Iron Deposit"\].*|L\["Ooze Covered Iron Deposit"\].*|L\["Indurium Mineral Vein"\].*|L\["Gold Vein"\].*|L\["Ooze Covered Gold Vein"\].*|L\["Mithril Deposit"\].*|L\["Ooze Covered Mithril Deposit"\].*|L\["Truesilver Deposit"\].*|L\["Ooze Covered Truesilver Deposit"\].*|L\["Dark Iron Deposit"\].*|L\["Small Thorium Vein"\].*|L\["Ooze Covered Thorium Vein"\].*|L\["Rich Thorium Vein"\].*|L\["Ooze Covered Rich Thorium Vein"\].*|L\["Hakkari Thorium Vein"\].*|L\["Small Obsidian Chunk"\].*|L\["Large Obsidian Chunk"\].*|L\["Fel Iron Deposit"\].*|L\["Khorium Vein"\].*|L\["Adamantite Deposit"\].*|L\["Rich Adamantite Deposit"\].*)
+(L\["Engineering"\].*|L\["Herbalism"\].*|L\["Mining"\].*|L\["Copper Vein"\].*|L\["Tin Vein"\].*|L\["Incendicite Mineral Vein"\].*|L\["Silver Vein"\].*|L\["Ooze Covered Silver Vein"\].*|L\["Lesser Bloodstone Deposit"\].*|L\["Iron Deposit"\].*|L\["Ooze Covered Iron Deposit"\].*|L\["Indurium Mineral Vein"\].*|L\["Gold Vein"\].*|L\["Ooze Covered Gold Vein"\].*|L\["Mithril Deposit"\].*|L\["Ooze Covered Mithril Deposit"\].*|L\["Truesilver Deposit"\].*|L\["Ooze Covered Truesilver Deposit"\].*|L\["Dark Iron Deposit"\].*|L\["Small Thorium Vein"\].*|L\["Ooze Covered Thorium Vein"\].*|L\["Rich Thorium Vein"\].*|L\["Ooze Covered Rich Thorium Vein"\].*|L\["Hakkari Thorium Vein"\].*|L\["Small Obsidian Chunk"\].*|L\["Large Obsidian Chunk"\].*|L\["Fel Iron Deposit"\].*|L\["Khorium Vein"\].*|L\["Adamantite Deposit"\].*|L\["Rich Adamantite Deposit"\].*)
 --]]
 
 local _, ADDON_TABLE = ...
@@ -28,6 +28,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = true
     L["Herbalism"] = true
     L["Mining"] = true
 
@@ -135,7 +136,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
-
+    L["Engineering"] = "Ingénierie"
     L["Herbalism"] = "Herboristerie"
     L["Mining"] = "Minage"
 
@@ -179,7 +180,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
-
+    L["Engineering"] = "Ingenieurskunst"
     L["Herbalism"] = "Kräuterkunde"
     L["Mining"] = "Bergbau"
 
@@ -224,6 +225,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "Ingeniería"
     L["Herbalism"] = "Botánica"
     L["Mining"] = "Minería"
 
@@ -268,6 +270,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "Ingeniería"
     L["Herbalism"] = "Herboristería"
     L["Mining"] = "Minería"
 
@@ -312,6 +315,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "Engenharia"
     L["Herbalism"] = "Herborismo"
     L["Mining"] = "Mineração."
 
@@ -356,6 +360,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "기계공학"
     L["Herbalism"] = "약초 채집"
     L["Mining"] = "채광"
 
@@ -399,6 +404,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "工程学"
     L["Herbalism"] = "草药学"
     L["Mining"] = "采矿"
 
@@ -442,6 +448,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "工程學"
     L["Herbalism"] = "草藥學"
     L["Mining"] = "採礦"
 
@@ -485,6 +492,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "Инженерное дело"
     L["Herbalism"] = "Травничество"
     L["Mining"] = "Горное дело"
 
@@ -529,6 +537,7 @@ do
     -- ============================================================================================================================================
     -- ===== CURRENTLY WE ARE UNABLE TO GET INGAME LOCALIZATION FOR PROFESSION NAMES AND MINING NODES SO WE NEED TO KEEP OUR OWN FOR EACH OWN. ====
     -- ============================================================================================================================================
+    L["Engineering"] = "Ingegneria"
     L["Herbalism"] = "Erbalismo"
     L["Mining"] = "Estrazione"
 

@@ -90,6 +90,9 @@ local private = {
   Skinning = {
     LOOKUP  = { UNIT_SKINNABLE_LEATHER, },
   },
+  Engineering = {
+    LOOKUP = { UNIT_SKINNABLE_BOLTS },
+  },
 }
 
 function GatheringInfo:OnInitialize()
