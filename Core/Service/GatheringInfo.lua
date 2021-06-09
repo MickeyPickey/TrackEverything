@@ -10,7 +10,6 @@ local format = format
 local GetNumPrimaryProfessions = GetNumPrimaryProfessions
 local GetNumSkillLines = GetNumSkillLines
 local GetSkillLineInfo = GetSkillLineInfo
-local GetItemInfo = GetItemInfo
 
 local private = {
   [L["Mining"]] = {
