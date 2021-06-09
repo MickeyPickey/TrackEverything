@@ -1,11 +1,11 @@
-name: Release BCC AddOn
+name: Package Beta BCC AddOn
 
 on:
   push:
     branches:
       - bcc
     tags:
-      - '**-bcc**'
+      - '**beta-bcc**'
 
 env:
   #CF_API_KEY: ${{ secrets.CF_API_KEY }}
