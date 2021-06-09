@@ -75,29 +75,21 @@ function Tooltip:CanUpdateWorldMapTooltip()
 end
 
 function Tooltip:ModifyTooltip()
+  -- if no professions found in tooltip then nothing to modify.
   if not self:IsProfessionInTooltip() then return end
 
-  local profession, lookup, rowNum = self:GetTooltipProfession()
+  local professionName, tooltipProfessinString, rowNum = self:GetTooltipProfession()
+  local tooltipTitleText = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
+  local minLevel = GatheringInfo:GetProfessionInfoByItemName(tooltipTitleText, professionName)
 
-  local levelReq = "?"
-
-  if profession == UNIT_SKINNABLE_LEATHER then
-    local unitLevel = UnitLevel("mouseover")
-    levelReq = self:CalculateSkinningLevel(unitLevel)
-  else
-    local tooltipItemName = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
-    local _, minLevel = GatheringInfo:GetProfessionInfoByItemName(tooltipItemName)
-    if minLevel then
-      levelReq = minLevel
-    end
-  end
-
-  _G["GameTooltipTextLeft"..rowNum]:SetText(self:GetTooltipStr(lookup, levelReq))
+  _G["GameTooltipTextLeft"..rowNum]:SetText(self:GetTooltipStr(tooltipProfessinString, minLevel))
 
   GameTooltip:Show()
 end
 
 function Tooltip:RedrawTooltip()
+  self:HasMatches()
+
   local owner = GameTooltip:GetOwner():GetName()
   local excludeOwners = private.TooltipOwnersBL
 
@@ -130,10 +122,11 @@ function Tooltip:RedrawTooltip()
     end
 
     for i, title in ipairs(newTooltipRows) do
-      local titleNameUnescaped = MyLib.UnescapeStr(title.text)
-      if GatheringInfo:IsProfessionItemName(titleNameUnescaped) then
-        local profName, levelReq = GatheringInfo:GetProfessionInfoByItemName(titleNameUnescaped)
-        table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(profName, levelReq)})
+      local titleTextUnescaped = MyLib.UnescapeStr(title.text)
+      if GatheringInfo:IsProfessionItemName(titleTextUnescaped) then
+        local professionName = GatheringInfo:GetProfessionNameByEntryName(titleTextUnescaped)
+        local minLevel = GatheringInfo:GetProfessionInfoByItemName(titleTextUnescaped, professionName)
+        table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(professionName, minLevel)})
       end
     end
   end
@@ -160,54 +153,40 @@ function Tooltip:RedrawTooltip()
   private.TOOLTIP_DEFAULTS_CHANGED = true
 end
 
-function Tooltip:CalculateSkinningLevel(unitLevel)
-  if unitLevel <= 10 then
-    return 1
-  elseif unitLevel <= 20 then
-    return (unitLevel-10) * 10
-  elseif unitLevel > 20 then
-    return unitLevel*5
-  end
-end
+function Tooltip:GetTooltipProfession()
 
-function Tooltip:GetTooltipProfession(profName)
-
-  if not profName then -- if no profName passed, checking all professions from GatheringInfo
-    local professionLookups = GatheringInfo:GetLookupValues()
-    for profession, lookups in pairs(professionLookups) do
-        for _, lookup in ipairs(lookups) do
-          for i = 1, GameTooltip:NumLines() do
-            if _G["GameTooltipTextLeft"..i]:GetText() == lookup then return profession, lookup, i end
-          end
+  local professionLookups = GatheringInfo:GetLookupValues()
+  for profession, lookups in pairs(professionLookups) do
+      for _, lookup in ipairs(lookups) do
+        for i = 1, GameTooltip:NumLines() do
+          if _G["GameTooltipTextLeft"..i]:GetText() == lookup then return profession, lookup, i end
         end
-    end
+      end
+  end
 
     return nil
-  end
-
-  for i = 1, GameTooltip:NumLines() do
-    if _G["GameTooltipTextLeft"..i]:GetText() == profName then return profName, profName, i end
-  end
-
-  return nil
 end
 
 function Tooltip:IsProfessionInTooltip()
-  local professionLookups = GatheringInfo:GetLookupValues()
+  if self:GetTooltipProfession() then return true end
 
-  for _, lookups in pairs(professionLookups) do
-    for _, lookup in ipairs(lookups) do
-      for i = 1, GameTooltip:NumLines() do
-        if _G["GameTooltipTextLeft"..i]:GetText() == lookup then return true end
-      end
+  return false
+end
+
+function Tooltip:HasMatches()
+  for i = 1, GameTooltip:NumLines() do
+    local rawText = MyLib.UnescapeStr(_G["GameTooltipTextLeft"..i]:GetText())
+    print("Row ", i, GatheringInfo:IsProfessionItemName(rawText))
+    if GatheringInfo:IsProfessionItemName(rawText) then
+      --return true 
     end
   end
 
   return false
 end
 
-function Tooltip:GetTooltipStr(profName, levelReq)
-  return "["..ADDON_NAME_COLOR..ADDON_NAME_ACRONYM.."|r".."] "..profName.." ["..levelReq.."]"
+function Tooltip:GetTooltipStr(professionString, levelReq)
+  return "["..ADDON_NAME_COLOR..ADDON_NAME_ACRONYM.."|r".."] "..professionString.." ["..levelReq.."]"
 end
 
 function Tooltip:ResetGameTooltipDefaults(tooltip)
