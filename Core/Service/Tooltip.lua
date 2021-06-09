@@ -86,9 +86,9 @@ function Tooltip:ModifyTooltip()
     levelReq = self:CalculateSkinningLevel(unitLevel)
   else
     local tooltipItemName = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
-    local _, difficulty = GatheringInfo:GetProfessionInfoByItemName(tooltipItemName)
-    if difficulty then
-      levelReq = difficulty
+    local _, minLevel = GatheringInfo:GetProfessionInfoByItemName(tooltipItemName)
+    if minLevel then
+      levelReq = minLevel
     end
   end
 

@@ -9,7 +9,7 @@ local L = TE.Include("Locale")
 local private = {}
 
 local MINIMAP_ICON_DISPLAY_TYPES = {
-  DEFAULT = L["Default"],
+  DEFAULT = DEFAULT,
   CURRENT_SPELL = L["Current tracking"],
   NEXT_SPELL = L["Next tracking spell"],
 }
@@ -22,7 +22,7 @@ local options = {
   get = "OptGetter",
   args = {
     about = {
-      name = L["Version"]..":"..ADDON_VERSION.." by "..ADDON_AUTHOR.."\n\n",
+      name = GAME_VERSION_LABEL..":"..ADDON_VERSION.." by "..ADDON_AUTHOR.."\n\n",
       type = "description",
       order = 0,
     },
@@ -39,7 +39,7 @@ local options = {
           order = 2,
           args = {
             enabled = {
-              name = L["Enabled"],
+              name = VIDEO_OPTIONS_ENABLED,
               desc = L["Toggle auto spell switching"],
               type = "toggle",
               order = 0,
@@ -65,7 +65,7 @@ local options = {
               end,
               args = {
                 spells = {
-                  name = L["Spells"],
+                  name = SPELLS,
                   desc = L["Select to include in auto switching"],
                   type = "multiselect",
                   values = function()
@@ -105,7 +105,7 @@ local options = {
           },
         },
         general = {
-          name = L["General"],
+          name = GENERAL,
           type = "group",
           order = 3,
           args = {
@@ -120,7 +120,7 @@ local options = {
       },
     },
     minimap = {
-      name = L["Minimap"],
+      name = MINIMAP_LABEL,
       type = "group",
       inline = true,
       order = 1,
@@ -185,14 +185,14 @@ local options = {
     },
     reset = {
       type = "execute",
-      name = L["Reset"],
-      desc = L["Reset settings to defaults"],
+      name = RESET,
+      desc = RESET_TO_DEFAULT,
       func = "ResetProfile",
       order = 100,
     },
     test = {
       type = "execute",
-      name = L["test"],
+      name = "test",
       func = "test",
       hidden = true,
     },

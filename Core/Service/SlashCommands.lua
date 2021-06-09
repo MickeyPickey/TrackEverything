@@ -107,15 +107,15 @@ local SLASH_COMMAND_ARGUMENTS = {
   },
   {
     name = "help",
-    desc = L["Show this description"],
+    desc = QUEST_DESCRIPTION,
     hidden = false,
     callback = function() SlashCommands:PrintCommands() end,
     order = 97,
   },
   {
     name = "reset",
-    desc = L["Reset settings to defaults"],
-    print = function() return L["Settings was reset to defaults"] end,
+    desc = RESET_TO_DEFAULT,
+    print = function() return L["Settings have been reset to default"] end,
     hidden = false,
     callback = function() Settings:ResetProfile() end,
     order = 98,
@@ -220,7 +220,7 @@ function SlashCommands:RegisterChatCommands(commandTable)
 end
 
 function SlashCommands:GetColoredSettingState(dbSetting)
-  if dbSetting then return ENABLED_COLOR..L["enabled"].."|r" else return DISABLED_COLOR..L["disabled"].."|r" end
+  if dbSetting then return ENABLED_COLOR..VIDEO_OPTIONS_ENABLED.."|r" else return DISABLED_COLOR..ADDON_DISABLED.."|r" end
 end
 
 function SlashCommands:GetChatCommands()
@@ -229,7 +229,7 @@ function SlashCommands:GetChatCommands()
     table.insert(strTable, COMMAND_COLOR.."/"..k.."|r")
   end
 
-  return table.concat(strTable, L[" or "])
+  return table.concat(strTable, " "..OR_CAPS:lower().." ")
 end
 
 function SlashCommands:GetOptionByName(name)

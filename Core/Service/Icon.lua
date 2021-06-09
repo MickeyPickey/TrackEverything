@@ -162,12 +162,12 @@ end
 function Icon:GetAddonState()
   if TE.db.profile.autoTracking.spellSwitcher.enabled then
     if SpellSwitcher:isPaused() then
-      return PAUSED_COLOR..L["paused"].."|r"
+      return PAUSED_COLOR..QUEUED_STATUS_SUSPENDED:lower().."|r"
     else
-      return ENABLED_COLOR..L["enabled"].."|r"
+      return ENABLED_COLOR..VIDEO_OPTIONS_ENABLED.."|r"
     end
   else
-    return DISABLED_COLOR..L["disabled"].."|r"
+    return DISABLED_COLOR..ADDON_DISABLED.."|r"
   end
 end
 
