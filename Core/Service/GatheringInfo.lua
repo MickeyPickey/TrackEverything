@@ -223,10 +223,10 @@ end
 
 function GatheringInfo:GetGatheringSkillColor(minLevel, currentSkill)
   local lvl1Corr = 0
-  if minLevel == 1 then 
+  if minLevel == 1 then
     lvl1Corr = -1
   end
-  
+
   if currentSkill < minLevel then
     -- Red
     return self.GetRGBColorsFromQuestDifficulty("impossible")
