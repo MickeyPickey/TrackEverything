@@ -3,7 +3,7 @@ local TE = ADDON_TABLE.Addon
 local L = TE.Include("Locale")
 local GatheringInfo = TE.Include("GatheringInfo")
 
-local LT = LibStub("LibTouristClassic-1.0")
+--local LT = LibStub("LibTouristClassic-1.0")
 
 -- Globals
 local format = format
@@ -112,12 +112,12 @@ function GatheringInfo:GetProfessionRequiredSkillColor(itemName)
   local professionName = self:GetProfessionNameByEntryName(itemName)
   local minSkillLevel = self:GetProfessionInfoByItemName(itemName, professionName)
 
-  local currentSkill = self:GetPlayerProfessionSkillLevelByProfessionName(professionName)
+  local currentSkill = self:GetPlayerProfessionSkillLevelByProfessionName(professionName) or 0
 
   -- return RED if no prefession learned
-  if not currentSkill then return RED_FONT_COLOR:GetRGB() end
+  --if not currentSkill then return RED_FONT_COLOR:GetRGB() end
 
-  return LT:GetGatheringSkillColor(minSkillLevel, currentSkill)
+  return self:GetGatheringSkillColor(minSkillLevel, currentSkill)
 end
 
 function GatheringInfo:GetPlayerProfessionSkillLevelByProfessionName(professionName)
@@ -146,9 +146,9 @@ function GatheringInfo:GetProfessionInfoByItemName(itemName, professionName)
     --[[ We use LibTouristClassic-1.0 libriary here as backup here in case we didn't get
     data from default table--]]
     -- =================================================================================
-    for node in LT:IterateMiningNodes() do
-      if node.nodeName == itemName then return node.minLevel, node.nodeObjectID end
-    end
+    -- for node in LT:IterateMiningNodes() do
+    --   if node.nodeName == itemName then return node.minLevel, node.nodeObjectID end
+    -- end
   elseif professionName == "Herbalism"  then
     for _, node in ipairs(professionTable.NODES) do
       local localizedName = GetItemInfo(node.itemId)
@@ -158,9 +158,9 @@ function GatheringInfo:GetProfessionInfoByItemName(itemName, professionName)
     --[[ We use LibTouristClassic-1.0 libriary here as backup here in case we didn't get
     data from default table--]]
     -- =================================================================================
-    for node in LT:IterateHerbs() do
-      if node.name == itemName then return node.minLevel, node.itemID end
-    end
+    -- for node in LT:IterateHerbs() do
+    --   if node.name == itemName then return node.minLevel, node.itemID end
+    -- end
   end
 
   if UnitExists("mouseover") then
@@ -193,13 +193,13 @@ function GatheringInfo:GetProfessionNameByEntryName(name)
   --[[ We use LibTouristClassic-1.0 libriary here as backup here in case we didn't get
   data from default table--]]
   -- =================================================================================
-  for node in LT:IterateMiningNodes() do
-    if node.nodeName == name then return "Mining" end
-  end
+  -- for node in LT:IterateMiningNodes() do
+  --   if node.nodeName == name then return "Mining" end
+  -- end
 
-  for node in LT:IterateHerbs() do
-    if node.name == name then return "Herbalism" end
-  end
+  -- for node in LT:IterateHerbs() do
+  --   if node.name == name then return "Herbalism" end
+  -- end
 
   return nil
 end
@@ -218,6 +218,30 @@ function GatheringInfo:CalculateDifficultyByUnitLevel(unitLevel)
     return (unitLevel-10) * 10
   elseif unitLevel > 20 then
     return unitLevel*5
+  end
+end
+
+function GatheringInfo:GetGatheringSkillColor(minLevel, currentSkill)
+  local lvl1Corr = 0
+  if minLevel == 1 then 
+    lvl1Corr = -1
+  end
+  
+  if currentSkill < minLevel then
+    -- Red
+    return self.GetRGBColorsFromQuestDifficulty("impossible")
+  elseif currentSkill < minLevel + 25 + lvl1Corr then
+    -- Orange
+    return self.GetRGBColorsFromQuestDifficulty("verydifficult")
+  elseif currentSkill < minLevel + 50 + lvl1Corr then
+    -- Yellow
+    return self.GetRGBColorsFromQuestDifficulty("difficult")
+  elseif currentSkill < minLevel + 100 + lvl1Corr then
+    -- Green
+    return self.GetRGBColorsFromQuestDifficulty("standard")
+  else
+    -- Gray
+    return self.GetRGBColorsFromQuestDifficulty("trivial")
   end
 end
 
@@ -244,4 +268,17 @@ function GatheringInfo:GetDataKeyByLookupValue(value)
       if value == val then return key end
     end
   end
+end
+
+function GatheringInfo.GetRGBColorsFromQuestDifficulty(difficulty)
+
+-- QuestDifficultyColors = {
+--   ["impossible"]    = { r = 1.00, g = 0.10, b = 0.10, font = "QuestDifficulty_Impossible" }; -- red
+--   ["verydifficult"] = { r = 1.00, g = 0.50, b = 0.25, font = "QuestDifficulty_VeryDifficult" }; -- orange
+--   ["difficult"]   = { r = 1.00, g = 1.00, b = 0.00, font = "QuestDifficulty_Difficult" }; -- yellow
+--   ["standard"]    = { r = 0.25, g = 0.75, b = 0.25, font = "QuestDifficulty_Standard" }; -- dim green
+--   ["trivial"]     = { r = 0.50, g = 0.50, b = 0.50, font = "QuestDifficulty_Trivial" }; -- gray
+-- };
+
+  return QuestDifficultyColors[difficulty].r, QuestDifficultyColors[difficulty].g, QuestDifficultyColors[difficulty].b
 end

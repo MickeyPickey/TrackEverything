@@ -14,7 +14,5 @@ externals:
   External/EmbeddedLibs/AceConfig-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceConfig-3.0
   External/EmbeddedLibs/LibDataBroker-1.1: https://github.com/tekkub/libdatabroker-1-1
   External/EmbeddedLibs/LibDBIcon-1.0: https://repos.curseforge.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
-  External/EmbeddedLibs/HereBeDragons-2.0: https://repos.curseforge.com/wow/herebedragons
-  External/EmbeddedLibs/LibTouristClassic-1.0: https://repos.curseforge.com/wow/libtourist-classic
 
 enable-nolib-creation: no
