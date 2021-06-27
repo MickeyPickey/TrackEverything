@@ -36,7 +36,7 @@ local options = {
           name = L["Auto spell switching"],
           type = "group",
           inline = true,
-          order = 2,
+          order = 0,
           args = {
             enabled = {
               name = VIDEO_OPTIONS_ENABLED,
@@ -44,17 +44,24 @@ local options = {
               type = "toggle",
               order = 0,
             },
+            br1 = { type = "description", name = "", order = 1},
             onmove = {
               name = L["Only while moving"],
               desc = L["Enable to switch only while character is moving"],
               type = "toggle",
-              order = 1,
+              order = 2,
+            },
+            onmount = {
+              name = L["Only on mount"],
+              desc = L["Enable to switch only if character on mount. Also works with druid's flying form"],
+              type = "toggle",
+              order = 3,
             },
             forceInCombat = {
               name = L["Force in combat"],
               desc = L["Switch spells even if player in combat"],
               type = "toggle",
-              order = 2,
+              order = 4,
             },
             trackingSpells = {
               name = L["Tracking spells"],
@@ -84,7 +91,8 @@ local options = {
                   end,
                   cmdHidden = true,
                 },
-              }
+              },
+              order = 5,
             },
             interval = {
               name = L["Cast interval"],
@@ -93,7 +101,8 @@ local options = {
               min = 2,
               max = 45,
               step = 1,
-              width = "full"
+              width = "full",
+              order = 6,
             },
             settings = {
               type = "execute",
@@ -205,6 +214,7 @@ local defaults = {
       spellSwitcher = {
         enabled = true,
         onmove = true,
+        onmount = false,
         forceInCombat = false,
         interval = 2,
         trackingSpells = {
@@ -255,9 +265,9 @@ function Settings:GetPlayerTrackingSpells()
   local playerTrackingSpells = {}
 
   for i = 1, GetNumTrackingTypes() do
-    local name, _, _, category, _, spellId = GetTrackingInfo(i);
+    local name, texture, _, category, _, spellId = GetTrackingInfo(i);
     if category == "spell" then
-      table.insert(playerTrackingSpells, {spellId = spellId, name = name} )
+      table.insert(playerTrackingSpells, {spellId = spellId, name = name, texture = texture} )
     end
   end
 
@@ -267,7 +277,7 @@ function Settings:GetPlayerTrackingSpells()
   return playerTrackingSpells
 end
 
-function Settings:GetSpellsToTrack()
+function Settings:GetTrackingIDs()
   local spells = self:GetPlayerTrackingSpells() or {}
   local trackingSpells = {}
 
@@ -304,7 +314,7 @@ function Settings:CallbackHandler(...)
   if scope == TE.db.profile.autoTracking.spellSwitcher then
     if key == "enabled" then
       self:SendMessage("SPELL_SWITCHER_TOGGLED")
-    elseif key == "onmove" then
+    elseif key == "onmove" or key == "onmount" then
       self:SendMessage("SPELL_SWITCHER_MODE_TOGGLED")
     elseif key == "forceInCombat" then
       self:SendMessage("SPELL_SWITCHER_FORCE_IN_COMBAT_TOGGLED")

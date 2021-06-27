@@ -126,6 +126,8 @@ do
     L["World Map tooltips"] = true
     L["World tooltips"] = true
     L["Current tracking"] = true
+    L["Only on mount"] = true
+    L["Enable to switch only if character on mount. Also works with druid's flying form"] = true
   end
 end
 

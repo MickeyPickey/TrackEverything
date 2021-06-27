@@ -4,6 +4,7 @@ local ADDON_AUTHOR_GAME_INFO = ADDON_TABLE.ADDON_AUTHOR_GAME_INFO
 local SlashCommands = TE.Include("SlashCommands")
 local Colors = TE.Include("Colors")
 local Settings = TE.Include("Settings")
+local SpellSwitcher = TE.Include("SpellSwitcher")
 local Log = TE.Include("Log")
 local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
@@ -168,7 +169,7 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "test",
     hidden = true,
-    callback = function() Settings:test() end,
+    callback = function() SpellSwitcher:IsFlyingForm() end,
     order = 100,
   },
 }

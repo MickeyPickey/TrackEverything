@@ -5,7 +5,7 @@ local SpellSwitcher = TE.Include("SpellSwitcher")
 local Settings = TE.Include("Settings")
 local MyLib = TE.Include("Util.MyLib")
 
-local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo
+local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo
 
 local _, PLAYER_CLASS = UnitClass("player")
 
@@ -24,6 +24,7 @@ local private = {
       ["UNIT_SPELLCAST_STOP"] = true,
       ["UNIT_SPELLCAST_CHANNEL_STOP"] = true,
       ["UPDATE_SHAPESHIFT_FORM"] = true,
+      ["PLAYER_MOUNT_DISPLAY_CHANGED"] = true,
     },
     TEMP_PAUSE_EVENTS = {
       ["UNIT_SPELLCAST_SENT"] = true,
@@ -48,6 +49,9 @@ local private = {
       ["PLAYER_STARTED_MOVING"] = true,
       ["PLAYER_STOPPED_MOVING"] = true,
     },
+    OTHER = {
+      ["MINIMAP_UPDATE_TRACKING"] = true,
+    },
   },
   USER_EVENTS = {
     ["SPELL_SWITCHER_TOGGLED"] = true,
@@ -66,6 +70,7 @@ local private = {
 function SpellSwitcher:OnInitialize()
   self:RegisterUserEvents(private.USER_EVENTS, "EventHandler")
   self:RegisterEvents(private.GAME_EVENTS.MOVE_EVENTS, "EventHandler")
+  self:RegisterEvents(private.GAME_EVENTS.OTHER, "EventHandler")
 
   if TE.db.profile.autoTracking.spellSwitcher.enabled then
     self:RegisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, "EventHandler")
@@ -154,26 +159,26 @@ function SpellSwitcher:GetCurrentTrackingSpellID()
 end
 
 function SpellSwitcher:GetNextSpellID(currentSpellId)
-  local trackingSpells = Settings:GetSpellsToTrack()
+  local trackingSpellIDs = Settings:GetTrackingIDs()
   local nextSpellId = nil
   local currentSpellIndex
   local nextSpellIndex
 
-  if trackingSpells then
+  if trackingSpellIDs then
     if currentSpellId then
-      currentSpellIndex = MyLib.IndexOf(currentSpellId, trackingSpells) or 0
-      nextSpellIndex = MyLib.GetNextNumInRange(currentSpellIndex, #trackingSpells)
+      currentSpellIndex = MyLib.IndexOf(currentSpellId, trackingSpellIDs) or 0
+      nextSpellIndex = MyLib.GetNextNumInRange(currentSpellIndex, #trackingSpellIDs)
     else
       nextSpellIndex = 1 -- return first spell if nothing is being tracked yet
     end
 
-    nextSpellId = trackingSpells[nextSpellIndex]
+    nextSpellId = trackingSpellIDs[nextSpellIndex]
 
     if PLAYER_CLASS == "DRUID" and nextSpellId == 5225 then
       if GetShapeshiftForm() ~= 3 then
-        if #trackingSpells > 1 then
-          local newSpellIndex = MyLib.GetNextNumInRange(nextSpellIndex, #trackingSpells)
-          nextSpellId = trackingSpells[newSpellIndex]
+        if #trackingSpellIDs > 1 then
+          local newSpellIndex = MyLib.GetNextNumInRange(nextSpellIndex, #trackingSpellIDs)
+          nextSpellId = trackingSpellIDs[newSpellIndex]
         else
           nextSpellId = nil
         end
@@ -189,10 +194,10 @@ end
 
 function SpellSwitcher:CanCast()
 
-  local canCast = private.IS_PAUSED and not ( CastingInfo() or ChannelInfo() or UnitIsDeadOrGhost("player") or IsResting() ) and ( TE.db.profile.autoTracking.spellSwitcher.forceInCombat or not UnitAffectingCombat("player") ) and ( not TE.db.profile.autoTracking.spellSwitcher.onmove or private.IS_MOVING )
+  local canCast = private.IS_PAUSED and not ( CastingInfo() or ChannelInfo() or UnitIsDeadOrGhost("player") or IsResting() ) and ( TE.db.profile.autoTracking.spellSwitcher.forceInCombat or not UnitAffectingCombat("player") ) and ( not TE.db.profile.autoTracking.spellSwitcher.onmove or private.IS_MOVING ) and ( not TE.db.profile.autoTracking.spellSwitcher.onmount or ( IsMounted() or self:IsFlyingForm() ) )
 
   Log:PrintD("canCast = ", canCast)
-  Log:PrintfD("forceInCombat = [%s], InCombatLockdown = [%s] , UnitAffectingCombat = [%s] ", tostring(TE.db.profile.autoTracking.spellSwitcher.forceInCombat), tostring(InCombatLockdown()), tostring(UnitAffectingCombat("player")))
+  Log:PrintfD("forceInCombat = [%s], InCombatLockdown = [%s] , UnitAffectingCombat = [%s] , IsMounted or Flying = [%s] ", tostring(TE.db.profile.autoTracking.spellSwitcher.forceInCombat), tostring(InCombatLockdown()), tostring(UnitAffectingCombat("player")), tostring(IsMounted() or self:IsFlyingForm()))
 
   return canCast
 end
@@ -232,6 +237,12 @@ function SpellSwitcher:EventHandler(...)
         return
       elseif event == "UPDATE_SHAPESHIFT_FORM" then
         self:UpdateTimer()
+      elseif event == "PLAYER_UPDATE_RESTING" then
+        if IsResting() then
+          self:StopTimer()
+        else
+          self:StartTimer()
+        end
       else
         self:Toggle()
       end
@@ -239,7 +250,7 @@ function SpellSwitcher:EventHandler(...)
       if event == "UI_ERROR_MESSAGE" then
         if not private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event][arg2] then return end -- return if arg2 don"t match the list
       elseif event == "UNIT_SPELLCAST_SENT" then
-        if arg1 ~= "player" or MyLib.IndexOf(arg4, Settings:GetSpellsToTrack()) then return end -- return if cast made not by player or player casted trackingSpell
+        if arg1 ~= "player" or MyLib.IndexOf(arg4, Settings:GetTrackingIDs()) then return end -- return if cast made not by player or player casted trackingSpell
       end
       self:TempPause(private.TEMP_PAUSE_DELEY)
     elseif event == "SPELL_SWITCHER_MODE_TOGGLED" or event == "SPELL_SWITCHER_INTERVAL_CHANGED" or event == "SPELL_SWITCHER_TRACKING_TYPES_CHANGED" or event == "SPELL_SWITCHER_FORCE_IN_COMBAT_TOGGLED" then
@@ -283,3 +294,19 @@ end
 -- =================================================================================
 --                              Private module functions
 -- =================================================================================
+
+function SpellSwitcher:IsFlyingForm()
+  local FLYING_FORM_SPELL_IDS = {
+    [33943] = true, -- Flight Form
+    [40120] = true, -- Swift Flight Form
+  }
+
+  if PLAYER_CLASS == "DRUID" then
+    for i = 1, GetNumShapeshiftForms() do
+      local _, active, _, spellId = GetShapeshiftFormInfo(i)
+      if FLYING_FORM_SPELL_IDS[spellId] and active then return true end
+    end
+  end
+
+  return false
+end
