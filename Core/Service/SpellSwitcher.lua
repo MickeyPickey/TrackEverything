@@ -24,7 +24,8 @@ local private = {
       ["UNIT_SPELLCAST_STOP"] = true,
       ["UNIT_SPELLCAST_CHANNEL_STOP"] = true,
       ["UPDATE_SHAPESHIFT_FORM"] = true,
-      ["PLAYER_MOUNT_DISPLAY_CHANGED"] = true,
+      -- temoporary fix of issue with autoswitching. Need to findout better solution to make it work properly with mount.
+      -- ["PLAYER_MOUNT_DISPLAY_CHANGED"] = true,
     },
     TEMP_PAUSE_EVENTS = {
       ["UNIT_SPELLCAST_SENT"] = true,
