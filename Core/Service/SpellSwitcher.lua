@@ -24,8 +24,7 @@ local private = {
       ["UNIT_SPELLCAST_STOP"] = true,
       ["UNIT_SPELLCAST_CHANNEL_STOP"] = true,
       ["UPDATE_SHAPESHIFT_FORM"] = true,
-      -- temoporary fix of issue with autoswitching. Need to findout better solution to make it work properly with mount.
-      -- ["PLAYER_MOUNT_DISPLAY_CHANGED"] = true,
+      ["PLAYER_MOUNT_DISPLAY_CHANGED"] = true,
     },
     TEMP_PAUSE_EVENTS = {
       ["UNIT_SPELLCAST_SENT"] = true,
@@ -91,13 +90,13 @@ function SpellSwitcher:OnDisable()
   if private.Sound_EnableSFX_default ~= GetCVar("Sound_EnableSFX") then SetCVar("Sound_EnableSFX", private.Sound_EnableSFX_default) end
 end
 
-function SpellSwitcher:Toggle()
-  if private.IS_PAUSED then
-    SpellSwitcher:StartTimer()
-  else
-    SpellSwitcher:StopTimer()
-  end
-end
+-- function SpellSwitcher:Toggle()
+--   if private.IS_PAUSED then
+--     SpellSwitcher:StartTimer()
+--   else
+--     SpellSwitcher:StopTimer()
+--   end
+-- end
 
 function SpellSwitcher:StartTimer()
   --local canStart = private.IS_PAUSED and self:CanCast()
@@ -245,7 +244,7 @@ function SpellSwitcher:EventHandler(...)
           self:StartTimer()
         end
       else
-        self:Toggle()
+        self:UpdateTimer()
       end
     elseif private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event] then
       if event == "UI_ERROR_MESSAGE" then

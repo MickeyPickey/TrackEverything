@@ -1,7 +1,7 @@
 ## Interface-Classic: 11307
 ## Interface-BCC: 20501
 ## Title: Track Everything
-## Author: Mickeya @Gehennas-Alliance EU
+## Author: Mickeyo <Solid> @Gehennas-Alliance EU
 ## Version: @project-version@
 ## SavedVariables: TrackEverythingDB
 ## SavedVariablesPerCharacter: TrackEverythingCharDB
