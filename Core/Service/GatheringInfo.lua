@@ -101,7 +101,6 @@ local private = {
       { name = L["Icethorn"], id = "", itemId = 190171, minSkillLevel = 435, },
       { name = L["Frost Lotus"], id = "", itemId = 190176, minSkillLevel = 450, },
     },
-    },
   },
   Skinning = {
     LOOKUP  = { UNIT_SKINNABLE_LEATHER, },
