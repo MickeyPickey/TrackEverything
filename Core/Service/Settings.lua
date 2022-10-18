@@ -8,9 +8,6 @@ local Log = TE.Include("Log")
 local L = TE.Include("Locale")
 local private = {}
 
-local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR
-local ADDON_NAME_ACRONYM = ADDON_TABLE.ADDON_NAME_ACRONYM
-
 local MINIMAP_ICON_DISPLAY_TYPES = {
   DEFAULT = DEFAULT,
   CURRENT_SPELL = L["Current tracking"],

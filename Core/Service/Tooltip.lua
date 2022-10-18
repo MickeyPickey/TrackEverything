@@ -66,7 +66,7 @@ function Tooltip:CanUpdateMinimapObjectTooltip()
 end
 
 function Tooltip:CanUpdateMapObjectTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible() 
+  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible()
 end
 
 function Tooltip:UpdateWorldObjTooltip()

@@ -47,6 +47,7 @@ globals = {
   "Minimap",
   "MiniMapTracking",
   "MiniMapTrackingIcon",
+  "MiniMapTrackingButton",
   "MiniMapTrackingDropDown",
 
   -- FrameXML misc
