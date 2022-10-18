@@ -1,9 +1,7 @@
-name: Package Beta AddOn
+name: Package Wrath Bete
 
 on:
   push:
-    branches:
-      - wrath
     tags:
       - "**-alpha**"
       - "**-beta**"

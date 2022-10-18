@@ -1,9 +1,7 @@
-name: Release Wrath AddOn
+name: Package Wrath Release
 
 on:
   push:
-    branches:
-      - wrath
     tags:
       - "**-release**"
       - "!**-alpha**"
