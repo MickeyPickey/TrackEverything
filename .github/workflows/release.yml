@@ -26,6 +26,6 @@ jobs:
           annotate: warning
 
       - name: Package Classic
-      - uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@master
         #with:
           #args: -g bcc

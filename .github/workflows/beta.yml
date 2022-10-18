@@ -25,6 +25,6 @@ jobs:
           annotate: warning
 
       - name: Package Addon 
-      - uses: BigWigsMods/packager@master
+        uses: BigWigsMods/packager@master
         #with:
         #  args: -g bcc
