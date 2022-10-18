@@ -5,7 +5,7 @@ on:
     branches:
       - wrath
     tags:
-      - "*"
+      - "**-release**"
       - "!**-alpha**"
       - "!**-beta**"
 
