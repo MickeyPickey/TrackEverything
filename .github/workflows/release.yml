@@ -5,8 +5,9 @@ on:
     branches:
       - wrath
     tags:
-      - '**-wrath'
-      - '!**-beta**'
+      - "*"
+      - "!**-alpha**"
+      - "!**-beta**"
 
 env:
   CF_API_KEY: ${{ secrets.CF_API_KEY }}
