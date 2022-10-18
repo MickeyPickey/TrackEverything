@@ -8,6 +8,9 @@ local L = TE.Include("Locale")
 local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR
 local ADDON_NAME_ACRONYM = ADDON_TABLE.ADDON_NAME_ACRONYM
 
+-- WoW API's
+local MouseIsOver = MouseIsOver
+
 -- =====================================================================================================
 --                                   GAME CONSTANT DEFAULT COLORS RGB
 -- =====================================================================================================
@@ -27,18 +30,12 @@ local private = {
   TOOLTIP_DEFAULTS_CHANGED = false,
 }
 
--- do not change tooltip if owner is blacklisted. Need to fix it in more smart way later
-private.TooltipOwnersBL = {
-  "QuestieFrame",
-}
-
 function Tooltip:OnInitialize()
 
   GameTooltip:SetScript("OnShow", function()
-
-    if self:CanUpdateWorldTooltip() then self:ModifyTooltip() end
-    if self:CanUpdateMinimapTooltip() or self:CanUpdateWorldMapTooltip() then self:RedrawTooltip() end
-
+    if self:CanUpdateWorldObjectTooltip() then self:UpdateWorldObjTooltip() end
+    if self:CanUpdateMinimapObjectTooltip() then self:RedrawTooltip(C_Map.GetBestMapForUnit("player")) end
+    if self:CanUpdateMapObjectTooltip() then self:RedrawTooltip(WorldMapFrame:GetMapID()) end
   end)
 
   GameTooltip:HookScript("OnHide", function() -- reseting GameTooltip becouse his default formating changing in RedrawTooltip() function
@@ -49,48 +46,47 @@ function Tooltip:OnInitialize()
   end)
 
   GameTooltip:HookScript("OnTooltipCleared", function() --handle GameTooltip updates. OnTooltipCleared event fires every time GameTooltip redrawn
-    if self:CanUpdateMinimapTooltip() and private.MINIMAP_TOOLTIP_REDRAWN then
-      self:RedrawTooltip()
+    if self:CanUpdateMinimapObjectTooltip() and private.MINIMAP_TOOLTIP_REDRAWN then
+      self:RedrawTooltip(C_Map.GetBestMapForUnit("player"))
     end
 
-    if self:CanUpdateWorldMapTooltip() and private.MINIMAP_TOOLTIP_REDRAWN then
-      self:RedrawTooltip()
+    if self:CanUpdateMapObjectTooltip() and private.MINIMAP_TOOLTIP_REDRAWN then
+      self:RedrawTooltip(WorldMapFrame:GetMapID())
     end
 
-    if self:CanUpdateWorldTooltip() then
-      self:ScheduleTimer(function() self:ModifyTooltip() end, 0,00000001) -- need to wait before new GameTooltip drawn, becouse it apears not instantly after OnTooltipCleared event
+    if self:CanUpdateWorldObjectTooltip() then
+      self:ScheduleTimer(function() self:UpdateWorldObjTooltip() end, 0,00000001) -- need to wait before new GameTooltip drawn, becouse it apears not instantly after OnTooltipCleared event
     end
   end)
 end
 
-function Tooltip:CanUpdateWorldTooltip()
+function Tooltip:CanUpdateWorldObjectTooltip()
   return TE.db.profile.tooltip.requiredProfessionLevel.enableWorld and GameTooltip:IsShown() and MouseIsOver(WorldFrame) and GameTooltip:GetOwner():GetName() == "UIParent"
 end
 
-function Tooltip:CanUpdateMinimapTooltip()
+function Tooltip:CanUpdateMinimapObjectTooltip()
   return TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap and GameTooltip:IsShown() and MouseIsOver(Minimap) and Minimap:IsVisible()
 end
 
-function Tooltip:CanUpdateWorldMapTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and WorldMapFrame:IsVisible() and MouseIsOver(WorldMapFrame)
+function Tooltip:CanUpdateMapObjectTooltip()
+  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible() 
 end
 
-function Tooltip:ModifyTooltip()
+function Tooltip:UpdateWorldObjTooltip()
   -- if no professions found in tooltip then nothing to modify.
   if not self:IsProfessionInTooltip() then return end
 
   local professionName, tooltipProfessinString, rowNum = self:GetTooltipProfession()
   local tooltipTitleText = MyLib.UnescapeStr(GameTooltipTextLeft1:GetText())
-  local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(tooltipTitleText, professionName)
+  local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(tooltipTitleText, professionName, C_Map.GetBestMapForUnit("player"))
 
   _G["GameTooltipTextLeft"..rowNum]:SetText(self:GetTooltipStr(tooltipProfessinString, minSkillLevel))
 
   GameTooltip:Show()
 end
 
-function Tooltip:RedrawTooltip()
+function Tooltip:RedrawTooltip(zoneMapID)
   if self:HasMatches() then
-
     private.MINIMAP_TOOLTIP_REDRAWN = false
 
     local gameTooltipRows = {}
@@ -118,7 +114,7 @@ function Tooltip:RedrawTooltip()
         local titleTextUnescaped = MyLib.UnescapeStr(title.text)
         if GatheringInfo:IsProfessionItemName(titleTextUnescaped) then
           local professionName = GatheringInfo:GetProfessionNameByEntryName(titleTextUnescaped)
-          local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(titleTextUnescaped, professionName)
+          local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(titleTextUnescaped, professionName, zoneMapID)
           table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(professionName, minSkillLevel)})
         end
       end
