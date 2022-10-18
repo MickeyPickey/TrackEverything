@@ -133,6 +133,8 @@ do
     L["Current tracking"] = true
     L["Only on mount"] = true
     L["Enable to switch only if character on mount. Also works with druid's flying form"] = true
+    L['Remove "%s" mark'] = true
+    L['Check to remove "%s" mark in tooltips'] = true
   end
 end
 

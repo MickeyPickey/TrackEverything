@@ -160,23 +160,25 @@ function GatheringInfo:GetProfessionInfoByItemName(itemName, professionName, zon
 
   local professionTable = self:GetDataByKey(professionName)
 
-  for _, node in ipairs(professionTable.NODES) do
-    local lookupName = node.name
+  if professionTable.NODES then
+    for _, node in ipairs(professionTable.NODES) do
+      local lookupName = node.name
 
-    --Getting Localized name to compare with from itemInfo if possible
-    if node.itemId then
-      lookupName = GetItemInfo(node.itemId)
-    end
+      --Getting Localized name to compare with from itemInfo if possible
+      if node.itemId then
+        lookupName = GetItemInfo(node.itemId)
+      end
 
-    if itemName == lookupName then
-      if zoneMapID and node.zoneMapIDs then
-        for _, mapID in ipairs(node.zoneMapIDs) do
-          if zoneMapID == mapID then
-            return node.minSkillLevel, node.objId
+      if itemName == lookupName then
+        if zoneMapID and node.zoneMapIDs then
+          for _, mapID in ipairs(node.zoneMapIDs) do
+            if zoneMapID == mapID then
+              return node.minSkillLevel, node.objId
+            end
           end
+        else
+          return node.minSkillLevel, node.objId
         end
-      else
-        return node.minSkillLevel, node.objId
       end
     end
   end
@@ -237,9 +239,9 @@ function GatheringInfo:CalculateDifficultyByUnitLevel(unitLevel)
   if unitLevel <= 10 then
     return 1
   elseif unitLevel <= 20 then
-    return (unitLevel-10) * 10
+    return (unitLevel - 10) * 10
   elseif unitLevel > 20 then
-    return unitLevel*5
+    return unitLevel * 5
   end
 end
 

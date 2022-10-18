@@ -5,9 +5,6 @@ local Tooltip = TE.Include("Tooltip")
 local MyLib = TE.Include("Util.MyLib")
 local L = TE.Include("Locale")
 
-local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR
-local ADDON_NAME_ACRONYM = ADDON_TABLE.ADDON_NAME_ACRONYM
-
 -- WoW API's
 local MouseIsOver = MouseIsOver
 
@@ -176,7 +173,9 @@ function Tooltip:HasMatches()
 end
 
 function Tooltip:GetTooltipStr(professionString, levelReq)
-  return "["..ADDON_NAME_COLOR..ADDON_NAME_ACRONYM.."|r".."] "..L[professionString].." ["..levelReq.."]"
+  local markEnabled = not TE.db.profile.tooltip.removeAddonMark
+
+  return format("%s%s [%s]", (markEnabled and ADDON_TABLE.COLORED_ADDON_MARK .. " ") or "", L[professionString], levelReq)
 end
 
 function Tooltip:ResetGameTooltipDefaults(tooltip)

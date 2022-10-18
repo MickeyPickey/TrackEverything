@@ -90,14 +90,6 @@ function SpellSwitcher:OnDisable()
   if private.Sound_EnableSFX_default ~= GetCVar("Sound_EnableSFX") then SetCVar("Sound_EnableSFX", private.Sound_EnableSFX_default) end
 end
 
--- function SpellSwitcher:Toggle()
---   if private.IS_PAUSED then
---     SpellSwitcher:StartTimer()
---   else
---     SpellSwitcher:StopTimer()
---   end
--- end
-
 function SpellSwitcher:StartTimer()
   --local canStart = private.IS_PAUSED and self:CanCast()
   local canStart = self:CanCast()
@@ -140,7 +132,7 @@ function SpellSwitcher:CastNextSpell()
     return
   end
 
-  if TE.db.profile.autoTracking.general.muteSpellUseSound and GetCVar("Sound_EnableSFX") == "1" then
+  if TE.db.profile.autoTracking.muteSpellSwitchSound and GetCVar("Sound_EnableSFX") == "1" then
     SetCVar("Sound_EnableSFX", "0")
     CastSpellByID(nextSpellID)
     SetCVar("Sound_EnableSFX", "1")

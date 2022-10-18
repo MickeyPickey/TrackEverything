@@ -8,6 +8,9 @@ local Log = TE.Include("Log")
 local L = TE.Include("Locale")
 local private = {}
 
+local ADDON_NAME_COLOR = ADDON_TABLE.ADDON_NAME_COLOR
+local ADDON_NAME_ACRONYM = ADDON_TABLE.ADDON_NAME_ACRONYM
+
 local MINIMAP_ICON_DISPLAY_TYPES = {
   DEFAULT = DEFAULT,
   CURRENT_SPELL = L["Current tracking"],
@@ -113,18 +116,11 @@ local options = {
             },
           },
         },
-        general = {
-          name = GENERAL,
-          type = "group",
-          order = 3,
-          args = {
-            muteSpellUseSound = {
-              name = L["Mute spell switch sound"],
-              desc = L["Mute spell switch sound while auto tracking"],
-              type = "toggle",
-              order = 1,
-            },
-          },
+        muteSpellSwitchSound = {
+          name = L["Mute spell switch sound"],
+          desc = L["Mute spell switch sound while auto tracking"],
+          type = "toggle",
+          order = 1,
         },
       },
     },
@@ -190,6 +186,12 @@ local options = {
             },
           },
         },
+        removeAddonMark = {
+          name = format(L['Remove "%s" mark'], ADDON_TABLE.COLORED_ADDON_MARK),
+          desc = format(L['Check to remove "%s" mark in tooltips'], ADDON_TABLE.COLORED_ADDON_MARK),
+          type = "toggle",
+          order = 2,
+        },
       },
     },
     reset = {
@@ -223,9 +225,7 @@ local defaults = {
           },
         },
       },
-      general = {
-        muteSpellUseSound = true,
-      },
+      muteSpellSwitchSound = true,
     },
     minimap = {
       hide = true,
@@ -236,6 +236,7 @@ local defaults = {
       requiredProfessionLevel = {
         ["*"] = true
       },
+      removeAddonMark = false,
     },
   }
 }
