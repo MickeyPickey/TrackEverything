@@ -58,16 +58,16 @@ function Icon:OnInitialize()
 end
 
 function Icon:OnEnable()
-  MiniMapTracking:HookScript("OnHide", function()
+  MiniMapTrackingButton:HookScript("OnHide", function()
     if not TE.db.profile.minimap.hideDefaultTrackingIcon and Settings:GetPlayerTrackingSpells() then
       MiniMapTrackingIcon:SetTexture(NO_TRACK_ICON)
-      MiniMapTracking:Show()
+      MiniMapTrackingButton:Show()
     end
   end)
 
-  MiniMapTracking:HookScript("OnShow", function()
+  MiniMapTrackingButton:HookScript("OnShow", function()
     if TE.db.profile.minimap.hideDefaultTrackingIcon then
-      MiniMapTracking:Hide()
+      MiniMapTrackingButton:Hide()
     end
   end)
 
@@ -80,7 +80,7 @@ function Icon:EmbedInDefaultTrackingFrame()
 
     MiniMapTrackingIcon:SetTexture(self:GetIconTexture())
 
-    local ghostButton = CreateFrame("Button", ADDON_NAME.." Minimap ghostButton", MiniMapTracking)
+    local ghostButton = CreateFrame("Button", ADDON_NAME .. " Minimap ghostButton", MiniMapTrackingButton)
 
     ghostButton:SetAllPoints()
 

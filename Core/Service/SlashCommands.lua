@@ -69,8 +69,8 @@ local SLASH_COMMAND_ARGUMENTS = {
   },
   {
     name = "mute",
-    desc = L["Mute spell use sound"],
-    print = function() return L["Mute spell use sound is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.general.muteSpellUseSound) end,
+    desc = L["Mute spell switch sound"],
+    print = function() return L["Mute spell switch sound is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.general.muteSpellUseSound) end,
     hidden = false,
     callback = function() TE.db.profile.autoTracking.general.muteSpellUseSound = not TE.db.profile.autoTracking.general.muteSpellUseSound end,
     order = 5,

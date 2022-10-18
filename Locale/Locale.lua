@@ -15,7 +15,7 @@
 --[[
 RegExp string to extract locals from GatherMate2:
 
-(L\["Engineering"\].*|L\["Herbalism"\].*|L\["Mining"\].*|L\["Copper Vein"\].*|L\["Tin Vein"\].*|L\["Incendicite Mineral Vein"\].*|L\["Silver Vein"\].*|L\["Ooze Covered Silver Vein"\].*|L\["Lesser Bloodstone Deposit"\].*|L\["Iron Deposit"\].*|L\["Ooze Covered Iron Deposit"\].*|L\["Indurium Mineral Vein"\].*|L\["Gold Vein"\].*|L\["Ooze Covered Gold Vein"\].*|L\["Mithril Deposit"\].*|L\["Ooze Covered Mithril Deposit"\].*|L\["Truesilver Deposit"\].*|L\["Ooze Covered Truesilver Deposit"\].*|L\["Dark Iron Deposit"\].*|L\["Small Thorium Vein"\].*|L\["Ooze Covered Thorium Vein"\].*|L\["Rich Thorium Vein"\].*|L\["Ooze Covered Rich Thorium Vein"\].*|L\["Hakkari Thorium Vein"\].*|L\["Small Obsidian Chunk"\].*|L\["Large Obsidian Chunk"\].*|L\["Fel Iron Deposit"\].*|L\["Khorium Vein"\].*|L\["Adamantite Deposit"\].*|L\["Rich Adamantite Deposit"\].*)
+(L\["Engineering"\].*|L\["Herbalism"\].*|L\["Mining"\].*|L\["Copper Vein"\].*|L\["Tin Vein"\].*|L\["Incendicite Mineral Vein"\].*|L\["Silver Vein"\].*|L\["Ooze Covered Silver Vein"\].*|L\["Lesser Bloodstone Deposit"\].*|L\["Iron Deposit"\].*|L\["Ooze Covered Iron Deposit"\].*|L\["Indurium Mineral Vein"\].*|L\["Gold Vein"\].*|L\["Ooze Covered Gold Vein"\].*|L\["Mithril Deposit"\].*|L\["Ooze Covered Mithril Deposit"\].*|L\["Truesilver Deposit"\].*|L\["Ooze Covered Truesilver Deposit"\].*|L\["Dark Iron Deposit"\].*|L\["Small Thorium Vein"\].*|L\["Ooze Covered Thorium Vein"\].*|L\["Rich Thorium Vein"\].*|L\["Ooze Covered Rich Thorium Vein"\].*|L\["Hakkari Thorium Vein"\].*|L\["Small Obsidian Chunk"\].*|L\["Large Obsidian Chunk"\].*|L\["Fel Iron Deposit"\].*|L\["Khorium Vein"\].*|L\["Adamantite Deposit"\].*|L\["Rich Adamantite Deposit"\].*|L\["Cobalt Deposit"\].*|L\["Rich Cobalt Deposit"\].*|L\["Saronite Deposit"\].*|L\["Rich Saronite Deposit"\].*|L\["Firethorn"\].*|L\["Frozen Herb"\].*)
 --]]
 
 local _, ADDON_TABLE = ...
@@ -31,11 +31,13 @@ do
     L["Engineering"] = true
     L["Herbalism"] = true
     L["Mining"] = true
-
     L["Adamantite Deposit"] = true
+    L["Cobalt Deposit"] = true
     L["Copper Vein"] = true
     L["Dark Iron Deposit"] = true
     L["Fel Iron Deposit"] = true
+    L["Firethorn"] = true
+    L["Frozen Herb"] = true
     L["Gold Vein"] = true
     L["Incendicite Mineral Vein"] = true
     L["Indurium Mineral Vein"] = true
@@ -51,7 +53,10 @@ do
     L["Ooze Covered Thorium Vein"] = true
     L["Ooze Covered Truesilver Deposit"] = true
     L["Rich Adamantite Deposit"] = true
+    L["Rich Cobalt Deposit"] = true
+    L["Rich Saronite Deposit"] = true
     L["Rich Thorium Vein"] = true
+    L["Saronite Deposit"] = true
     L["Silver Vein"] = true
     L["Small Obsidian Chunk"] = true
     L["Small Thorium Vein"] = true
@@ -98,9 +103,9 @@ do
     L["Last used tracking spell activation is [%s]"] = true
     L["Minimap tooltips"] = true
     L["Mining"] = true
-    L["Mute spell use sound"] = true
-    L["Mute spell use sound is [%s]"] = true
-    L["Mute spell use sound while auto tracking"] = true
+    L["Mute spell switch sound"] = true
+    L["Mute spell switch sound is [%s]"] = true
+    L["Mute spell switch sound while auto tracking"] = true
     L["Next tracking spell"] = true
     L["Only while moving"] = true
     L["Open settings"] = true
@@ -141,11 +146,13 @@ do
     L["Engineering"] = "Ingénierie"
     L["Herbalism"] = "Herboristerie"
     L["Mining"] = "Minage"
-
     L["Adamantite Deposit"] = "Gisement d'adamantite"
+    L["Cobalt Deposit"] = "Gisement de cobalt"
     L["Copper Vein"] = "Filon de cuivre"
     L["Dark Iron Deposit"] = "Gisement de sombrefer"
     L["Fel Iron Deposit"] = "Gisement de gangrefer"
+    L["Firethorn"] = "Epine de feu"
+    L["Frozen Herb"] = "Herbe gelée"
     L["Gold Vein"] = "Filon d'or"
     L["Incendicite Mineral Vein"] = "Filon d'incendicite"
     L["Indurium Mineral Vein"] = "Filon d'indurium"
@@ -161,7 +168,10 @@ do
     L["Ooze Covered Thorium Vein"] = "Filon de thorium couvert de limon"
     L["Ooze Covered Truesilver Deposit"] = "Gisement de vrai-argent couvert de vase"
     L["Rich Adamantite Deposit"] = "Riche gisement d'adamantite"
+    L["Rich Cobalt Deposit"] = "Riche gisement de cobalt"
+    L["Rich Saronite Deposit"] = "Riche gisement de saronite"
     L["Rich Thorium Vein"] = "Riche filon de thorium"
+    L["Saronite Deposit"] = "Gisement de saronite"
     L["Silver Vein"] = "Filon d'argent"
     L["Small Obsidian Chunk"] = "Petit morceau d'obsidienne"
     L["Small Thorium Vein"] = "Petit filon de thorium"
@@ -185,16 +195,18 @@ do
     L["Engineering"] = "Ingenieurskunst"
     L["Herbalism"] = "Kräuterkunde"
     L["Mining"] = "Bergbau"
-
-    L["Adamantite Deposit"] = "Adamantitvorkommen"
+    L["Adamantite Deposit"] = "Adamantitablagerung"
+    L["Cobalt Deposit"] = "Kobaltablagerung"
     L["Copper Vein"] = "Kupfervorkommen"
     L["Dark Iron Deposit"] = "Dunkeleisenablagerung"
     L["Fel Iron Deposit"] = "Teufelseisenvorkommen"
+    L["Firethorn"] = "Feuerdorn"
+    L["Frozen Herb"] = "Gefrorenes Kraut"
     L["Gold Vein"] = "Goldvorkommen"
     L["Incendicite Mineral Vein"] = "Pyrophormineralvorkommen"
     L["Indurium Mineral Vein"] = "Induriummineralvorkommen"
     L["Iron Deposit"] = "Eisenvorkommen"
-    L["Khorium Vein"] = "Khoriumader"
+    L["Khorium Vein"] = "Khoriumvorkommen"
     L["Large Obsidian Chunk"] = "Großer Obsidiumvorkommen"
     L["Lesser Bloodstone Deposit"] = "Geringe Blutsteinablagerung"
     L["Mithril Deposit"] = "Mithrilablagerung"
@@ -204,8 +216,11 @@ do
     L["Ooze Covered Silver Vein"] = "Schlammbedecktes Silbervorkommen"
     L["Ooze Covered Thorium Vein"] = "Schlammbedeckte Thoriumader"
     L["Ooze Covered Truesilver Deposit"] = "Schlammbedecktes Echtsilbervorkommen"
-    L["Rich Adamantite Deposit"] = "Reiches Adamantitvorkommen"
+    L["Rich Adamantite Deposit"] = "Reiche Adamantitablagerung"
+    L["Rich Cobalt Deposit"] = "Reiche Kobaltablagerung"
+    L["Rich Saronite Deposit"] = "Reiche Saronitablagerung"
     L["Rich Thorium Vein"] = "Reiches Thoriumvorkommen"
+    L["Saronite Deposit"] = "Saronitablagerung"
     L["Silver Vein"] = "Silbervorkommen"
     L["Small Obsidian Chunk"] = "Kleiner Obsidiumvorkommen"
     L["Small Thorium Vein"] = "Kleines Thoriumvorkommen"
@@ -230,11 +245,13 @@ do
     L["Engineering"] = "Ingeniería"
     L["Herbalism"] = "Botánica"
     L["Mining"] = "Minería"
-
     L["Adamantite Deposit"] = "Depósito de adamantita"
+    L["Cobalt Deposit"] = "Depósito de cobalto"
     L["Copper Vein"] = "Filón de cobre"
     L["Dark Iron Deposit"] = "Depósito de Hierro negro"
     L["Fel Iron Deposit"] = "Depósito de hierro vil"
+    L["Firethorn"] = "Espino de fuego"
+    L["Frozen Herb"] = "Hierba congelada"
     L["Gold Vein"] = "Filón de oro"
     L["Incendicite Mineral Vein"] = "Filón de mineral de incendicita"
     L["Indurium Mineral Vein"] = "Filón de mineral de indurio"
@@ -250,7 +267,10 @@ do
     L["Ooze Covered Thorium Vein"] = "Filón de torio cubierto de moco"
     L["Ooze Covered Truesilver Deposit"] = "Filón de veraplata cubierta de moco"
     L["Rich Adamantite Deposit"] = "Depósito rico en adamantita"
+    L["Rich Cobalt Deposit"] = "Depósito de cobalto rico"
+    L["Rich Saronite Deposit"] = "Depósito de saronita rico"
     L["Rich Thorium Vein"] = "Filón de torio enriquecido"
+    L["Saronite Deposit"] = "Depósito de saronita"
     L["Silver Vein"] = "Filón de plata"
     L["Small Obsidian Chunk"] = "Pequeño fragmento de obsidiana"
     L["Small Thorium Vein"] = "Filón pequeño de torio"
@@ -275,11 +295,13 @@ do
     L["Engineering"] = "Ingeniería"
     L["Herbalism"] = "Herboristería"
     L["Mining"] = "Minería"
-
     L["Adamantite Deposit"] = "Depósito de adamantita"
+    L["Cobalt Deposit"] = "Depósito de cobalto"
     L["Copper Vein"] = "Filón de cobre"
     L["Dark Iron Deposit"] = "Depósito de Hierro negro"
     L["Fel Iron Deposit"] = "Depósito de hierro vil"
+    L["Firethorn"] = "Espino de fuego"
+    L["Frozen Herb"] = "Hierba congelada"
     L["Gold Vein"] = "Filón de oro"
     L["Incendicite Mineral Vein"] = "Filón de mineral de incendicita"
     L["Indurium Mineral Vein"] = "Filón de mineral de indurio"
@@ -295,7 +317,10 @@ do
     L["Ooze Covered Thorium Vein"] = "Filón de torio cubierto de moco"
     L["Ooze Covered Truesilver Deposit"] = "Filón de veraplata cubierta de moco"
     L["Rich Adamantite Deposit"] = "Depósito rico en adamantita"
+    L["Rich Cobalt Deposit"] = "Depósito de cobalto rico"
+    L["Rich Saronite Deposit"] = "Depósito de saronita rico"
     L["Rich Thorium Vein"] = "Filón de torio enriquecido"
+    L["Saronite Deposit"] = "Depósito de saronita"
     L["Silver Vein"] = "Filón de plata"
     L["Small Obsidian Chunk"] = "Pequeño fragmento de obsidiana"
     L["Small Thorium Vein"] = "Filón pequeño de torio"
@@ -320,11 +345,13 @@ do
     L["Engineering"] = "Engenharia"
     L["Herbalism"] = "Herborismo"
     L["Mining"] = "Mineração."
-
     L["Adamantite Deposit"] = "Depósito de Adamantita"
+    L["Cobalt Deposit"] = "Depósito de Cobalto"
     L["Copper Vein"] = "Veio de Cobre"
     L["Dark Iron Deposit"] = "Depósito de Ferro Negro"
     L["Fel Iron Deposit"] = "Depósito de Ferrovil"
+    L["Firethorn"] = "Espinho de Fogo"
+    L["Frozen Herb"] = "Planta Congelada"
     L["Gold Vein"] = "Veio de Ouro"
     L["Incendicite Mineral Vein"] = "Veio de Incendicita"
     L["Indurium Mineral Vein"] = "Mineral Indurio"
@@ -340,7 +367,10 @@ do
     L["Ooze Covered Thorium Vein"] = "Veio de Tório Coberto de Gosma"
     L["Ooze Covered Truesilver Deposit"] = "Depósito de Veraprata Coberto de Gosma"
     L["Rich Adamantite Deposit"] = "Depósito de Adamantita Abundante"
+    L["Rich Cobalt Deposit"] = "Depósito de Cobalto Abundante "
+    L["Rich Saronite Deposit"] = "Depósito de Saronita Abundante"
     L["Rich Thorium Vein"] = "Veio de Tório Abundante"
+    L["Saronite Deposit"] = "Depósito de Saronita"
     L["Silver Vein"] = "Veio de Prata"
     L["Small Obsidian Chunk"] = "Pequeno Estilhaço de Obisidiana"
     L["Small Thorium Vein"] = "Veio de Tório Pequeno"
@@ -365,11 +395,13 @@ do
     L["Engineering"] = "기계공학"
     L["Herbalism"] = "약초 채집"
     L["Mining"] = "채광"
-
     L["Adamantite Deposit"] = "아다만타이트 광맥"
+    L["Cobalt Deposit"] = "코발트 광맥"
     L["Copper Vein"] = "구리 광맥"
     L["Dark Iron Deposit"] = "검은무쇠 광맥"
     L["Fel Iron Deposit"] = "지옥무쇠 광맥"
+    L["Firethorn"] = "화염가시풀"
+    L["Frozen Herb"] = "얼어붙은 약초"
     L["Gold Vein"] = "금 광맥"
     L["Incendicite Mineral Vein"] = "발연 광석 광맥"
     L["Indurium Mineral Vein"] = "인듀리움 광맥"
@@ -385,7 +417,10 @@ do
     L["Ooze Covered Thorium Vein"] = "진흙으로 덮인 토륨 광맥"
     L["Ooze Covered Truesilver Deposit"] = "진흙으로 덮인 진은 광맥"
     L["Rich Adamantite Deposit"] = "풍부한 아다만타이트 광맥"
+    L["Rich Cobalt Deposit"] = "풍부한 코발트 광맥"
+    L["Rich Saronite Deposit"] = "풍부한 사로나이트 광맥"
     L["Rich Thorium Vein"] = "풍부한 토륨 광맥"
+    L["Saronite Deposit"] = "사로나이트 광맥"
     L["Silver Vein"] = "은 광맥"
     L["Small Obsidian Chunk"] = "작은 흑요암 광맥"
     L["Small Thorium Vein"] = "작은 토륨 광맥"
@@ -409,11 +444,13 @@ do
     L["Engineering"] = "工程学"
     L["Herbalism"] = "草药学"
     L["Mining"] = "采矿"
-
     L["Adamantite Deposit"] = "精金矿脉"
+    L["Cobalt Deposit"] = "钴矿脉"
     L["Copper Vein"] = "铜矿"
     L["Dark Iron Deposit"] = "黑铁矿脉"
     L["Fel Iron Deposit"] = "魔铁矿脉"
+    L["Firethorn"] = "火棘"
+    L["Frozen Herb"] = "冰冷的草药"
     L["Gold Vein"] = "金矿石"
     L["Incendicite Mineral Vein"] = "火岩矿脉"
     L["Indurium Mineral Vein"] = "精铁矿脉"
@@ -429,7 +466,10 @@ do
     L["Ooze Covered Thorium Vein"] = "软泥覆盖的瑟银矿脉"
     L["Ooze Covered Truesilver Deposit"] = "软泥覆盖的真银矿脉"
     L["Rich Adamantite Deposit"] = "富精金矿脉"
+    L["Rich Cobalt Deposit"] = "富钴矿脉"
+    L["Rich Saronite Deposit"] = "富萨隆邪铁矿脉"
     L["Rich Thorium Vein"] = "富瑟银矿"
+    L["Saronite Deposit"] = "萨隆邪铁矿脉"
     L["Silver Vein"] = "银矿"
     L["Small Obsidian Chunk"] = "小型黑曜石碎块"
     L["Small Thorium Vein"] = "瑟银矿脉"
@@ -453,11 +493,13 @@ do
     L["Engineering"] = "工程學"
     L["Herbalism"] = "草藥學"
     L["Mining"] = "採礦"
-
     L["Adamantite Deposit"] = "堅鋼礦床"
+    L["Cobalt Deposit"] = "鈷藍礦床"
     L["Copper Vein"] = "銅礦脈"
     L["Dark Iron Deposit"] = "黑鐵礦床"
     L["Fel Iron Deposit"] = "魔鐵礦床"
+    L["Firethorn"] = "火棘"
+    L["Frozen Herb"] = "冰凍草藥"
     L["Gold Vein"] = "金礦脈"
     L["Incendicite Mineral Vein"] = "火岩礦脈"
     L["Indurium Mineral Vein"] = "精鐵礦脈"
@@ -473,7 +515,10 @@ do
     L["Ooze Covered Thorium Vein"] = "軟泥覆蓋的瑟銀礦脈"
     L["Ooze Covered Truesilver Deposit"] = "軟泥覆蓋的真銀礦床"
     L["Rich Adamantite Deposit"] = "豐沃的堅鋼礦床"
+    L["Rich Cobalt Deposit"] = "豐沃的鈷藍礦床"
+    L["Rich Saronite Deposit"] = "豐沃的薩鋼礦床"
     L["Rich Thorium Vein"] = "富瑟銀礦脈"
+    L["Saronite Deposit"] = "薩鋼礦床"
     L["Silver Vein"] = "銀礦脈"
     L["Small Obsidian Chunk"] = "小黑曜石塊"
     L["Small Thorium Vein"] = "瑟銀礦脈"
@@ -497,11 +542,13 @@ do
     L["Engineering"] = "Инженерное дело"
     L["Herbalism"] = "Травничество"
     L["Mining"] = "Горное дело"
-
     L["Adamantite Deposit"] = "Залежи адамантита"
+    L["Cobalt Deposit"] = "Залежи кобальта"
     L["Copper Vein"] = "Медная жила"
     L["Dark Iron Deposit"] = "Залежи черного железа"
     L["Fel Iron Deposit"] = "Залежи оскверненного железа"
+    L["Firethorn"] = "Огница"
+    L["Frozen Herb"] = "Мерзлая трава"
     L["Gold Vein"] = "Золотая жила"
     L["Incendicite Mineral Vein"] = "Ароматитовая жила"
     L["Indurium Mineral Vein"] = "Индарилиевая жила"
@@ -517,7 +564,10 @@ do
     L["Ooze Covered Thorium Vein"] = "Покрытая слизью ториевая жила"
     L["Ooze Covered Truesilver Deposit"] = "Покрытые слизью залежи истинного серебра"
     L["Rich Adamantite Deposit"] = "Богатые залежи адамантита"
+    L["Rich Cobalt Deposit"] = "Богатые залежи кобальта"
+    L["Rich Saronite Deposit"] = "Богатое месторождение саронита"
     L["Rich Thorium Vein"] = "Богатая ториевая жила"
+    L["Saronite Deposit"] = "Месторождение саронита"
     L["Silver Vein"] = "Серебряная жила"
     L["Small Obsidian Chunk"] = "Маленький кусочек обсидиана"
     L["Small Thorium Vein"] = "Малая ториевая жила"
@@ -542,11 +592,13 @@ do
     L["Engineering"] = "Ingegneria"
     L["Herbalism"] = "Erbalismo"
     L["Mining"] = "Estrazione"
-
     L["Adamantite Deposit"] = "Deposito di Adamantite"
+    L["Cobalt Deposit"] = "Deposito di Cobalto"
     L["Copper Vein"] = "Vena di Rame"
     L["Dark Iron Deposit"] = "Deposito di Ferroscuro"
     L["Fel Iron Deposit"] = "Deposito di Vilferro"
+    L["Firethorn"] = "Ardispina"
+    L["Frozen Herb"] = "Erba del Gelo"
     L["Gold Vein"] = "Vena d'Oro"
     L["Incendicite Mineral Vein"] = "Vena di Incendicite"
     L["Iron Deposit"] = "Deposito di Ferro"
@@ -556,7 +608,10 @@ do
     L["Ooze Covered Thorium Vein"] = "Vena di Torio Coperta di Melma"
     L["Ooze Covered Truesilver Deposit"] = "Deposito di Verargento Coperto di Melma"
     L["Rich Adamantite Deposit"] = "Deposito Ricco di Adamantite"
+    L["Rich Cobalt Deposit"] = "Deposito Ricco di Cobalto"
+    L["Rich Saronite Deposit"] = "Deposito Ricco di Saronite"
     L["Rich Thorium Vein"] = "Vena Ricca di Torio"
+    L["Saronite Deposit"] = "Deposito di Saronite"
     L["Silver Vein"] = "Vena d'Argento"
     L["Small Obsidian Chunk"] = "Frammento Piccolo d'Ossidiana"
     L["Small Thorium Vein"] = "Vena Piccola di Torio"

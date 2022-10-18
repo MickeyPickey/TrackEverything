@@ -119,8 +119,8 @@ local options = {
           order = 3,
           args = {
             muteSpellUseSound = {
-              name = L["Mute spell use sound"],
-              desc = L["Mute spell use sound while auto tracking"],
+              name = L["Mute spell switch sound"],
+              desc = L["Mute spell switch sound while auto tracking"],
               type = "toggle",
               order = 1,
             },

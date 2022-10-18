@@ -94,7 +94,7 @@ local private = {
       { name = L["Nightmare Vine"], objId = "", itemId = 22792, minSkillLevel = 365, },
       { name = L["Mana Thistle"], objId = "", itemId = 22793, minSkillLevel = 375, },
       { name = L["Goldclover"], objId = "", itemId = 36901, minSkillLevel = 350, },
-      { name = L["Firethorn"], objId = "", itemId = nil, minSkillLevel = 360, },
+      { name = L["Firethorn"], objId = 191303, itemId = nil, minSkillLevel = 360, },
       { name = L["Tiger Lily"], objId = "", itemId = 36904, minSkillLevel = 375, },
       { name = L["Talandra's Rose"], objId = "", itemId = 36907, minSkillLevel = 385, },
       { name = L["Adder's Tongue"], objId = "", itemId = 36903, minSkillLevel = 400, },
