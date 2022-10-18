@@ -1,7 +1,7 @@
 local _, ADDON_TABLE = ...
 local TE = ADDON_TABLE.Addon
 local MyLib = TE.Include("Util.MyLib")
-ADDON_TABLE.ADDON_NAME_ACRONYM = MyLib.Acronym(ADDON_TABLE.ADDON_NAME)
+ADDON_TABLE.ADDON_NAME_SHORT = MyLib.Acronym(ADDON_TABLE.ADDON_NAME)
 
 -- inite core services
 TE.Init("Colors")
