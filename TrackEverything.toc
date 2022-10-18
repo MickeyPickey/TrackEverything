@@ -1,7 +1,9 @@
-## Interface-Classic: 11401
-## Interface-BCC: 20502
+## Interface: 30400
+## X-Min-Interface-Classic: 11403
+## X-Min-Interface-BCC: 20504
+## X-Min-Interface-Wrath: 30400
 ## Title: Track Everything
-## Author: Mickeya <Solid> @Gehennas-Alliance EU
+## Author: MickeyPickey
 ## Version: @project-version@
 ## SavedVariables: TrackEverythingDB
 ## SavedVariablesPerCharacter: TrackEverythingCharDB
@@ -17,9 +19,8 @@
 # Notes-zhTW: 
 # Notes-itIT: 
 
+## X-Category: Map
 ## X-Curse-Project-ID: 399326
-## X-WoWI-ID: 25637
-## X-Author-Game-Info: EU Gehennas (Mickeya). E-mail: sm.ownmail@gmail.com, Discord: whatyougonado#9852, Battle.net: BULBASAUR#2352
 
 # External libs
 External\EmbeddedLibs\LibStub\LibStub.lua
