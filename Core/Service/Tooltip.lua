@@ -58,15 +58,41 @@ function Tooltip:OnInitialize()
 end
 
 function Tooltip:CanUpdateWorldObjectTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorld and GameTooltip:IsShown() and MouseIsOver(WorldFrame) and GameTooltip:GetOwner():GetName() == "UIParent" and not GameTooltip:GetItem()
+  if TE.db.profile.tooltip.requiredProfessionLevel.enableWorld then
+    if not GameTooltip:IsShown() then return false
+    elseif not (MouseIsOver(WorldFrame) and GameTooltip:GetOwner():GetName() and GameTooltip:GetOwner():GetName() == "UIParent") then return false
+    elseif GameTooltip:GetItem() then return false
+    end
+
+    return true
+  end
 end
 
 function Tooltip:CanUpdateMinimapObjectTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap and GameTooltip:IsShown() and MouseIsOver(Minimap) and Minimap:IsVisible() and not GameTooltip:GetItem()
+  if TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap then
+    if not GameTooltip:IsShown() then return false
+    elseif not (MouseIsOver(Minimap) and Minimap:IsVisible()) then return false
+    elseif GameTooltip:GetItem() then return false
+
+    --This check is required to make it work with FarmHud addon to make it work when we have Minimap frame on top of everything when the FarmHud enabled.
+    --Here we are making sure that we aren't hovering WorldMap or WorldNode objects
+    elseif MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible() then return false
+    elseif MouseIsOver(WorldFrame) and GameTooltip:GetOwner():GetName() and GameTooltip:GetOwner():GetName() == "UIParent" then return false
+    end
+
+    return true
+  end
 end
 
 function Tooltip:CanUpdateMapObjectTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible() and not GameTooltip:GetItem()
+  if TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap then
+    if not GameTooltip:IsShown() then return false
+    elseif not (MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible()) then return false
+    elseif GameTooltip:GetItem() then return false
+    end
+
+    return true
+  end
 end
 
 function Tooltip:UpdateWorldObjTooltip()
