@@ -136,9 +136,6 @@ function GatheringInfo:GetProfessionRequiredSkillColor(itemName)
 
   local currentSkill = self:GetPlayerProfessionSkillLevelByProfessionName(professionName) or 0
 
-  -- return RED if no prefession learned
-  --if not currentSkill then return RED_FONT_COLOR:GetRGB() end
-
   return self:GetGatheringSkillColor(minSkillLevel, currentSkill)
 end
 
@@ -155,8 +152,8 @@ function GatheringInfo:GetPlayerProfessionSkillLevelByProfessionName(professionN
 end
 
 function GatheringInfo:GetProfessionInfoByItemName(itemName, professionName, zoneMapID)
-  assert(itemName and type(itemName) == "string", format("Wrong data type, expected 'string', got %s ", type(itemName)) )
-  assert(professionName and type(professionName) == "string", format("Wrong data type, expected 'string', got %s ", type(professionName)) )
+  assert(itemName and type(itemName) == "string", format("Wrong data type, expected 'string', got %s (%s, %s, %s)", type(itemName), tostring(itemName), tostring(professionName), tostring(zoneMapID)))
+  assert(professionName and type(professionName) == "string", format("Wrong data type, expected 'string', got %s (%s, %s, %s)", type(professionName), tostring(itemName), tostring(professionName), tostring(zoneMapID)))
 
   local professionTable = self:GetDataByKey(professionName)
 
@@ -212,18 +209,6 @@ function GatheringInfo:GetProfessionNameByEntryName(name)
       end
     end
   end
-
-  -- =================================================================================
-  --[[ We use LibTouristClassic-1.0 libriary here as backup here in case we dobjIdn't get
-  data from default table--]]
-  -- =================================================================================
-  -- for node in LT:IterateMiningNodes() do
-  --   if node.nodeName == name then return "Mining" end
-  -- end
-
-  -- for node in LT:IterateHerbs() do
-  --   if node.name == name then return "Herbalism" end
-  -- end
 
   return nil
 end

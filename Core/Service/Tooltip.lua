@@ -111,8 +111,10 @@ function Tooltip:RedrawTooltip(zoneMapID)
         local titleTextUnescaped = MyLib.UnescapeStr(title.text)
         if GatheringInfo:IsProfessionItemName(titleTextUnescaped) then
           local professionName = GatheringInfo:GetProfessionNameByEntryName(titleTextUnescaped)
-          local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(titleTextUnescaped, professionName, zoneMapID)
-          table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(professionName, minSkillLevel)})
+          if professionName then
+            local minSkillLevel = GatheringInfo:GetProfessionInfoByItemName(titleTextUnescaped, professionName, zoneMapID)
+            table.insert(newTooltipRows, i + 1, { type = "info", text = self:GetTooltipStr(professionName, minSkillLevel)})
+          end
         end
       end
     end
