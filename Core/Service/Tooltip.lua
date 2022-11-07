@@ -58,15 +58,15 @@ function Tooltip:OnInitialize()
 end
 
 function Tooltip:CanUpdateWorldObjectTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorld and GameTooltip:IsShown() and MouseIsOver(WorldFrame) and GameTooltip:GetOwner():GetName() == "UIParent"
+  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorld and GameTooltip:IsShown() and MouseIsOver(WorldFrame) and GameTooltip:GetOwner():GetName() == "UIParent" and not GameTooltip:GetItem()
 end
 
 function Tooltip:CanUpdateMinimapObjectTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap and GameTooltip:IsShown() and MouseIsOver(Minimap) and Minimap:IsVisible()
+  return TE.db.profile.tooltip.requiredProfessionLevel.enableMinimap and GameTooltip:IsShown() and MouseIsOver(Minimap) and Minimap:IsVisible() and not GameTooltip:GetItem()
 end
 
 function Tooltip:CanUpdateMapObjectTooltip()
-  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible()
+  return TE.db.profile.tooltip.requiredProfessionLevel.enableWorldMap and GameTooltip:IsShown() and MouseIsOver(WorldMapFrame) and WorldMapFrame:IsVisible() and not GameTooltip:GetItem()
 end
 
 function Tooltip:UpdateWorldObjTooltip()
