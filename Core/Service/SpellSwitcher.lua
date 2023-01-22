@@ -5,7 +5,9 @@ local SpellSwitcher = TE.Include("SpellSwitcher")
 local Settings = TE.Include("Settings")
 local MyLib = TE.Include("Util.MyLib")
 
-local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, GetTrackingInfo, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo
+local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo
+
+local C_Minimap = C_Minimap
 
 local _, PLAYER_CLASS = UnitClass("player")
 
@@ -143,8 +145,8 @@ end
 
 function SpellSwitcher:GetCurrentTrackingSpellID()
 
-  for i = 1, GetNumTrackingTypes() do
-    local _, _, active, category, _, spellId = GetTrackingInfo(i);
+  for i = 1, C_Minimap.GetNumTrackingTypes() do
+    local _, _, active, category, _, spellId = C_Minimap.GetTrackingInfo(i);
     if category == "spell" and active == true then return spellId end
   end
 

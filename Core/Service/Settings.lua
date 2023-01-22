@@ -262,8 +262,8 @@ end
 function Settings:GetPlayerTrackingSpells()
   local playerTrackingSpells = {}
 
-  for i = 1, GetNumTrackingTypes() do
-    local name, texture, _, category, _, spellId = GetTrackingInfo(i);
+  for i = 1, C_Minimap.GetNumTrackingTypes() do
+    local name, texture, _, category, _, spellId = C_Minimap.GetTrackingInfo(i);
     if category == "spell" then
       table.insert(playerTrackingSpells, {spellId = spellId, name = name, texture = texture} )
     end
