@@ -9,6 +9,7 @@ exclude_files = {
 ignore = {
   "212/self", -- Unused self argument
   "214", -- used variable with "_" unused hint.
+  "113", -- Accessing an undefined global variable
 
   --"11./SLASH_.*", -- Setting an undefined (Slash handler) global variable
   --"11./BINDING_.*", -- Setting an undefined (Keybinding header) global variable
