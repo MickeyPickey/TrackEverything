@@ -192,9 +192,9 @@ function Icon:OnClick(_self, button)
 end
 
 function Icon:DropDownMenu_Open(anchor, x, y)
-  local anchor = anchor or "cursor"
-  local x = x or -138
-  local y = y or 3
+  anchor = anchor or "cursor"
+  x = x or -138
+  y = y or 3
 
   local menuList = {
     isNotRadio = true,
@@ -207,15 +207,15 @@ function Icon:DropDownMenu_Open(anchor, x, y)
 
   local spells = TrackingInfo:GetPlayerTrackingSpells() or {}
 
-  for k, v in pairs(spells) do
+  for _, v in pairs(spells) do
     table.insert(menuList, {
       text = v.name,
       icon = GetSpellTexture(v.spellId),
-      checked = function(self)
-        if self.icon == GetTrackingTexture() then return true end
+      checked = function(_self)
+        if _self.icon == GetTrackingTexture() then return true end
         return false
       end,
-      func = function(self, arg1, arg2, checked)
+      func = function(_self, arg1, arg2, checked)
         CastSpellByID(v.spellId)
       end,
     })
@@ -223,7 +223,7 @@ function Icon:DropDownMenu_Open(anchor, x, y)
 
   table.insert(menuList, {
     text = NONE,
-    checked = function(self)
+    checked = function(_self)
       if not GetTrackingTexture() then return true end
       return false
     end,

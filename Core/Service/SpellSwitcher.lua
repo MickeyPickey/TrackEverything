@@ -8,8 +8,6 @@ local MyLib = TE.Include("Util.MyLib")
 
 local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo
 
-local C_Minimap = C_Minimap
-
 local _, PLAYER_CLASS = UnitClass("player")
 
 local private = {
