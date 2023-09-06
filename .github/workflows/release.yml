@@ -1,4 +1,4 @@
-name: Package Wrath Release
+name: Package Release
 
 on:
   push:
@@ -7,10 +7,10 @@ on:
       - "!**-alpha**"
       - "!**-beta**"
 
-env:
-  CF_API_KEY: ${{ secrets.CF_API_KEY }}
-  #WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
-  GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+# env:
+#   CF_API_KEY: ${{ secrets.CF_API_KEY }}
+#   #WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+#   GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   release:
@@ -24,7 +24,15 @@ jobs:
           args: "--no-color -q"
           annotate: warning
 
-      - name: Package Classic
-        uses: BigWigsMods/packager@master
-        #with:
-          #args: -g bcc
+      - name: Create Package
+        uses: BigWigsMods/packager@v2
+        env:
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+          #WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+          #WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+
+      # - name: Package Release
+      #   uses: BigWigsMods/packager@master
+      #   with:
+      #     args: -g bcc
