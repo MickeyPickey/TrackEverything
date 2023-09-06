@@ -133,7 +133,7 @@ function SpellSwitcher:CastNextSpell()
     return
   end
 
-  if TE.db.profile.muteSpellSwitchSound and GetCVar("Sound_EnableSFX") == "1" then
+  if TE.db.profile.spellSwitcher.muteSpellSwitchSound and GetCVar("Sound_EnableSFX") == "1" then
     SetCVar("Sound_EnableSFX", "0")
     CastSpellByID(nextSpellID)
     SetCVar("Sound_EnableSFX", "1")

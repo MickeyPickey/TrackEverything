@@ -70,9 +70,9 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "mute",
     desc = L["Mute spell use sound"],
-    print = function() return L["Mute spell use sound is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.muteSpellSwitchSound) end,
+    print = function() return L["Mute spell use sound is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.spellSwitcher.muteSpellSwitchSound) end,
     hidden = false,
-    callback = function() TE.db.profile.muteSpellSwitchSound = not TE.db.profile.muteSpellSwitchSound end,
+    callback = function() TE.db.profile.spellSwitcher.muteSpellSwitchSound = not TE.db.profile.spellSwitcher.muteSpellSwitchSound end,
     order = 5,
   },
   {
