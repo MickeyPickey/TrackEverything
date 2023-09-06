@@ -2,8 +2,13 @@
 ## X-Min-Interface-Classic: 11304
 ## X-Min-Interface-BCC: 20504
 ## X-Min-Interface-Wrath: 30400
+## X-Flavor: Wrath
+## X-Category: Map
+## X-Curse-Project-ID: 399326
+## X-Author-Game-Info: EU Firemaw Alliance. E-mail: sm.ownmail@gmail.com, Discord: whatyougonnado#6196
+## X-Website: https://www.curseforge.com/wow/addons/track-everything
 ## Title: Track Everything
-## Author: MickeyPickey
+## Author: whatyougonnado Firemaw EU [A]
 ## Version: @project-version@
 ## SavedVariables: TrackEverythingDB
 ## SavedVariablesPerCharacter: TrackEverythingCharDB
@@ -18,10 +23,6 @@
 # Notes-zhCN: 
 # Notes-zhTW: 
 # Notes-itIT: 
-
-## X-Category: Map
-## X-Curse-Project-ID: 399326
-## X-Author-Game-Info: EU Firemaw Alliance. E-mail: sm.ownmail@gmail.com, Discord: whatyougonnado#6196
 
 # External libs
 External\EmbeddedLibs\LibStub\LibStub.lua
