@@ -5,6 +5,7 @@ local ADDON_AUTHOR = ADDON_TABLE.ADDON_AUTHOR
 local TE = ADDON_TABLE.Addon
 local Settings = TE.Include("Settings")
 local Log = TE.Include("Log")
+local TrackingInfo = TE.Include("TrackingInfo")
 local L = TE.Include("Locale")
 local private = {}
 
@@ -22,102 +23,93 @@ local options = {
   get = "OptGetter",
   args = {
     about = {
-      name = GAME_VERSION_LABEL..":"..ADDON_VERSION.." by "..ADDON_AUTHOR.."\n\n",
+      name = format("%s: %s by %s\n\n", GAME_VERSION_LABEL, ADDON_VERSION, ADDON_AUTHOR),
       type = "description",
       order = 0,
     },
-    autoTracking = {
-      name = L["Auto tracking"],
+    spellSwitcher = {
+      name = L["Auto spell switching"],
       type = "group",
       inline = true,
       order = 1,
       args = {
-        spellSwitcher = {
-          name = L["Auto spell switching"],
-          type = "group",
-          inline = true,
+        enabled = {
+          name = VIDEO_OPTIONS_ENABLED,
+          desc = L["Toggle auto spell switching"],
+          type = "toggle",
           order = 0,
+        },
+        trackingSpells = {
+          name = L["Tracking spells"],
+          type = "group",
+          hidden = function()
+            local valueTable = TrackingInfo:GetPlayerTrackingSpells()
+            if not valueTable then return true end
+          end,
           args = {
-            enabled = {
-              name = VIDEO_OPTIONS_ENABLED,
-              desc = L["Toggle auto spell switching"],
-              type = "toggle",
-              order = 0,
-            },
-            br1 = { type = "description", name = "", order = 1},
-            onmove = {
-              name = L["Only while moving"],
-              desc = L["Enable to switch only while character is moving"],
-              type = "toggle",
-              order = 2,
-            },
-            onmount = {
-              name = L["Only on mount"],
-              desc = L["Enable to switch only if character on mount. Also works with druid's flying form"],
-              type = "toggle",
-              order = 3,
-            },
-            forceInCombat = {
-              name = L["Force in combat"],
-              desc = L["Switch spells even if player in combat"],
-              type = "toggle",
-              order = 4,
-            },
-            trackingSpells = {
-              name = L["Tracking spells"],
-              type = "group",
+            spells = {
+              name = SPELLS,
+              desc = L["Select to include in auto switching"],
+              type = "multiselect",
+              values = function()
+                local spellTable = TrackingInfo:GetPlayerTrackingSpells()
+                local tempTable = {}
+
+                for i = 1 , #spellTable do
+                  table.insert(tempTable, spellTable[i].name)
+                end
+
+                return tempTable or {}
+              end,
               hidden = function()
-                local valueTable = Settings:GetPlayerTrackingSpells()
+                local valueTable = TrackingInfo:GetPlayerTrackingSpells()
                 if not valueTable then return true end
               end,
-              args = {
-                spells = {
-                  name = SPELLS,
-                  desc = L["Select to include in auto switching"],
-                  type = "multiselect",
-                  values = function()
-                    local spellTable = Settings:GetPlayerTrackingSpells()
-                    local tempTable = {}
-
-                    for i = 1 , #spellTable do
-                      table.insert(tempTable, spellTable[i].name)
-                    end
-
-                    return tempTable or {}
-                  end,
-                  hidden = function()
-                    local valueTable = Settings:GetPlayerTrackingSpells()
-                    if not valueTable then return true end
-                  end,
-                  cmdHidden = true,
-                },
-              },
-              order = 5,
-            },
-            interval = {
-              name = L["Cast interval"],
-              desc = L["Time in seconds between spell casts while auto switching"],
-              type = "range",
-              min = 2,
-              max = 45,
-              step = 1,
-              width = "full",
-              order = 6,
-            },
-            settings = {
-              type = "execute",
-              name = L["Open settings"],
-              desc = L["Open settings"],
-              func = "OpenOptionsFrame",
-              guiHidden = true,
+              cmdHidden = true,
             },
           },
+          order = 1,
+        },
+        interval = {
+          name = L["Cast interval"],
+          desc = L["Time in seconds between spell casts while auto switching"],
+          type = "range",
+          min = 2,
+          max = 45,
+          step = 1,
+          width = "full",
+          order = 2,
+        },
+        onmove = {
+          name = L["Only while moving"],
+          desc = L["Enable to switch only while character is moving"],
+          type = "toggle",
+          order = 3,
+        },
+        onmount = {
+          name = L["Only on mount"],
+          desc = L["Enable to switch only if character on mount. Also works with druid's flying form"],
+          type = "toggle",
+          order = 4,
+        },
+        forceInCombat = {
+          name = L["Force in combat"],
+          desc = L["Switch spells even if player in combat"],
+          type = "toggle",
+          order = 5,
         },
         muteSpellSwitchSound = {
           name = L["Mute spell switch sound"],
           desc = L["Mute spell switch sound while auto tracking"],
           type = "toggle",
-          order = 1,
+          order = 6,
+        },
+        settings = {
+          type = "execute",
+          name = L["Open settings"],
+          desc = L["Open settings"],
+          func = "OpenOptionsFrame",
+          guiHidden = true,
         },
       },
     },
@@ -125,7 +117,7 @@ local options = {
       name = MINIMAP_LABEL,
       type = "group",
       inline = true,
-      order = 1,
+      order = 2,
       args = {
         hide = {
           name = L["Hide addon icon"],
@@ -155,7 +147,7 @@ local options = {
       name = L["Tooltip"],
       type = "group",
       inline = true,
-      order = 2,
+      order = 3,
       args = {
         requiredProfessionLevel = {
           name = L["Show required profession level"],
@@ -181,13 +173,13 @@ local options = {
               type = "toggle",
               order = 2,
             },
+            removeAddonMark = {
+              name = format(L['Remove "%s" mark'], ADDON_TABLE.COLORED_ADDON_MARK),
+              desc = format(L['Check to remove "%s" mark in tooltips'], ADDON_TABLE.COLORED_ADDON_MARK),
+              type = "toggle",
+              order = 3,
+            },
           },
-        },
-        removeAddonMark = {
-          name = format(L['Remove "%s" mark'], ADDON_TABLE.COLORED_ADDON_MARK),
-          desc = format(L['Check to remove "%s" mark in tooltips'], ADDON_TABLE.COLORED_ADDON_MARK),
-          type = "toggle",
-          order = 2,
         },
       },
     },
@@ -209,19 +201,17 @@ local options = {
 
 local defaults = {
   profile  = {
-    autoTracking = {
-      spellSwitcher = {
-        enabled = true,
-        onmove = true,
-        onmount = false,
-        forceInCombat = false,
-        interval = 2,
-        trackingSpells = {
-          spells = {
-            --["*"] = true,
-          },
+    spellSwitcher = {
+      enabled = true,
+      trackingSpells = {
+        spells = {
+          --["*"] = true,
         },
       },
+      interval = 2,
+      onmove = true,
+      onmount = false,
+      forceInCombat = false,
       muteSpellSwitchSound = true,
     },
     minimap = {
@@ -231,9 +221,9 @@ local defaults = {
     },
     tooltip = {
       requiredProfessionLevel = {
-        ["*"] = true
+        ["*"] = true,
+        removeAddonMark = false,
       },
-      removeAddonMark = false,
     },
   }
 }
@@ -249,7 +239,16 @@ function Settings:OnEnable()
 end
 
 function Settings:ToggleDefaultTrackingIcon()
-  if TE.db.profile.minimap.hideDefaultTrackingIcon then MiniMapTracking:Hide() else MiniMapTracking:Show() end
+
+  local embeadFrame
+
+  if TE.isClassicEraOrBCC then
+    embeadFrame = MiniMapTrackingFrame
+  else
+    embeadFrame = MiniMapTracking
+  end
+
+  if TE.db.profile.minimap.hideDefaultTrackingIcon then embeadFrame:Hide() else embeadFrame:Show() end
 end
 
 function Settings:ResetProfile()
@@ -259,42 +258,8 @@ function Settings:ResetProfile()
   self:SendMessage("OPTIONS_RESET")
 end
 
-function Settings:GetPlayerTrackingSpells()
-  local playerTrackingSpells = {}
-
-  for i = 1, C_Minimap.GetNumTrackingTypes() do
-    local name, texture, _, category, _, spellId = C_Minimap.GetTrackingInfo(i);
-    if category == "spell" then
-      table.insert(playerTrackingSpells, {spellId = spellId, name = name, texture = texture} )
-    end
-  end
-
-  -- if no names found return nil
-  if #playerTrackingSpells < 1 then return nil end
-
-  return playerTrackingSpells
-end
-
-function Settings:GetTrackingIDs()
-  local spells = self:GetPlayerTrackingSpells() or {}
-  local trackingSpells = {}
-
-  for i = 1, #spells do
-    if TE.db.profile.autoTracking.spellSwitcher.trackingSpells.spells[i] == true then
-      table.insert(trackingSpells, spells[i].spellId)
-    end
-  end
-
-  -- if no spells to track
-  if #trackingSpells < 1 then return nil end
-
-  Log:PrintD("trackingSpells = ", #trackingSpells)
-
-  return trackingSpells
-end
-
 function Settings:GetCastInterval()
-  return TE.db.profile.autoTracking.spellSwitcher.interval
+  return TE.db.profile.spellSwitcher.interval
 end
 
 function Settings:OpenOptionsFrame()
@@ -309,7 +274,7 @@ end
 function Settings:CallbackHandler(...)
   local scope, key = ...
 
-  if scope == TE.db.profile.autoTracking.spellSwitcher then
+  if scope == TE.db.profile.spellSwitcher then
     if key == "enabled" then
       self:SendMessage("SPELL_SWITCHER_TOGGLED")
     elseif key == "onmove" or key == "onmount" then
@@ -319,7 +284,7 @@ function Settings:CallbackHandler(...)
     elseif key == "interval" then
       self:SendMessage("SPELL_SWITCHER_INTERVAL_CHANGED")
     end
-  elseif scope == TE.db.profile.autoTracking.spellSwitcher.trackingSpells then
+  elseif scope == TE.db.profile.spellSwitcher.trackingSpells then
     if key == "spells" then
       self:SendMessage("SPELL_SWITCHER_TRACKING_TYPES_CHANGED")
     end

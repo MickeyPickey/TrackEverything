@@ -3,6 +3,7 @@ local TE = ADDON_TABLE.Addon
 local Log = TE.Include("Log")
 local SpellSwitcher = TE.Include("SpellSwitcher")
 local Settings = TE.Include("Settings")
+local TrackingInfo = TE.Include("TrackingInfo")
 local MyLib = TE.Include("Util.MyLib")
 
 local CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo = CastSpellByID, GetCVar, SetCVar, GetShapeshiftForm, CastingInfo, ChannelInfo, UnitIsDeadOrGhost, IsResting, UnitAffectingCombat, InCombatLockdown, UnitClass, IsMounted, GetNumShapeshiftForms, GetShapeshiftFormInfo
@@ -74,14 +75,14 @@ function SpellSwitcher:OnInitialize()
   self:RegisterEvents(private.GAME_EVENTS.MOVE_EVENTS, "EventHandler")
   self:RegisterEvents(private.GAME_EVENTS.OTHER, "EventHandler")
 
-  if TE.db.profile.autoTracking.spellSwitcher.enabled then
+  if TE.db.profile.spellSwitcher.enabled then
     self:RegisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, "EventHandler")
     self:RegisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, "EventHandler")
   end
 end
 
 function SpellSwitcher:OnEnable()
-  if TE.db.profile.autoTracking.spellSwitcher.enabled and not TE.db.profile.autoTracking.spellSwitcher.onmove then
+  if TE.db.profile.spellSwitcher.enabled and not TE.db.profile.spellSwitcher.onmove then
     self.trackingTimer = self:ScheduleTimer(function()
       self:StartTimer()
     end, 2) -- start timer after 2 cesonds of pause. It helps to avoid GCD after reloading.
@@ -126,7 +127,7 @@ end
 
 function SpellSwitcher:CastNextSpell()
   Log:PrintfD("CAST_NEXT_SPELL")
-  local currentTrackingSpellID = self:GetCurrentTrackingSpellID()
+  local currentTrackingSpellID = TrackingInfo:GetCurrentTrackingSpellID()
   local nextSpellID = self:GetNextSpellID(currentTrackingSpellID)
 
   if not nextSpellID then -- stop timer and return, if no next spell to track
@@ -134,7 +135,7 @@ function SpellSwitcher:CastNextSpell()
     return
   end
 
-  if TE.db.profile.autoTracking.muteSpellSwitchSound and GetCVar("Sound_EnableSFX") == "1" then
+  if TE.db.profile.muteSpellSwitchSound and GetCVar("Sound_EnableSFX") == "1" then
     SetCVar("Sound_EnableSFX", "0")
     CastSpellByID(nextSpellID)
     SetCVar("Sound_EnableSFX", "1")
@@ -143,17 +144,8 @@ function SpellSwitcher:CastNextSpell()
   end
 end
 
-function SpellSwitcher:GetCurrentTrackingSpellID()
-
-  for i = 1, C_Minimap.GetNumTrackingTypes() do
-    local _, _, active, category, _, spellId = C_Minimap.GetTrackingInfo(i);
-    if category == "spell" and active == true then return spellId end
-  end
-
-end
-
 function SpellSwitcher:GetNextSpellID(currentSpellId)
-  local trackingSpellIDs = Settings:GetTrackingIDs()
+  local trackingSpellIDs = TrackingInfo:GetTrackingIDs()
   local nextSpellId = nil
   local currentSpellIndex
   local nextSpellIndex
@@ -188,10 +180,10 @@ end
 
 function SpellSwitcher:CanCast()
 
-  local canCast = private.IS_PAUSED and not ( CastingInfo() or ChannelInfo() or UnitIsDeadOrGhost("player") or IsResting() ) and ( TE.db.profile.autoTracking.spellSwitcher.forceInCombat or not UnitAffectingCombat("player") ) and ( not TE.db.profile.autoTracking.spellSwitcher.onmove or private.IS_MOVING ) and ( not TE.db.profile.autoTracking.spellSwitcher.onmount or ( IsMounted() or self:IsFlyingForm() ) )
+  local canCast = private.IS_PAUSED and not ( CastingInfo() or ChannelInfo() or UnitIsDeadOrGhost("player") or IsResting() ) and ( TE.db.profile.spellSwitcher.forceInCombat or not UnitAffectingCombat("player") ) and ( not TE.db.profile.spellSwitcher.onmove or private.IS_MOVING ) and ( not TE.db.profile.spellSwitcher.onmount or ( IsMounted() or self:IsFlyingForm() ) )
 
   Log:PrintD("canCast = ", canCast)
-  Log:PrintfD("forceInCombat = [%s], InCombatLockdown = [%s] , UnitAffectingCombat = [%s] , IsMounted or Flying = [%s] ", tostring(TE.db.profile.autoTracking.spellSwitcher.forceInCombat), tostring(InCombatLockdown()), tostring(UnitAffectingCombat("player")), tostring(IsMounted() or self:IsFlyingForm()))
+  Log:PrintfD("forceInCombat = [%s], InCombatLockdown = [%s] , UnitAffectingCombat = [%s] , IsMounted or Flying = [%s] ", tostring(TE.db.profile.spellSwitcher.forceInCombat), tostring(InCombatLockdown()), tostring(UnitAffectingCombat("player")), tostring(IsMounted() or self:IsFlyingForm()))
 
   return canCast
 end
@@ -214,7 +206,7 @@ function SpellSwitcher:EventHandler(...)
       private.IS_MOVING = false
     end
   elseif event == "SPELL_SWITCHER_TOGGLED" then
-    if TE.db.profile.autoTracking.spellSwitcher.enabled then
+    if TE.db.profile.spellSwitcher.enabled then
       self:StartTimer()
       self:RegisterEvents(private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS, "EventHandler")
       self:RegisterEvents(private.GAME_EVENTS.TEMP_PAUSE_EVENTS, "EventHandler")
@@ -225,9 +217,9 @@ function SpellSwitcher:EventHandler(...)
     end
   end
 
-  if TE.db.profile.autoTracking.spellSwitcher.enabled then
-    if private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS[event] or ( private.GAME_EVENTS.MOVE_EVENTS[event] and TE.db.profile.autoTracking.spellSwitcher.onmove ) then
-      if TE.db.profile.autoTracking.spellSwitcher.forceInCombat and (event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED") then
+  if TE.db.profile.spellSwitcher.enabled then
+    if private.GAME_EVENTS.PAUSE_TRIGGER_EVENTS[event] or ( private.GAME_EVENTS.MOVE_EVENTS[event] and TE.db.profile.spellSwitcher.onmove ) then
+      if TE.db.profile.spellSwitcher.forceInCombat and (event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED") then
         return
       elseif event == "UPDATE_SHAPESHIFT_FORM" then
         self:UpdateTimer()
@@ -244,7 +236,7 @@ function SpellSwitcher:EventHandler(...)
       if event == "UI_ERROR_MESSAGE" then
         if not private.GAME_EVENTS.TEMP_PAUSE_EVENTS[event][arg2] then return end -- return if arg2 don"t match the list
       elseif event == "UNIT_SPELLCAST_SENT" then
-        if arg1 ~= "player" or MyLib.IndexOf(arg4, Settings:GetTrackingIDs()) then return end -- return if cast made not by player or player casted trackingSpell
+        if arg1 ~= "player" or MyLib.IndexOf(arg4, TrackingInfo:GetTrackingIDs()) then return end -- return if cast made not by player or player casted trackingSpell
       end
       self:TempPause(private.TEMP_PAUSE_DELEY)
     elseif event == "SPELL_SWITCHER_MODE_TOGGLED" or event == "SPELL_SWITCHER_INTERVAL_CHANGED" or event == "SPELL_SWITCHER_TRACKING_TYPES_CHANGED" or event == "SPELL_SWITCHER_FORCE_IN_COMBAT_TOGGLED" then

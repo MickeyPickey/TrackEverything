@@ -26,10 +26,10 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "switcher toggle",
     desc = L["Enable/disable auto spell switching"],
-    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled) end,
+    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.spellSwitcher.enabled) end,
     hidden = false,
     callback = function()
-      TE.db.profile.autoTracking.spellSwitcher.enabled = not TE.db.profile.autoTracking.spellSwitcher.enabled
+      TE.db.profile.spellSwitcher.enabled = not TE.db.profile.spellSwitcher.enabled
       SlashCommands:SendMessage("SPELL_SWITCHER_TOGGLED")
     end,
     order = 1,
@@ -37,10 +37,10 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "switcher enable",
     desc = L["Enable auto spell switching"],
-    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled) end,
+    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.spellSwitcher.enabled) end,
     hidden = true,
     callback = function()
-      TE.db.profile.autoTracking.spellSwitcher.enabled = true
+      TE.db.profile.spellSwitcher.enabled = true
       SlashCommands:SendMessage("SPELL_SWITCHER_TOGGLED")
     end,
     order = 2,
@@ -48,10 +48,10 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "switcher disable",
     desc = L["Disable auto spell switching"],
-    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled) end,
+    print = function() return L["Spell switching is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.spellSwitcher.enabled) end,
     hidden = true,
     callback = function()
-      TE.db.profile.autoTracking.spellSwitcher.enabled = false
+      TE.db.profile.spellSwitcher.enabled = false
       SlashCommands:SendMessage("SPELL_SWITCHER_TOGGLED")
     end,
     order = 3,
@@ -59,10 +59,10 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "switcher onmove",
     desc = L["Enable/disable spell switching only while moving mode"],
-    print = function() return L["Spell switching only while moving is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.onmove) end,
+    print = function() return L["Spell switching only while moving is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.spellSwitcher.onmove) end,
     hidden = false,
     callback = function()
-      TE.db.profile.autoTracking.spellSwitcher.onmove = not TE.db.profile.autoTracking.spellSwitcher.onmove
+      TE.db.profile.spellSwitcher.onmove = not TE.db.profile.spellSwitcher.onmove
       SlashCommands:SendMessage("SPELL_SWITCHER_MODE_TOGGLED")
     end,
     order = 4,
@@ -70,9 +70,9 @@ local SLASH_COMMAND_ARGUMENTS = {
   {
     name = "mute",
     desc = L["Mute spell use sound"],
-    print = function() return L["Mute spell use sound is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.autoTracking.muteSpellSwitchSound) end,
+    print = function() return L["Mute spell use sound is [%s]"], SlashCommands:GetColoredSettingState(TE.db.profile.muteSpellSwitchSound) end,
     hidden = false,
-    callback = function() TE.db.profile.autoTracking.muteSpellSwitchSound = not TE.db.profile.autoTracking.muteSpellSwitchSound end,
+    callback = function() TE.db.profile.muteSpellSwitchSound = not TE.db.profile.muteSpellSwitchSound end,
     order = 5,
   },
   {
@@ -126,7 +126,7 @@ local SLASH_COMMAND_ARGUMENTS = {
     desc = L["Print information about Author"],
     print = function() return ADDON_AUTHOR_GAME_INFO end,
     hidden = false,
-    callback = function() Settings:ResetProfile() end,
+    callback = function() end,
     order = 99,
   },
   {
@@ -179,7 +179,7 @@ function SlashCommands:OnInitialize()
 end
 
 function SlashCommands:OnEnable()
-  Log:Printf(L[" Spell switching: %s, Type %s to see all chat commands. Have a nice day! :)"], self:GetColoredSettingState(TE.db.profile.autoTracking.spellSwitcher.enabled), self:GetChatCommands())
+  Log:Printf(L[" Spell switching: %s, Type %s to see all chat commands. Have a nice day! :)"], self:GetColoredSettingState(TE.db.profile.spellSwitcher.enabled), self:GetChatCommands())
 end
 
 function SlashCommands:ChatCommand(input)

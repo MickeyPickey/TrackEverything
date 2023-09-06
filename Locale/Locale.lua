@@ -63,11 +63,10 @@ do
     L["Tin Vein"] = true
     L["Truesilver Deposit"] = true
     L["Hakkari Thorium Vein"] = true
-
     -- ============================================================================================================================================
     -- ========================================================== Base Namespaces =================================================================
     -- ============================================================================================================================================
-    L[" Spell switching: %s, Last tracked upon ressurection: %s. Type %s to see all chat commands. Have a nice day! :)"] = true
+    L[" Spell switching: %s, Type %s to see all chat commands. Have a nice day! :)"] = true
     L["%sDrag%s to move icon"] = true
     L["%sLeft-click%s to manualy select tracking spell"] = true
     L["%sRight-click%s to cancel current tracking spell"] = true
@@ -95,14 +94,11 @@ do
     L["Enable/disable required profession level on World tooltips"] = true
     L["Enable/disable spell switching only while moving mode"] = true
     L["Force in combat"] = true
-    L["Herbalism"] = true
     L["Hide addon icon"] = true
     L["Hide default tracking icon"] = true
     L["Icon display mode"] = true
-    L["Iron Deposit"] = true
     L["Last used tracking spell activation is [%s]"] = true
     L["Minimap tooltips"] = true
-    L["Mining"] = true
     L["Mute spell switch sound"] = true
     L["Mute spell switch sound is [%s]"] = true
     L["Mute spell switch sound while auto tracking"] = true
@@ -118,8 +114,6 @@ do
     L["Select what to display inside icon"] = true
     L["Settings have been reset to default"] = true
     L["Show required profession level"] = true
-    L["Small Obsidian Chunk"] = true
-    L["Small Thorium Vein"] = true
     L["Spell switching is [%s]"] = true
     L["Spell switching only while moving is [%s]"] = true
     L["Switch spells even if player in combat"] = true
