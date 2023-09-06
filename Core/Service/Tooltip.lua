@@ -201,7 +201,7 @@ function Tooltip:HasMatches()
 end
 
 function Tooltip:GetTooltipStr(professionString, levelReq)
-  local markEnabled = not TE.db.profile.tooltip.removeAddonMark
+  local markEnabled = not TE.db.profile.tooltip.requiredProfessionLevel.removeAddonMark
 
   return format("%s%s [%s]", (markEnabled and ADDON_TABLE.COLORED_ADDON_MARK .. " ") or "", L[professionString], levelReq)
 end
